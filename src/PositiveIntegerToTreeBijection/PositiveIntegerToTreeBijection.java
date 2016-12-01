@@ -1,20 +1,47 @@
 package PositiveIntegerToTreeBijection;
 
-
+import static PositiveIntegerToTreeBijection.JobRunner.FRAME_TITLE;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 /**
  * Recursively maps a natural number to a rooted, un-oriented tree.
  * @author Pete Cappello
  */
-public class PositiveIntegerToTreeBijection
+public class PositiveIntegerToTreeBijection extends JFrame
 {
+    public static void main( String[] args )
+    {
+        setPrimesArray( 100 );
+        PositiveIntegerToTreeBijection positiveIntegerToTreeBijection = 
+                new PositiveIntegerToTreeBijection( 399 );
+        
+        final Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
+        final Graphics graphics = image.getGraphics();
+        graphics.setColor(Color.black);
+        positiveIntegerToTreeBijection.view( graphics, NUM_PIXELS / 2, NUM_PIXELS / 2 );
+        final ImageIcon imageIcon = new ImageIcon( image );
+        
+        new JobRunner( FRAME_TITLE, args ).run( new JLabel( imageIcon ) );
+    }
+    final static String FRAME_TITLE = "Visualize map from Natural number to rooted tree";
+
     // shamelessly declaring view parameters, all are numbers of pixels
+    private static final int NUM_PIXELS = 1000;
     private static final int ELEMENT  = 8; 
     private static final int RADIUS   = ELEMENT; 
     private static final int PAD      = 3 * ELEMENT; 
@@ -121,30 +148,54 @@ public class PositiveIntegerToTreeBijection
     
     public int getPositiveInteger() { return positiveInteger; }
     
+    public void app()
+    {
+        setTitle( "My title" );
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        
+        final Container container = getContentPane();
+        container.setLayout( new BorderLayout() );
+        
+        final Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
+        final Graphics graphics = image.getGraphics();
+        graphics.setColor(Color.black);
+        graphics.fillRect( 50, 100, 200, 200 );
+//        view( graphics, NUM_PIXELS / 2, NUM_PIXELS / 2 );
+//        final ImageIcon imageIcon = new ImageIcon( image );
+//        JLabel jLabel = new JLabel( imageIcon );
+        JLabel jLabel = new JLabel( "    Hello, world!", SwingConstants.CENTER );
+//        container.add( new JScrollPane( jLabel ), BorderLayout.CENTER );
+        container.add( jLabel, BorderLayout.CENTER );
+        pack();
+        setVisible( true );
+        System.out.println("setVisible complete");
+    }
+    
     @Override
     public String toString() { return new String( toString( "   ") ); }
     
     private StringBuilder toString( String pad )
     {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append( pad ).append( '\n' ).append( pad ).append( "Natural number tree: rank: ");
+        stringBuilder.append( pad ).append( '\n' ).append( pad ).append( "Tree of prime whose rank is ");
         stringBuilder.append( positiveInteger ).append( " ");
         stringBuilder.append( positiveInteger < primes.length ? primes[ positiveInteger ] : "" );
-        stringBuilder.append( "\n").append( pad );
-        stringBuilder.append( "height: ").append( height );
+        stringBuilder.append( " height: ").append( height );
         stringBuilder.append( " width: ").append( width );
-        stringBuilder.append( " Its factor trees are:" );
-        for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
+        if ( ! factorTrees.isEmpty() )
         {
-            stringBuilder.append( factorTree.toString( pad + "   ") );
+            for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
+            {
+                stringBuilder.append( factorTree.toString( pad + "   ") );
+            }
         }
         return stringBuilder;
     }
     
     void view( Graphics graphics, int x, int y )
     {
-        graphics.setColor( Color.RED );
-        
+        graphics.setColor( Color.BLACK );
+                
         // coordinates of center of root
         int rootX = x + rootX();
         int rootY = y + rootY();
@@ -180,7 +231,9 @@ public class PositiveIntegerToTreeBijection
     //_____________ Methods For Unit Testing ______________________
     public List<PositiveIntegerToTreeBijection> getFfactorTrees() { return factorTrees; } 
     
+    @Override
     public int getHeight() { return height; }
     
+    @Override
     public int getWidth() { return width; }
 }
