@@ -1,6 +1,5 @@
 package PositiveIntegerToTreeBijection;
 
-import static PositiveIntegerToTreeBijection.JobRunner.FRAME_TITLE;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -14,8 +13,6 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 /**
@@ -24,20 +21,21 @@ import javax.swing.SwingConstants;
  */
 public class PositiveIntegerToTreeBijection extends JFrame
 {
-    public static void main( String[] args )
-    {
-        setPrimesArray( 100 );
-        PositiveIntegerToTreeBijection positiveIntegerToTreeBijection = 
-                new PositiveIntegerToTreeBijection( 399 );
-        
-        final Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
-        final Graphics graphics = image.getGraphics();
-        graphics.setColor(Color.black);
-        positiveIntegerToTreeBijection.view( graphics, NUM_PIXELS / 2, NUM_PIXELS / 2 );
-        final ImageIcon imageIcon = new ImageIcon( image );
-        
-        new JobRunner( FRAME_TITLE, args ).run( new JLabel( imageIcon ) );
-    }
+//    public static void main( String[] args )
+//    {
+//        setPrimesArray( 100 );
+//        PositiveIntegerToTreeBijection positiveIntegerToTreeBijection = 
+//                new PositiveIntegerToTreeBijection( 399 );
+//        
+//        final Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
+//        final Graphics graphics = image.getGraphics();
+//        graphics.setColor(Color.black);
+//        positiveIntegerToTreeBijection.view( graphics, NUM_PIXELS / 2, NUM_PIXELS / 2 );
+//        final ImageIcon imageIcon = new ImageIcon( image );
+//        
+//        new Viewer( FRAME_TITLE, args ).run( new JLabel( imageIcon ) );
+//    }
+
     final static String FRAME_TITLE = "Visualize map from Natural number to rooted tree";
 
     // shamelessly declaring view parameters, all are numbers of pixels
@@ -93,6 +91,8 @@ public class PositiveIntegerToTreeBijection extends JFrame
     private List<PositiveIntegerToTreeBijection> factorTrees = new LinkedList<>();
     private int height;
     private int width;
+
+    List<PositiveIntegerToTreeBijection> factorTrees() { return factorTrees; }
     
     PositiveIntegerToTreeBijection( PositiveIntegerToTreeBijection positiveIntegerTree )
     {
@@ -148,29 +148,6 @@ public class PositiveIntegerToTreeBijection extends JFrame
     
     public int getPositiveInteger() { return positiveInteger; }
     
-    public void app()
-    {
-        setTitle( "My title" );
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        
-        final Container container = getContentPane();
-        container.setLayout( new BorderLayout() );
-        
-        final Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
-        final Graphics graphics = image.getGraphics();
-        graphics.setColor(Color.black);
-        graphics.fillRect( 50, 100, 200, 200 );
-//        view( graphics, NUM_PIXELS / 2, NUM_PIXELS / 2 );
-//        final ImageIcon imageIcon = new ImageIcon( image );
-//        JLabel jLabel = new JLabel( imageIcon );
-        JLabel jLabel = new JLabel( "    Hello, world!", SwingConstants.CENTER );
-//        container.add( new JScrollPane( jLabel ), BorderLayout.CENTER );
-        container.add( jLabel, BorderLayout.CENTER );
-        pack();
-        setVisible( true );
-        System.out.println("setVisible complete");
-    }
-    
     @Override
     public String toString() { return new String( toString( "   ") ); }
     
@@ -224,16 +201,14 @@ public class PositiveIntegerToTreeBijection extends JFrame
         graphics.fillOval( x - RADIUS, y - RADIUS, DIAMETER, DIAMETER );
     }
     
-    private int rootX() { return width * DELTA / 2 - RADIUS; }
+    int rootX() { return width * DELTA / 2 - RADIUS; }
     
-    private int rootY() { return PAD + RADIUS; }
+    int rootY() { return PAD + RADIUS; }
     
     //_____________ Methods For Unit Testing ______________________
     public List<PositiveIntegerToTreeBijection> getFfactorTrees() { return factorTrees; } 
     
-    @Override
-    public int getHeight() { return height; }
+    int height() { return height; }
     
-    @Override
-    public int getWidth() { return width; }
+    int width() { return width; }
 }
