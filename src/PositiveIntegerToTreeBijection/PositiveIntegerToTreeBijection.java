@@ -1,41 +1,18 @@
 package PositiveIntegerToTreeBijection;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 /**
  * Recursively maps a natural number to a rooted, un-oriented tree.
  * @author Pete Cappello
  */
-public class PositiveIntegerToTreeBijection extends JFrame
+public class PositiveIntegerToTreeBijection
 {
-//    public static void main( String[] args )
-//    {
-//        setPrimesArray( 100 );
-//        PositiveIntegerToTreeBijection positiveIntegerToTreeBijection = 
-//                new PositiveIntegerToTreeBijection( 399 );
-//        
-//        final Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
-//        final Graphics graphics = image.getGraphics();
-//        graphics.setColor(Color.black);
-//        positiveIntegerToTreeBijection.view( graphics, NUM_PIXELS / 2, NUM_PIXELS / 2 );
-//        final ImageIcon imageIcon = new ImageIcon( image );
-//        
-//        new Viewer( FRAME_TITLE, args ).run( new JLabel( imageIcon ) );
-//    }
-
     final static String FRAME_TITLE = "Visualize map from Natural number to rooted tree";
 
     // shamelessly declaring view parameters, all are numbers of pixels
@@ -75,9 +52,10 @@ public class PositiveIntegerToTreeBijection extends JFrame
      * @param number an ODD integer
      * @return true if and only if number is prime
      */
-    public static boolean isPrime( int number )
+    public static boolean isPrime( final int number )
     {
-        for ( int rank = 1; primes[ rank ] <= Math.sqrt( number ); rank++ )
+        final int maxFactor = (int) Math.sqrt( number );
+        for ( int rank = 1; primes[ rank ] <= maxFactor; rank++ )
         {
             if ( number % primes[ rank ] == 0 )
             {

@@ -27,111 +27,141 @@ import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.setP
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 /**
  * The class used to "run" the Job.
+ *
  * @author Peter Cappello
  */
-public class Viewer extends JFrame
-{
-    private static final int NUM_PIXELS = 1000;
-    private static final int ELEMENT  = 8; 
-    private static final int RADIUS   = ELEMENT; 
-    private static final int PAD      = 3 * ELEMENT; 
-    private static final int DELTA    = 2 * ( PAD + RADIUS );
+public class Viewer extends JFrame {
+
+    // graphical parameters
+    static final int NUM_PIXELS = 1000;
+    private static final int ELEMENT = 8;
+    private static final int RADIUS = ELEMENT;
+    private static final int PAD = 3 * ELEMENT;
+    private static final int DELTA = 2 * (PAD + RADIUS);
     private static final int DIAMETER = 2 * RADIUS;
 
-    private int height;
-    private int width;
+    // graphical components
+    private final View view = new View();
+    private final JPanel southPanel = new JPanel();
+    private final JLabel numberLabel = new JLabel("Enter a positive integer & click the return key ");
+    private final JTextField numberTextField = new JTextField(20);
+    private Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
 
-    public static void main( String[] args )
+    // model components
+    private int number = 1;
+    private PositiveIntegerToTreeBijection tree = new PositiveIntegerToTreeBijection(399);
+
+    public static void main(String[] args) 
     {
-        setPrimesArray( 100 );
-        PositiveIntegerToTreeBijection tree = new PositiveIntegerToTreeBijection( 399 );
-        Viewer viewer = new Viewer( tree );
-        
-        final Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
-        final Graphics graphics = image.getGraphics();
-        graphics.setColor( Color.black );
-        viewer.view( graphics, tree, NUM_PIXELS / 2, NUM_PIXELS / 2 );
-        final ImageIcon imageIcon = new ImageIcon( image );
-        viewer.run( new JLabel( imageIcon ) );
-//        new Viewer( FRAME_TITLE, args ).run( new JLabel( imageIcon ) );
+        long startTime = System.nanoTime();
+        setPrimesArray(100);
+        Viewer viewer = new Viewer();
+        viewer.initialize();
+        Logger.getLogger(viewer.getClass().getCanonicalName())
+                .log(Level.INFO, "Job run time: {0} ms.", (System.nanoTime() - startTime) / 1000000);
     }
-    
+
     final static String FRAME_TITLE = "Visualize map from Natural number to rooted tree";
-    final private long   startTime = System.nanoTime();
-    
-    /**
-     *
-     * @param tree
-     */
-    public Viewer( PositiveIntegerToTreeBijection tree ) 
-    { 
-        setTitle( FRAME_TITLE );
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+    private void initialize() {
+        setTitle(FRAME_TITLE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        final Container container = getContentPane();
+        container.setLayout(new BorderLayout());
+        container.add( view, BorderLayout.CENTER );
+        container.add( southPanel, BorderLayout.SOUTH );
+        southPanel.setLayout( new GridLayout(1, 2) );
+        southPanel.add( numberLabel );
+        southPanel.add( numberTextField );
+
+        Dimension dimension = new Dimension( NUM_PIXELS, NUM_PIXELS + this.getHeight() );
+        setSize( dimension  );
+        setPreferredSize( dimension );
+        setVisible(true);
+
+        tree = new PositiveIntegerToTreeBijection(399);
+        view( NUM_PIXELS / 2, PAD );
+        view.setImage( image );
+        view.repaint();
+
+        //  _______________________________________
+        //  contoller TEMPLATE CODE for each action
+        //  _______________________________________
+        // Enter positive integer
+        numberTextField.addActionListener(this::numberTextFieldActionPerformed);
     }
 
-    void view( Graphics graphics, PositiveIntegerToTreeBijection tree, int x, int y )
+    //  _________________________
+    //  contoller for each action
+    //  _________________________
+    private void numberTextFieldActionPerformed( ActionEvent actionEvent) 
     {
-        graphics.setColor( Color.BLACK );
-                
+        String numberText = numberTextField.getText();
+        try {
+            number = Integer.parseInt(numberText);
+        } catch (NumberFormatException exception) {
+            Logger.getLogger(this.getClass().getCanonicalName())
+                    .log(Level.INFO, "Not an integer: {0}", (number));
+        }
+        if (number < 1) {
+            Logger.getLogger(this.getClass().getCanonicalName())
+                    .log(Level.INFO, "Integer {0} < 1 is not allowed.", (number));
+            return;
+        }
+
+        tree = new PositiveIntegerToTreeBijection(number);
+        view( NUM_PIXELS / 2, PAD );
+        view.setImage( image );
+        view.repaint();
+    }
+
+    void view(int x, int y) 
+    {
+        image = new BufferedImage(NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB);
+        Graphics graphics = image.getGraphics();
+        graphics.setColor(Color.BLACK);
+
         // coordinates of center of root
         int rootX = x + tree.rootX();
         int rootY = y + tree.rootY();
-        
+
         // draw root
-        drawDisk( graphics, rootX, rootY );
-        
+        drawDisk(graphics, rootX, rootY);
+
         // set 1st factor tree's x and y 
         int factorTreeX = x;
         int factorTreeY = y + DELTA;
-        
-        for ( PositiveIntegerToTreeBijection factorTree : tree.factorTrees() )
-        {
+
+        for (PositiveIntegerToTreeBijection factorTree : tree.factorTrees()) {
             // draw edge from this root to factor tree's root
-            graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
-            
+            graphics.drawLine(rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY());
+
             // draw factor tree
-            factorTree.view( graphics, factorTreeX, factorTreeY ); 
-            
+            factorTree.view(graphics, factorTreeX, factorTreeY);
+
             factorTreeX += DELTA * factorTree.width(); // set next factor tree's x ccordinate
         }
     }
 
-    private void drawDisk( Graphics graphics, int x, int y )
-    {
-        graphics.fillOval( x - RADIUS, y - RADIUS, DIAMETER, DIAMETER );
-    }
-      
-    /**
-     * Run the Job: Generate the tasks, retrieve the results, compose a solution
-     * to the original problem, and display the solution.
-     * the remote service is not responding
-     * @param jLabel
-     */
-    public void run( JLabel jLabel )
-    {
-        view( jLabel );
-        Logger.getLogger( this.getClass().getCanonicalName() )
-              .log( Level.INFO, "Job run time: {0} ms.", ( System.nanoTime() - startTime ) / 1000000 );
-    }
-    
-    private void view( final JLabel jLabel )
-    {
-        final Container container = getContentPane();
-        container.setLayout( new BorderLayout() );
-        container.add( new JScrollPane( jLabel ), BorderLayout.CENTER );
-        pack();
-        setVisible( true );
+    private void drawDisk(Graphics graphics, int x, int y) {
+        graphics.fillOval(x - RADIUS, y - RADIUS, DIAMETER, DIAMETER);
     }
 }
