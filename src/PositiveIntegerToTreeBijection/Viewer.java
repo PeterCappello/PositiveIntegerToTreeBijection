@@ -41,6 +41,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -59,10 +60,13 @@ public class Viewer extends JFrame {
     private static final int DIAMETER = 2 * RADIUS;
 
     // graphical components
-    private final View view = new View();
-    private final JPanel southPanel = new JPanel();
-    private final JLabel numberLabel = new JLabel("Enter a positive integer & click the return key ");
-    private final JTextField numberTextField = new JTextField(20);
+    private final TreePanel treeView = new TreePanel();
+    private final JPanel numberPanel = new JPanel();
+        private final JLabel numberLabel = new JLabel("Enter a positive integer & click the return key ");
+        private final JTextField numberTextField = new JTextField(20); 
+    private final JTextArea stringView = new JTextArea();
+    private final JScrollPane stringViewScrollPane = new JScrollPane( stringView );
+
     private Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
 
     // model components
@@ -86,11 +90,13 @@ public class Viewer extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Container container = getContentPane();
         container.setLayout(new BorderLayout());
-        container.add( view, BorderLayout.CENTER );
-        container.add( southPanel, BorderLayout.SOUTH );
-        southPanel.setLayout( new GridLayout(1, 2) );
-        southPanel.add( numberLabel );
-        southPanel.add( numberTextField );
+        container.add(numberPanel, BorderLayout.NORTH );
+        container.add(treeView, BorderLayout.CENTER );
+        container.add(stringViewScrollPane, BorderLayout.SOUTH );
+
+        numberPanel.setLayout( new GridLayout(1, 2) );
+        numberPanel.add( numberLabel );
+        numberPanel.add( numberTextField );
 
         Dimension dimension = new Dimension( NUM_PIXELS, NUM_PIXELS + this.getHeight() );
         setSize( dimension  );
@@ -99,8 +105,8 @@ public class Viewer extends JFrame {
 
         tree = new PositiveIntegerToTreeBijection(399);
         view( NUM_PIXELS / 2, PAD );
-        view.setImage( image );
-        view.repaint();
+        treeView.setImage( image );
+        treeView.repaint();
 
         //  _______________________________________
         //  contoller TEMPLATE CODE for each action
@@ -127,10 +133,11 @@ public class Viewer extends JFrame {
             return;
         }
 
-        tree = new PositiveIntegerToTreeBijection(number);
+        tree = new PositiveIntegerToTreeBijection( number );
         view( NUM_PIXELS / 2, PAD );
-        view.setImage( image );
-        view.repaint();
+        treeView.setImage( image );
+        treeView.repaint();
+        stringView.append( tree.toString() );
     }
 
     void view(int x, int y) 
