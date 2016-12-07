@@ -8,7 +8,7 @@ import javax.swing.JPanel;
  *
  * @author Peter Cappello
  */
-public class View extends JPanel
+public class TreePanel extends JPanel
 {
     private Image image;
     
