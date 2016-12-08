@@ -1,7 +1,10 @@
 package PositiveIntegerToTreeBijection;
 
+import static PositiveIntegerToTreeBijection.Viewer.NUM_PIXELS;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,17 +15,7 @@ import java.util.Map;
  * @author Pete Cappello
  */
 public class PositiveIntegerToTreeBijection
-{
-    final static String FRAME_TITLE = "Visualize map from Natural number to rooted tree";
-
-    // shamelessly declaring view parameters, all are numbers of pixels
-    private static final int NUM_PIXELS = 1000;
-    private static final int ELEMENT  = 8; 
-    private static final int RADIUS   = ELEMENT; 
-    private static final int PAD      = 3 * ELEMENT; 
-    private static final int DELTA    = 2 * ( PAD + RADIUS );
-    private static final int DIAMETER = 2 * RADIUS;
-    
+{   
     public static int[] primes;
     
     // cache of PositiveIntegerTree objects
@@ -126,10 +119,24 @@ public class PositiveIntegerToTreeBijection
     
     public int getPositiveInteger() { return positiveInteger; }
     
-    @Override
-    public String toString() { return new String( toString( "   ") ); }
+    public String stringView() { return new String( stringView( "   ") ); }
+
+    private StringBuilder stringView( String pad )
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append( pad ).append( '\n' ).append( pad ).append( positiveInteger ).append( " ");
+        stringBuilder.append( positiveInteger < primes.length ? primes[ positiveInteger ] : "" );
+        if ( ! factorTrees.isEmpty() )
+        {
+            for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
+            {
+                stringBuilder.append(factorTree.stringView( pad + "   ") );
+            }
+        }
+        return stringBuilder;
+    }
     
-    private StringBuilder toString( String pad )
+    private StringBuilder debug( String pad )
     {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append( pad ).append( '\n' ).append( pad ).append( "Tree of prime whose rank is ");
@@ -141,20 +148,34 @@ public class PositiveIntegerToTreeBijection
         {
             for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
             {
-                stringBuilder.append( factorTree.toString( pad + "   ") );
+                stringBuilder.append(factorTree.stringView( pad + "   ") );
             }
         }
         return stringBuilder;
     }
     
-    void view( Graphics graphics, int x, int y )
+    // viewGraphics parameters, in pixels
+    private static final int NUM_PIXELS = 1000;
+    private static final int ELEMENT  = 8; 
+    private static final int RADIUS   = ELEMENT; 
+    private static final int PAD      = 3 * ELEMENT; 
+    private static final int DELTA    = 2 * ( PAD + RADIUS );
+    private static final int DIAMETER = 2 * RADIUS;
+
+    /**
+     *
+     * @param graphics of image on which tree is rendered
+     * @param x col of upper left corner of rectangle containing tree
+     * @param y row of upper left corner of rectangle containing tree
+     */
+    public void viewGraphics( Graphics graphics, int x, int y )
     {
         graphics.setColor( Color.BLACK );
-                
+                       
         // coordinates of center of root
         int rootX = x + rootX();
         int rootY = y + rootY();
-        
+
         // draw root
         drawDisk( graphics, rootX, rootY );
         
@@ -168,11 +189,17 @@ public class PositiveIntegerToTreeBijection
             graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
             
             // draw factor tree
-            factorTree.view( graphics, factorTreeX, factorTreeY ); 
+            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY ); 
             
             factorTreeX += DELTA * factorTree.width; // set next factor tree's x ccordinate
         }
     }
+
+    /**
+     *
+     * @return width in pixels of rectangle enclosing image of tree
+     */
+    public int imageViewWidth() { return width() * DELTA; }
     
     private void drawDisk( Graphics graphics, int x, int y )
     {

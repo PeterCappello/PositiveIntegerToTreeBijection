@@ -25,24 +25,21 @@ package PositiveIntegerToTreeBijection;
 
 import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.setPrimesArray;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import static javax.swing.SwingConstants.RIGHT;
 
 /**
  * The class used to "run" the Job.
@@ -52,7 +49,7 @@ import javax.swing.JTextField;
 public class Viewer extends JFrame {
 
     // graphical parameters
-    static final int NUM_PIXELS = 1000;
+            static final int NUM_PIXELS = 1000;
     private static final int ELEMENT = 8;
     private static final int RADIUS = ELEMENT;
     private static final int PAD = 3 * ELEMENT;
@@ -60,14 +57,14 @@ public class Viewer extends JFrame {
     private static final int DIAMETER = 2 * RADIUS;
 
     // graphical components
-    private final TreePanel treeView = new TreePanel();
+    private final ImagePanel imageView = new ImagePanel();
     private final JPanel numberPanel = new JPanel();
-        private final JLabel numberLabel = new JLabel("Enter a positive integer & click the return key ");
+        private final JLabel numberLabel = new JLabel("Enter a positive integer & click the return key ", RIGHT);
         private final JTextField numberTextField = new JTextField(20); 
     private final JTextArea stringView = new JTextArea();
     private final JScrollPane stringViewScrollPane = new JScrollPane( stringView );
 
-    private Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
+    private Image image; // = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
 
     // model components
     private int number = 1;
@@ -91,7 +88,7 @@ public class Viewer extends JFrame {
         final Container container = getContentPane();
         container.setLayout(new BorderLayout());
         container.add(numberPanel, BorderLayout.NORTH );
-        container.add(treeView, BorderLayout.CENTER );
+        container.add(imageView, BorderLayout.CENTER );
         container.add(stringViewScrollPane, BorderLayout.SOUTH );
 
         numberPanel.setLayout( new GridLayout(1, 2) );
@@ -102,17 +99,26 @@ public class Viewer extends JFrame {
         setSize( dimension  );
         setPreferredSize( dimension );
         setVisible(true);
-
-        tree = new PositiveIntegerToTreeBijection(399);
-        view( NUM_PIXELS / 2, PAD );
-        treeView.setImage( image );
-        treeView.repaint();
+        
+        stringView.setEditable( false );
+        update( 399 );
 
         //  _______________________________________
         //  contoller TEMPLATE CODE for each action
         //  _______________________________________
         // Enter positive integer
         numberTextField.addActionListener(this::numberTextFieldActionPerformed);
+    }
+
+    private void update( int number )
+    {
+        image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
+        tree = new PositiveIntegerToTreeBijection( number );
+        tree.viewGraphics( image.getGraphics(), ( NUM_PIXELS - tree.imageViewWidth() ) / 2, PAD );
+        imageView.setImage( image );
+        imageView.repaint();
+        stringView.setText( tree.stringView() );
+        System.out.println( "Tree width: " + tree.width() );
     }
 
     //  _________________________
@@ -132,43 +138,7 @@ public class Viewer extends JFrame {
                     .log(Level.INFO, "Integer {0} < 1 is not allowed.", (number));
             return;
         }
-
-        tree = new PositiveIntegerToTreeBijection( number );
-        view( NUM_PIXELS / 2, PAD );
-        treeView.setImage( image );
-        treeView.repaint();
-        stringView.append( tree.toString() );
-    }
-
-    void view(int x, int y) 
-    {
-        image = new BufferedImage(NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB);
-        Graphics graphics = image.getGraphics();
-        graphics.setColor(Color.BLACK);
-
-        // coordinates of center of root
-        int rootX = x + tree.rootX();
-        int rootY = y + tree.rootY();
-
-        // draw root
-        drawDisk(graphics, rootX, rootY);
-
-        // set 1st factor tree's x and y 
-        int factorTreeX = x;
-        int factorTreeY = y + DELTA;
-
-        for (PositiveIntegerToTreeBijection factorTree : tree.factorTrees()) {
-            // draw edge from this root to factor tree's root
-            graphics.drawLine(rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY());
-
-            // draw factor tree
-            factorTree.view(graphics, factorTreeX, factorTreeY);
-
-            factorTreeX += DELTA * factorTree.width(); // set next factor tree's x ccordinate
-        }
-    }
-
-    private void drawDisk(Graphics graphics, int x, int y) {
-        graphics.fillOval(x - RADIUS, y - RADIUS, DIAMETER, DIAMETER);
+        
+        update( number );
     }
 }
