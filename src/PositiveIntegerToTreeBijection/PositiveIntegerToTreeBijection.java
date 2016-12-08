@@ -119,7 +119,7 @@ public class PositiveIntegerToTreeBijection
     
     public int getPositiveInteger() { return positiveInteger; }
     
-    public String stringView() { return new String( viewString( "   ") ); }
+    public String viewString() { return new String( PositiveIntegerToTreeBijection.this.viewString( "   ") ); }
 
     private StringBuilder viewString( String pad )
     {
@@ -161,6 +161,13 @@ public class PositiveIntegerToTreeBijection
     private static final int PAD      = 3 * ELEMENT; 
     private static final int DELTA    = 2 * ( PAD + RADIUS );
     private static final int DIAMETER = 2 * RADIUS;
+
+    public Image viewGraphics( int x, int y )
+    {
+        Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
+        viewGraphics( image.getGraphics(), x, y );
+        return image;
+    }
 
     /**
      *

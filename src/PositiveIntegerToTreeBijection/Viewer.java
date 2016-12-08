@@ -64,8 +64,6 @@ public class Viewer extends JFrame {
     private final JTextArea stringView = new JTextArea();
     private final JScrollPane stringViewScrollPane = new JScrollPane( stringView );
 
-    private Image image; // = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
-
     // model components
     private int number = 1;
     private PositiveIntegerToTreeBijection tree = new PositiveIntegerToTreeBijection(399);
@@ -73,7 +71,7 @@ public class Viewer extends JFrame {
     public static void main(String[] args) 
     {
         long startTime = System.nanoTime();
-        setPrimesArray(100);
+        setPrimesArray(1000);
         Viewer viewer = new Viewer();
         viewer.initialize();
         Logger.getLogger(viewer.getClass().getCanonicalName())
@@ -82,7 +80,8 @@ public class Viewer extends JFrame {
 
     final static String FRAME_TITLE = "Visualize map from Natural number to rooted tree";
 
-    private void initialize() {
+    private void initialize() 
+    {
         setTitle(FRAME_TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Container container = getContentPane();
@@ -112,13 +111,12 @@ public class Viewer extends JFrame {
 
     private void update( int number )
     {
-        image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
         tree = new PositiveIntegerToTreeBijection( number );
-        tree.viewGraphics( image.getGraphics(), ( NUM_PIXELS - tree.imageViewWidth() ) / 2, PAD );
-        imageView.setImage( image );
+        int imageUpperLeftCornerX = ( NUM_PIXELS - tree.imageViewWidth() ) / 2;
+        int imageUpperLeftCornerY = PAD;
+        imageView.setImage( tree.viewGraphics( imageUpperLeftCornerX, imageUpperLeftCornerY ) );
         imageView.repaint();
-        stringView.setText( tree.stringView() );
-        System.out.println( "Tree width: " + tree.width() );
+        stringView.setText( tree.viewString() );
     }
 
     //  _________________________
