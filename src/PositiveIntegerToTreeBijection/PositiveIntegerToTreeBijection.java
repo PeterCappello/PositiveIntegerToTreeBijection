@@ -119,9 +119,9 @@ public class PositiveIntegerToTreeBijection
     
     public int getPositiveInteger() { return positiveInteger; }
     
-    public String stringView() { return new String( stringView( "   ") ); }
+    public String stringView() { return new String( viewString( "   ") ); }
 
-    private StringBuilder stringView( String pad )
+    private StringBuilder viewString( String pad )
     {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append( pad ).append( '\n' ).append( pad ).append( positiveInteger ).append( " ");
@@ -130,7 +130,7 @@ public class PositiveIntegerToTreeBijection
         {
             for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
             {
-                stringBuilder.append(factorTree.stringView( pad + "   ") );
+                stringBuilder.append(factorTree.viewString( pad + "   ") );
             }
         }
         return stringBuilder;
@@ -148,7 +148,7 @@ public class PositiveIntegerToTreeBijection
         {
             for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
             {
-                stringBuilder.append(factorTree.stringView( pad + "   ") );
+                stringBuilder.append(factorTree.viewString( pad + "   ") );
             }
         }
         return stringBuilder;
