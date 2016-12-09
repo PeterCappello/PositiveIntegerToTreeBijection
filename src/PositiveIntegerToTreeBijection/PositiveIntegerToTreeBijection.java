@@ -1,10 +1,7 @@
 package PositiveIntegerToTreeBijection;
 
-import static PositiveIntegerToTreeBijection.Viewer.NUM_PIXELS;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -155,19 +152,11 @@ public class PositiveIntegerToTreeBijection
     }
     
     // viewGraphics parameters, in pixels
-    private static final int NUM_PIXELS = 1000;
     private static final int ELEMENT  = 8; 
     private static final int RADIUS   = ELEMENT; 
-    private static final int PAD      = 3 * ELEMENT; 
+            static final int PAD      = 3 * ELEMENT; 
     private static final int DELTA    = 2 * ( PAD + RADIUS );
     private static final int DIAMETER = 2 * RADIUS;
-
-    public Image viewGraphics( int x, int y )
-    {
-        Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
-        viewGraphics( image.getGraphics(), x, y );
-        return image;
-    }
 
     /**
      *

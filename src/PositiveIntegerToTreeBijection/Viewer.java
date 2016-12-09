@@ -23,6 +23,7 @@
  */
 package PositiveIntegerToTreeBijection;
 
+import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.PAD;
 import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.setPrimesArray;
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -46,15 +47,10 @@ import static javax.swing.SwingConstants.RIGHT;
  *
  * @author Peter Cappello
  */
-public class Viewer extends JFrame {
-
+public class Viewer extends JFrame 
+{
     // graphical parameters
-            static final int NUM_PIXELS = 1000;
-    private static final int ELEMENT = 8;
-    private static final int RADIUS = ELEMENT;
-    private static final int PAD = 3 * ELEMENT;
-    private static final int DELTA = 2 * (PAD + RADIUS);
-    private static final int DIAMETER = 2 * RADIUS;
+    static final int NUM_PIXELS = 1000;
 
     // graphical components
     private final ImagePanel imageView = new ImagePanel();
@@ -75,7 +71,7 @@ public class Viewer extends JFrame {
         Viewer viewer = new Viewer();
         viewer.initialize();
         Logger.getLogger(viewer.getClass().getCanonicalName())
-                .log(Level.INFO, "Job run time: {0} ms.", (System.nanoTime() - startTime) / 1000000);
+              .log(Level.INFO, "Job run time: {0} ms.", (System.nanoTime() - startTime) / 1000000);
     }
 
     final static String FRAME_TITLE = "Visualize map from Natural number to rooted tree";
@@ -114,7 +110,9 @@ public class Viewer extends JFrame {
         tree = new PositiveIntegerToTreeBijection( number );
         int imageUpperLeftCornerX = ( NUM_PIXELS - tree.imageViewWidth() ) / 2;
         int imageUpperLeftCornerY = PAD;
-        imageView.setImage( tree.viewGraphics( imageUpperLeftCornerX, imageUpperLeftCornerY ) );
+        Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
+        tree.viewGraphics( image.getGraphics(), imageUpperLeftCornerX, imageUpperLeftCornerY );
+        imageView.setImage( image );
         imageView.repaint();
         stringView.setText( tree.viewString() );
     }
