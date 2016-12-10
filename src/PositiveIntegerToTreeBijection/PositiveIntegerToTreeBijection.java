@@ -175,7 +175,7 @@ public class PositiveIntegerToTreeBijection
         // draw root
         drawDisk( graphics, rootX, rootY );
         
-        // set 1st factor tree's x and y 
+        // set 1st factor tree's upperleft corner coordinates 
         int factorTreeX = x;
         int factorTreeY = y + DELTA;
         
@@ -187,7 +187,8 @@ public class PositiveIntegerToTreeBijection
             // draw factor tree
             factorTree.viewGraphics( graphics, factorTreeX, factorTreeY ); 
             
-            factorTreeX += DELTA * factorTree.width; // set next factor tree's x ccordinate
+            // set next factor tree's upperleft corner's x coordinate
+            factorTreeX += DELTA * factorTree.width; 
         }
     }
 

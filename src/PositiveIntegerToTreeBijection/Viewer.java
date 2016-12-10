@@ -36,6 +36,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -59,6 +61,8 @@ public class Viewer extends JFrame
         private final JTextField numberTextField = new JTextField(20); 
     private final JTextArea stringView = new JTextArea();
     private final JScrollPane stringViewScrollPane = new JScrollPane( stringView );
+    private final JTextArea logView = new JTextArea( "1", 6, 50 );
+    private final JScrollPane logViewScrollPane = new JScrollPane( logView );
 
     // model components
     private int number = 1;
@@ -84,7 +88,8 @@ public class Viewer extends JFrame
         container.setLayout(new BorderLayout());
         container.add(numberPanel, BorderLayout.NORTH );
         container.add(imageView, BorderLayout.CENTER );
-        container.add(stringViewScrollPane, BorderLayout.SOUTH );
+        container.add(stringViewScrollPane, BorderLayout.EAST );
+        container.add(logViewScrollPane, BorderLayout.SOUTH );
 
         numberPanel.setLayout( new GridLayout(1, 2) );
         numberPanel.add( numberLabel );
@@ -123,18 +128,17 @@ public class Viewer extends JFrame
     private void numberTextFieldActionPerformed( ActionEvent actionEvent) 
     {
         String numberText = numberTextField.getText();
-        try {
+        try 
+        {
             number = Integer.parseInt(numberText);
         } catch (NumberFormatException exception) {
-            Logger.getLogger(this.getClass().getCanonicalName())
-                    .log(Level.INFO, "Not an integer: {0}", (number));
+            JOptionPane.showMessageDialog( this, numberText + " is not an integer.", "Input format error", ERROR_MESSAGE );
         }
-        if (number < 1) {
-            Logger.getLogger(this.getClass().getCanonicalName())
-                    .log(Level.INFO, "Integer {0} < 1 is not allowed.", (number));
+        if (number < 1) 
+        {
+            JOptionPane.showMessageDialog( this, number + " < 0; Only positive integers are allowed.", "Input value error", ERROR_MESSAGE );
             return;
         }
-        
         update( number );
     }
 }
