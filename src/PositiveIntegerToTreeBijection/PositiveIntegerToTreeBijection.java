@@ -55,6 +55,7 @@ public class PositiveIntegerToTreeBijection
         return true;
     }
     
+    private final boolean isPositive;
     private final int positiveInteger;
     private List<PositiveIntegerToTreeBijection> factorTrees = new LinkedList<>();
     private int height;
@@ -64,18 +65,20 @@ public class PositiveIntegerToTreeBijection
     
     PositiveIntegerToTreeBijection( PositiveIntegerToTreeBijection positiveIntegerTree )
     {
+        this.isPositive = positiveIntegerTree.isPositive;
         this.positiveInteger = positiveIntegerTree.positiveInteger;
         this.factorTrees     = positiveIntegerTree.factorTrees;
     }
     
     /**
      * Construct the tree that corresponds to a particular natural number.
-     * @param positiveInteger whose corresponding tree is being constructed 
+     * @param integer whose corresponding tree is being constructed 
      */
-    PositiveIntegerToTreeBijection( int positiveInteger ) throws ArrayIndexOutOfBoundsException
+    PositiveIntegerToTreeBijection( int integer ) throws ArrayIndexOutOfBoundsException
     {
-        this.positiveInteger = positiveInteger;
-        PositiveIntegerToTreeBijection cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
+        isPositive = integer > 0;
+        this.positiveInteger = ( integer > 0 ) ? integer : -integer;
+        PositiveIntegerToTreeBijection cachedTree = integerToPositiveIntegerTreeMap.get(positiveInteger );
         if ( cachedTree != null )
         {
             factorTrees = cachedTree.factorTrees;
@@ -87,7 +90,8 @@ public class PositiveIntegerToTreeBijection
         for ( int rank = 1; primes[ rank ] <= positiveInteger && positiveInteger > 1; rank++ )
         {
             // for each prime factor, create a subtree for the prime factor's rank
-            for ( ; positiveInteger % primes[ rank ] == 0; positiveInteger /= primes[ rank ] )
+            int number = positiveInteger;
+            for ( ; number % primes[ rank ] == 0; number /= primes[ rank ] )
             {
                 PositiveIntegerToTreeBijection positiveIntegerTree = integerToPositiveIntegerTreeMap.get( rank );
                 if ( positiveIntegerTree == null )
@@ -121,8 +125,11 @@ public class PositiveIntegerToTreeBijection
     private StringBuilder viewString( String pad )
     {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append( pad ).append( '\n' ).append( pad ).append( positiveInteger ).append( " ");
-        stringBuilder.append( positiveInteger < primes.length ? primes[ positiveInteger ] : "" );
+        stringBuilder
+                .append( pad ).append( '\n' ).append( pad )
+                .append( isPositive ? "" : "-")
+                .append( positiveInteger ).append( " ")
+                .append( positiveInteger < primes.length ? primes[ positiveInteger ] : "" );
         if ( ! factorTrees.isEmpty() )
         {
             for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
@@ -172,9 +179,8 @@ public class PositiveIntegerToTreeBijection
         int rootX = x + rootX();
         int rootY = y + rootY();
 
-        // draw root
-        drawDisk( graphics, rootX, rootY );
-        
+        graphics.setColor( Color.BLACK );
+           
         // set 1st factor tree's upperleft corner coordinates 
         int factorTreeX = x;
         int factorTreeY = y + DELTA;
@@ -190,6 +196,9 @@ public class PositiveIntegerToTreeBijection
             // set next factor tree's upperleft corner's x coordinate
             factorTreeX += DELTA * factorTree.width; 
         }
+        
+        // draw root
+        drawDisk( graphics, rootX, rootY );
     }
 
     /**
@@ -200,7 +209,17 @@ public class PositiveIntegerToTreeBijection
     
     private void drawDisk( Graphics graphics, int x, int y )
     {
+        graphics.setColor( isPositive ? Color.BLACK : Color.RED );
         graphics.fillOval( x - RADIUS, y - RADIUS, DIAMETER, DIAMETER );
+    }
+    
+    public void drawRoot( Graphics graphics, int x, int y )
+    {
+        int rootX = x + rootX();
+        int rootY = y + rootY();
+        graphics.setColor( isPositive ? Color.BLUE : Color.RED );
+        graphics.fillOval( rootX - RADIUS, rootY - RADIUS, DIAMETER, DIAMETER );
+        graphics.setColor( Color.BLACK );
     }
     
     int rootX() { return width * DELTA / 2 - RADIUS; }

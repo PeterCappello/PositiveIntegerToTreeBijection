@@ -28,6 +28,7 @@ import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.setP
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -65,8 +66,8 @@ public class Viewer extends JFrame
     private final JScrollPane logViewScrollPane = new JScrollPane( logView );
 
     // model components
-    private int number = 1;
-    private PositiveIntegerToTreeBijection tree = new PositiveIntegerToTreeBijection(399);
+    private int number = 399;
+    private PositiveIntegerToTreeBijection tree = new PositiveIntegerToTreeBijection( number );
 
     public static void main(String[] args) 
     {
@@ -131,14 +132,15 @@ public class Viewer extends JFrame
         try 
         {
             number = Integer.parseInt(numberText);
-        } catch (NumberFormatException exception) {
+        } catch (NumberFormatException exception) 
+        {
             JOptionPane.showMessageDialog( this, numberText + " is not an integer.", "Input format error", ERROR_MESSAGE );
         }
-        if (number < 1) 
-        {
-            JOptionPane.showMessageDialog( this, number + " < 0; Only positive integers are allowed.", "Input value error", ERROR_MESSAGE );
-            return;
-        }
+//        if (number < 1) 
+//        {
+//            JOptionPane.showMessageDialog( this, number + " < 0; Only integers > 0 are allowed.", "Input value error", ERROR_MESSAGE );
+//            return;
+//        }
         update( number );
     }
 }
