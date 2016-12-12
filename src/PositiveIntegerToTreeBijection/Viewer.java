@@ -126,21 +126,17 @@ public class Viewer extends JFrame
     //  _________________________
     //  contoller for each action
     //  _________________________
-    private void numberTextFieldActionPerformed( ActionEvent actionEvent) 
+    private void numberTextFieldActionPerformed( ActionEvent unused ) 
     {
         String numberText = numberTextField.getText();
         try 
         {
             number = Integer.parseInt(numberText);
-        } catch (NumberFormatException exception) 
+        } 
+        catch ( NumberFormatException exception ) 
         {
-            JOptionPane.showMessageDialog( this, numberText + " is not an integer.", "Input format error", ERROR_MESSAGE );
+            JOptionPane.showMessageDialog( this, numberText + " is not an integer.", "Input error", ERROR_MESSAGE );
         }
-//        if (number < 1) 
-//        {
-//            JOptionPane.showMessageDialog( this, number + " < 0; Only integers > 0 are allowed.", "Input value error", ERROR_MESSAGE );
-//            return;
-//        }
         update( number );
     }
 }

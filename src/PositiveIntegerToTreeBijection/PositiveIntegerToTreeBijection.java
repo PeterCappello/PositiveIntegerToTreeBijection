@@ -209,8 +209,17 @@ public class PositiveIntegerToTreeBijection
     
     private void drawDisk( Graphics graphics, int x, int y )
     {
-        graphics.setColor( isPositive ? Color.BLACK : Color.RED );
-        graphics.fillOval( x - RADIUS, y - RADIUS, DIAMETER, DIAMETER );
+        if ( isPositive )
+        {
+            graphics.fillOval( x - RADIUS, y - RADIUS, DIAMETER, DIAMETER );
+        }
+        else
+        {
+            graphics.setColor( Color.WHITE );
+            graphics.fillOval( x - RADIUS, y - RADIUS, DIAMETER, DIAMETER );
+            graphics.setColor( Color.BLACK );
+            graphics.drawOval( x - RADIUS, y - RADIUS, DIAMETER, DIAMETER );
+        }
     }
     
     public void drawRoot( Graphics graphics, int x, int y )
