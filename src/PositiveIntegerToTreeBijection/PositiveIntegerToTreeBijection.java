@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Recursively maps a natural potentialFactor to a rooted, un-oriented tree.
+ * Recursively maps a natural possibleFactor to a rooted, un-oriented tree.
  * @author Pete Cappello
  */
 public class PositiveIntegerToTreeBijection
@@ -20,33 +20,38 @@ public class PositiveIntegerToTreeBijection
      * List of first PRIMES_INITIAL_CAPACITY prime numbers
      */
     public static List<Integer> primes = new ArrayList<>( PRIMES_INITIAL_CAPACITY );
+    /**
+     * Map of first ranks of first PRIMES_INITIAL_CAPACITY prime numbers
+     */
+    public static Map<Integer, Integer> ranks = new HashMap<>( PRIMES_INITIAL_CAPACITY );
     
     // cache of PositiveIntegerTree objects
     private static Map<Integer, PositiveIntegerToTreeBijection> integerToPositiveIntegerTreeMap = new HashMap<>();
     
     /**
-     * Fill the primes array with the first PRIMES_INITIAL_CAPACITY prime numbers.
-     * The index of a prime is its potentialFactorRank: primes.get( 0 ) is UNUSED.
+     * Initialize the primes List and the ranks map with the first 
+     * PRIMES_INITIAL_CAPACITY prime numbers and their ranks.
+     * The index of a prime is its rank: primes.get( 0 ) is UNUSED.
      */
     public static void setPrimesArray()
     {
-        primes.add( 1 );
-        primes.add( 2 );
-        primes.add( 3 );
+        primes.add( 1 ); 
+        primes.add( 2 ); ranks.put( 2, 1 );
+        primes.add( 3 ); ranks.put( 3, 2 );
         for ( int number = 5, rank = 3; rank < PRIMES_INITIAL_CAPACITY; number += 2 )
         {
             if ( isPrime( number ) )
             {
-                primes.add( number);
+                primes.add( number); ranks.put( number, rank );
                 rank++;
             }
         }
     }
     
     /**
-     * Determines whether ODD integer potentialFactor is prime.
+     * Determines whether ODD integer possibleFactor is prime.
      * @param number an ODD integer
-     * @return true if and only if potentialFactor is prime
+     * @return true if and only if possibleFactor is prime
      */
     public static boolean isPrime( final int number )
     {
@@ -75,7 +80,7 @@ public class PositiveIntegerToTreeBijection
     }
     
     /**
-     * Construct the tree that corresponds to a particular natural potentialFactor.
+     * Construct the tree that corresponds to a particular natural possibleFactor.
      * @param integer whose corresponding tree is being constructed 
      */
     PositiveIntegerToTreeBijection( int integer ) throws ArrayIndexOutOfBoundsException
@@ -91,62 +96,52 @@ public class PositiveIntegerToTreeBijection
             return;
         }
         
-        // for each factor, make a factor tree
-        int subTreeWidthSum = 0; // initialize width calculation
-        int potentialFactorRank = 1;
+        // for each factor, make its factor tree
+        int possibleFactorRank = 1;
         int number = positiveInteger;
-        for (int potentialFactor = primes.get(potentialFactorRank); potentialFactor <= number; potentialFactor = primes.get(++potentialFactorRank) )
+        int maxFactor = (int) Math.sqrt( number );
+        for (int possibleFactor = primes.get(possibleFactorRank); possibleFactor <= maxFactor; possibleFactor = primes.get(++possibleFactorRank) )
         {
-            for ( ; number % potentialFactor == 0; number /= potentialFactor )
+            for ( ; number % possibleFactor == 0; number /= possibleFactor )
             {
-                PositiveIntegerToTreeBijection numberTree = integerToPositiveIntegerTreeMap.get(potentialFactorRank );
-                if ( numberTree == null )
-                {
-                    // no cached tree for this potentialFactor, make one
-                    numberTree = new PositiveIntegerToTreeBijection( potentialFactorRank );
-                    integerToPositiveIntegerTreeMap.put( potentialFactorRank, numberTree );
-                }
-                factorTrees.add( numberTree );
-                
-                // update width & height calculation
-                subTreeWidthSum += numberTree.width;
-                if ( numberTree.height > height )
-                {
-                     height = numberTree.height;
-                }
+                makeTree( possibleFactorRank );
             }
+            maxFactor = (int) Math.sqrt( number );
+        }
+        // Is number prime and > sqrt maxFactor? (e.g., for 6 = 2 * 3, 3 > sqrt( 6/2 ) )
+        if ( number > 1 )
+        {
+            makeTree( ranks.get( number ) );
         }
         
         // complete width & height calculation
-        width = ( 1 < subTreeWidthSum ) ? subTreeWidthSum : 1;
+        width = ( 1 < width ) ? width : 1;
         height++;
       
         // cache tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
     }
     
-    List<PositiveIntegerToTreeBijection> factorTrees() { return factorTrees; }
-    
-    // refactor using binary search from sqrt to approximately number/log number
-    private int rank( int number )
+    private void makeTree( int rank )
     {
-        try
+        PositiveIntegerToTreeBijection numberTree = integerToPositiveIntegerTreeMap.get(rank );
+        if ( numberTree == null )
         {
-           for ( int rank = 1; primes.get( rank ) <= number; rank++ )
-            {
-                if ( number == primes.get( rank ) )
-                {
-                    return rank;
-                }
-            } 
+            // no cached tree for this possibleFactor, make one
+            numberTree = new PositiveIntegerToTreeBijection( rank );
+            integerToPositiveIntegerTreeMap.put( rank, numberTree );
         }
-        catch ( Exception e )
+        factorTrees.add( numberTree );
+
+        // update width & height calculation
+        width += numberTree.width;
+        if ( numberTree.height > height )
         {
-            e.printStackTrace();
+             height = numberTree.height;
         }
-        System.out.println("rank method failed.");
-        return -1;
     }
+    
+    List<PositiveIntegerToTreeBijection> factorTrees() { return factorTrees; }
     
     public int getPositiveInteger() { return positiveInteger; }
     
@@ -160,25 +155,6 @@ public class PositiveIntegerToTreeBijection
                 .append( isPositive ? "" : "-")
                 .append( positiveInteger ).append( " ")
                 .append( positiveInteger < primes.size() ? primes.get( positiveInteger ) : "" );
-        if ( ! factorTrees.isEmpty() )
-        {
-            for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
-            {
-                stringBuilder.append(factorTree.viewString( pad + "   ") );
-            }
-        }
-        return stringBuilder;
-    }
-    
-    private StringBuilder debug( String pad )
-    {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder
-                .append( pad ).append( '\n' ).append( pad ).append( "Tree of prime whose rank is ")
-                .append( positiveInteger ).append( " ")
-                .append( positiveInteger < primes.size() ? primes.get( positiveInteger ) : "" )
-                .append( " height: ").append( height )
-                .append( " width: ").append( width );
         if ( ! factorTrees.isEmpty() )
         {
             for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
@@ -212,19 +188,19 @@ public class PositiveIntegerToTreeBijection
 
         graphics.setColor( Color.BLACK );
            
-        // set 1st potentialFactor tree's upperleft corner coordinates 
+        // set 1st possibleFactor tree's upperleft corner coordinates 
         int factorTreeX = x;
         int factorTreeY = y + DELTA;
         
         for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
         {
-            // draw edge from this root to potentialFactor tree's root
+            // draw edge from this root to possibleFactor tree's root
             graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
             
-            // draw potentialFactor tree
+            // draw possibleFactor tree
             factorTree.viewGraphics( graphics, factorTreeX, factorTreeY ); 
             
-            // set next potentialFactor tree's upperleft corner's x coordinate
+            // set next possibleFactor tree's upperleft corner's x coordinate
             factorTreeX += DELTA * factorTree.width; 
         }
         
