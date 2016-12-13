@@ -28,7 +28,6 @@ import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.setP
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -72,11 +71,11 @@ public class Viewer extends JFrame
     public static void main(String[] args) 
     {
         long startTime = System.nanoTime();
-        setPrimesArray(1000);
+        setPrimesArray();
         Viewer viewer = new Viewer();
         viewer.initialize();
         Logger.getLogger(viewer.getClass().getCanonicalName())
-              .log(Level.INFO, "Job run time: {0} ms.", (System.nanoTime() - startTime) / 1000000);
+              .log(Level.INFO, "Initialization time: {0} ms.", (System.nanoTime() - startTime) / 1000000);
     }
 
     final static String FRAME_TITLE = "Visualize map from Natural number to rooted tree";

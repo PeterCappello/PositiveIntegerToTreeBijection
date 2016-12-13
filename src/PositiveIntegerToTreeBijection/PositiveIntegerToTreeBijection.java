@@ -2,6 +2,7 @@ package PositiveIntegerToTreeBijection;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,26 +14,32 @@ import java.util.Map;
  */
 public class PositiveIntegerToTreeBijection
 {   
-    public static int[] primes;
+    private static final int PRIMES_INITIAL_CAPACITY = 1000;
+
+    /**
+     * List of first PRIMES_INITIAL_CAPACITY prime numbers
+     */
+    public static List<Integer> primes = new ArrayList<>( PRIMES_INITIAL_CAPACITY );
     
     // cache of PositiveIntegerTree objects
     private static Map<Integer, PositiveIntegerToTreeBijection> integerToPositiveIntegerTreeMap = new HashMap<>();
     
     /**
-     * Fill the primes array with the first numPrimes prime numbers.
-     * The index of a prime is its rank: primes[ 0 ] is UNUSED.
-     * @param numPrimes the number of elements in primes
+     * Fill the primes array with the first PRIMES_INITIAL_CAPACITY prime numbers.
+     * The index of a prime is its rank: primes.get( 0 ) is UNUSED.
      */
-    public static void setPrimesArray( int numPrimes )
+    public static void setPrimesArray()
     {
-        primes = new int[ numPrimes + 1 ];
-        primes[ 1 ] = 2;
-        primes[ 2 ] = 3;
-        for ( int number = 5, rank = 3; rank < numPrimes; number += 2 )
+        primes.add( 1 );
+        primes.add( 2 );
+        primes.add( 3 );
+//        for ( int number = 5, rank = 3; rank < numPrimes; number += 2 )
+        for ( int number = 5, rank = 3; rank < PRIMES_INITIAL_CAPACITY; number += 2 )
         {
             if ( isPrime( number ) )
             {
-                primes[ rank++ ] = number;
+                primes.add( number);
+                rank++;
             }
         }
     }
@@ -45,9 +52,9 @@ public class PositiveIntegerToTreeBijection
     public static boolean isPrime( final int number )
     {
         final int maxFactor = (int) Math.sqrt( number );
-        for ( int rank = 1; primes[ rank ] <= maxFactor; rank++ )
+        for ( int rank = 1; primes.get( rank ) <= maxFactor; rank++ )
         {
-            if ( number % primes[ rank ] == 0 )
+            if ( number % primes.get( rank ) == 0 )
             {
                 return false;
             }
@@ -87,11 +94,11 @@ public class PositiveIntegerToTreeBijection
             return;
         }
         int subTreeWidthSum = 0; // initialize width calculation
-        for ( int rank = 1; primes[ rank ] <= positiveInteger && positiveInteger > 1; rank++ )
+        for ( int rank = 1; primes.get( rank) <= positiveInteger && positiveInteger > 1; rank++ )
         {
             // for each prime factor, create a subtree for the prime factor's rank
             int number = positiveInteger;
-            for ( ; number % primes[ rank ] == 0; number /= primes[ rank ] )
+            for ( ; number % primes.get( rank ) == 0; number /= primes.get( rank) )
             {
                 PositiveIntegerToTreeBijection positiveIntegerTree = integerToPositiveIntegerTreeMap.get( rank );
                 if ( positiveIntegerTree == null )
@@ -129,7 +136,7 @@ public class PositiveIntegerToTreeBijection
                 .append( pad ).append( '\n' ).append( pad )
                 .append( isPositive ? "" : "-")
                 .append( positiveInteger ).append( " ")
-                .append( positiveInteger < primes.length ? primes[ positiveInteger ] : "" );
+                .append( positiveInteger < primes.size() ? primes.get( positiveInteger ) : "" );
         if ( ! factorTrees.isEmpty() )
         {
             for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
@@ -143,11 +150,12 @@ public class PositiveIntegerToTreeBijection
     private StringBuilder debug( String pad )
     {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append( pad ).append( '\n' ).append( pad ).append( "Tree of prime whose rank is ");
-        stringBuilder.append( positiveInteger ).append( " ");
-        stringBuilder.append( positiveInteger < primes.length ? primes[ positiveInteger ] : "" );
-        stringBuilder.append( " height: ").append( height );
-        stringBuilder.append( " width: ").append( width );
+        stringBuilder
+                .append( pad ).append( '\n' ).append( pad ).append( "Tree of prime whose rank is ")
+                .append( positiveInteger ).append( " ")
+                .append( positiveInteger < primes.size() ? primes.get( positiveInteger ) : "" )
+                .append( " height: ").append( height )
+                .append( " width: ").append( width );
         if ( ! factorTrees.isEmpty() )
         {
             for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
