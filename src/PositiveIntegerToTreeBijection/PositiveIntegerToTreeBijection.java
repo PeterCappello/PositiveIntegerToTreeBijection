@@ -222,15 +222,6 @@ public class PositiveIntegerToTreeBijection
         }
     }
     
-    public void drawRoot( Graphics graphics, int x, int y )
-    {
-        int rootX = x + rootX();
-        int rootY = y + rootY();
-        graphics.setColor( isPositive ? Color.BLUE : Color.RED );
-        graphics.fillOval( rootX - RADIUS, rootY - RADIUS, DIAMETER, DIAMETER );
-        graphics.setColor( Color.BLACK );
-    }
-    
     int rootX() { return width * DELTA / 2 - RADIUS; }
     
     int rootY() { return PAD + RADIUS; }
