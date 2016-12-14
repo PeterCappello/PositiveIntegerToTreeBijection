@@ -71,10 +71,11 @@ public class Viewer extends JFrame
     public static void main(String[] args) 
     {
         long startTime = System.nanoTime();
+        PositiveIntegerToTreeBijection.initialize();
         setPrimesArray();
         Viewer viewer = new Viewer();
         viewer.initialize();
-        Logger.getLogger(viewer.getClass().getCanonicalName())
+        Logger.getLogger( viewer.getClass().getCanonicalName() )
               .log(Level.INFO, "Initialization time: {0} ms.", (System.nanoTime() - startTime) / 1000000);
     }
 

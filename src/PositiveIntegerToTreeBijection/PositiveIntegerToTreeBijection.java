@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Recursively maps a natural possibleFactor to a rooted, un-oriented tree.
@@ -14,26 +16,34 @@ import java.util.Map;
  */
 public class PositiveIntegerToTreeBijection
 {   
-    private static final int PRIMES_INITIAL_CAPACITY = 100;
+    //___________________________
+    //
+    // class attributes
+    //___________________________
+    static private final int PRIMES_INITIAL_CAPACITY = 5;
 
     /**
      * List of first PRIMES_INITIAL_CAPACITY prime numbers
      */
-    public static List<Integer> primes = new ArrayList<>( PRIMES_INITIAL_CAPACITY );
+    static public List<Integer> primes = new ArrayList<>( PRIMES_INITIAL_CAPACITY );
     /**
      * Map of first ranks of first PRIMES_INITIAL_CAPACITY prime numbers
      */
-    public static Map<Integer, Integer> ranks = new HashMap<>( PRIMES_INITIAL_CAPACITY );
+    static public Map<Integer, Integer> ranks = new HashMap<>( PRIMES_INITIAL_CAPACITY );
     
     // cache of PositiveIntegerTree objects
-    private static Map<Integer, PositiveIntegerToTreeBijection> integerToPositiveIntegerTreeMap = new HashMap<>();
+    static private Map<Integer, PositiveIntegerToTreeBijection> integerToPositiveIntegerTreeMap = new HashMap<>();
+    
+    static void initialize()
+    {
+    }
     
     /**
      * Initialize the primes List and the ranks map with the first 
      * PRIMES_INITIAL_CAPACITY prime numbers and their ranks.
      * The index of a prime is its rank: primes.get( 0 ) is UNUSED.
      */
-    public static void setPrimesArray()
+    static public void setPrimesArray()
     {
         primes.add( 1 ); 
         primes.add( 2 ); ranks.put( 2, 1 );
@@ -53,7 +63,7 @@ public class PositiveIntegerToTreeBijection
      * @param number an ODD integer
      * @return true if and only if possibleFactor is prime
      */
-    public static boolean isPrime( final int number )
+    static public boolean isPrime( final int number )
     {
         final int maxFactor = (int) Math.sqrt( number );
         for ( int rank = 1; primes.get( rank ) <= maxFactor; rank++ )
@@ -64,6 +74,59 @@ public class PositiveIntegerToTreeBijection
             }
         }
         return true;
+    }
+    
+    static private int prime( int rank )
+    {
+        if ( rank >= primes.size() - 1 )
+        {
+            increasePrimesTo( rank );
+        }
+        return primes.get( rank );
+    }
+    
+    static private int rank( int prime )
+    {
+        if ( prime >= primes.get( primes.size() - 1 ) )
+        {
+            increaseRanksTo( prime );
+        }
+        return ranks.get( prime );
+    }
+    
+    static private void increasePrimesTo( int upperRank )
+    { 
+        int rank = primes.size();
+        for ( int number = primes.get( rank - 1 ) + 2; rank <= upperRank; number += 2 )
+        {
+            rank = processPrimeCandidate( number, rank );
+        }
+        assert upperRank == primes.size() - 1;
+        Logger.getLogger( PositiveIntegerToTreeBijection.class.getCanonicalName() )
+              .log(Level.INFO, "Increased # of primes to {0}.", (primes.size() - 1 ) );
+    }
+    
+    static private void increaseRanksTo( int upperPrime )
+    {
+        int rank = primes.size();
+        for ( int number = primes.get( rank - 1 ) + 2; number <= upperPrime; number += 2 )
+        {
+            rank = processPrimeCandidate( number, rank );
+        }
+        assert upperPrime == primes.get( primes.size() - 1 );
+        Logger.getLogger( PositiveIntegerToTreeBijection.class.getCanonicalName() )
+              .log(Level.INFO, "Increased primes to {0}.", (primes.get( primes.size() - 1 ) ) );
+    }
+    
+    static private int processPrimeCandidate( int primeCandidate, int rank )
+    {
+        if ( isPrime( primeCandidate ) )
+        {
+            primes.add( primeCandidate ); 
+            ranks.put(  primeCandidate, rank );
+            return rank + 1;
+        }
+        return rank;
     }
     
     private final boolean isPositive;
@@ -100,7 +163,7 @@ public class PositiveIntegerToTreeBijection
         int possibleFactorRank = 1;
         int number = positiveInteger;
         int maxFactor = (int) Math.sqrt( number );
-        for (int possibleFactor = primes.get(possibleFactorRank); possibleFactor <= maxFactor; possibleFactor = primes.get(++possibleFactorRank) )
+        for (int possibleFactor = prime(possibleFactorRank); possibleFactor <= maxFactor; possibleFactor = prime(++possibleFactorRank) )
         {
             for ( ; number % possibleFactor == 0; number /= possibleFactor )
             {
@@ -111,7 +174,7 @@ public class PositiveIntegerToTreeBijection
         // Is number prime and > sqrt maxFactor? (e.g., for 6 = 2 * 3, 3 > sqrt( 6/2 ) )
         if ( number > 1 )
         {
-            makeTree( ranks.get( number ) );
+            makeTree( rank( number ) );
         }
         
         // complete width & height calculation
@@ -153,13 +216,13 @@ public class PositiveIntegerToTreeBijection
         stringBuilder
                 .append( pad ).append( '\n' ).append( pad )
                 .append( isPositive ? "" : "-")
-                .append( positiveInteger ).append( " ")
-                .append( positiveInteger < primes.size() ? primes.get( positiveInteger ) : "" );
+                .append( positiveInteger ).append( "  ")
+                .append( positiveInteger < primes.size() ? prime( positiveInteger ) : "" );
         if ( ! factorTrees.isEmpty() )
         {
             for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
             {
-                stringBuilder.append(factorTree.viewString( pad + "   ") );
+                stringBuilder.append(factorTree.viewString( pad + "    ") );
             }
         }
         return stringBuilder;
