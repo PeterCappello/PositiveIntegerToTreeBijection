@@ -24,7 +24,6 @@
 package PositiveIntegerToTreeBijection;
 
 import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.PAD;
-import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.setPrimesArray;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -45,7 +44,7 @@ import javax.swing.JTextField;
 import static javax.swing.SwingConstants.RIGHT;
 
 /**
- * The class used to "run" the Job.
+ * Viewer for an integer as a rooted, unoriented tree.
  *
  * @author Peter Cappello
  */
@@ -72,7 +71,6 @@ public class Viewer extends JFrame
     {
         long startTime = System.nanoTime();
         PositiveIntegerToTreeBijection.initialize();
-        setPrimesArray();
         Viewer viewer = new Viewer();
         viewer.initialize();
         Logger.getLogger( viewer.getClass().getCanonicalName() )
@@ -97,12 +95,11 @@ public class Viewer extends JFrame
         numberPanel.add( numberTextField );
 
         Dimension dimension = new Dimension( NUM_PIXELS, NUM_PIXELS + this.getHeight() );
-        setSize( dimension  );
-        setPreferredSize( dimension );
-        setVisible(true);
-        
+        setSize( dimension );
+        setPreferredSize( dimension );        
         stringView.setEditable( false );
-        update( 399 );
+        update( 399 );     
+        setVisible(true);
 
         //  _______________________________________
         //  contoller TEMPLATE CODE for each action
