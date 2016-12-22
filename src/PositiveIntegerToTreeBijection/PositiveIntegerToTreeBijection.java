@@ -20,7 +20,7 @@ public class PositiveIntegerToTreeBijection
     //
     // class attributes
     //___________________________
-    static private final int PRIMES_INITIAL_CAPACITY = 5;
+    static private final int PRIMES_INITIAL_CAPACITY = 100;
 
     /**
      * List of first PRIMES_INITIAL_CAPACITY prime numbers
@@ -36,6 +36,7 @@ public class PositiveIntegerToTreeBijection
     
     static void initialize()
     {
+        setPrimesArray();
     }
     
     /**
@@ -129,6 +130,10 @@ public class PositiveIntegerToTreeBijection
         return rank;
     }
     
+    //___________________________
+    //
+    // object attributes
+    //___________________________
     private final boolean isPositive;
     private final int positiveInteger;
     private List<PositiveIntegerToTreeBijection> factorTrees = new LinkedList<>();
