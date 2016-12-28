@@ -1,5 +1,6 @@
 package PositiveIntegerToTreeBijection;
 
+import static PositiveIntegerToTreeBijection.Viewer.NUM_PIXELS;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -253,7 +254,7 @@ public class PositiveIntegerToTreeBijection
         // coordinates of center of root
         int rootX = x + rootX();
         int rootY = y + rootY();
-
+        
         graphics.setColor( Color.BLACK );
            
         // set 1st possibleFactor tree's upperleft corner coordinates 
@@ -266,7 +267,8 @@ public class PositiveIntegerToTreeBijection
             graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
             
             // draw possibleFactor tree
-            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY ); 
+//            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY ); 
+            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY );
             
             // set next possibleFactor tree's upperleft corner's x coordinate
             factorTreeX += DELTA * factorTree.width; 
