@@ -8,4 +8,5 @@ based on the following:
 ## Running the project:
 
 1. Fork this project.
-2. Run the command <pre><code>java -jar dist/PositiveIntegerToTreeBijection.jar</code></pre> 
+2. From the project's root directory, run the command 
+<pre><code>java -jar dist/PositiveIntegerToTreeBijection.jar</code></pre> 
