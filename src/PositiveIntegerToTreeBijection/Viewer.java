@@ -48,12 +48,12 @@ import static javax.swing.SwingConstants.RIGHT;
 public class Viewer extends JFrame 
 {
     // graphical parameters
-    static final int NUM_PIXELS = 1000;
+    static final int IMAGE_VIEWPORT_SIZE = 1000;
 
     // graphical components
     private final ImagePanel imageView = new ImagePanel();
     private final JPanel numberPanel = new JPanel();
-        private final JLabel numberLabel = new JLabel("Enter a positive integer & click the return key ", RIGHT);
+        private final JLabel numberLabel = new JLabel("Enter an integer & click the return key ", RIGHT);
         private final JTextField numberTextField = new JTextField(20); 
     private final JTextArea stringView = new JTextArea();
     private final JScrollPane stringViewScrollPane = new JScrollPane( stringView );
@@ -91,7 +91,7 @@ public class Viewer extends JFrame
         numberPanel.add( numberLabel );
         numberPanel.add( numberTextField );
 
-        Dimension dimension = new Dimension( NUM_PIXELS, NUM_PIXELS + this.getHeight() );
+        Dimension dimension = new Dimension( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE + this.getHeight() );
         setSize( dimension );
         setPreferredSize( dimension );        
         stringView.setEditable( false );
@@ -108,9 +108,9 @@ public class Viewer extends JFrame
     private void update( int number )
     {
         tree = new PositiveIntegerToTreeBijection( number );
-        imageView.setImage( tree.getImage() );
+        imageView.setImage( tree.getImageView() );
         imageView.repaint();
-        stringView.setText( tree.viewString() );
+        stringView.setText( tree.getStringView() );
     }
 
     //  _________________________
