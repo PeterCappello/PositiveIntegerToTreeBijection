@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static PositiveIntegerToTreeBijection.Viewer.IMAGE_VIEWPORT_SIZE;
 
 /**
  * Recursively maps a natural possibleFactor to a rooted, un-oriented tree.
@@ -268,10 +267,8 @@ public class PositiveIntegerToTreeBijection
     
     Image getImageView()
     {
-        Image image = new BufferedImage( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE, BufferedImage.TYPE_INT_ARGB );
-        int imageUpperLeftCornerX = ( IMAGE_VIEWPORT_SIZE - imageViewWidth() ) / 2;
-        int imageUpperLeftCornerY = PAD;
-        viewGraphics( image.getGraphics(), imageUpperLeftCornerX, imageUpperLeftCornerY );
+        Image image = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
+        viewGraphics( image.getGraphics(), PAD, PAD );
         return image;
     }
 
@@ -301,7 +298,6 @@ public class PositiveIntegerToTreeBijection
             graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
             
             // draw possibleFactor tree
-//            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY ); 
             factorTree.viewGraphics( graphics, factorTreeX, factorTreeY );
             
             // set next possibleFactor tree's upperleft corner's x coordinate
@@ -316,7 +312,9 @@ public class PositiveIntegerToTreeBijection
      *
      * @return width in pixels of rectangle enclosing image of tree
      */
-    public int imageViewWidth() { return width() * DELTA; }
+    public int imageViewWidth() { return ( width() + 1 ) * DELTA; }
+    
+    public int imageViewHeight() { return ( height() + 1 ) * DELTA; }
     
     private void drawDisk( Graphics graphics, int x, int y )
     {
