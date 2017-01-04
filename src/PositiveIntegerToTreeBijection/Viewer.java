@@ -30,6 +30,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -48,10 +49,11 @@ import static javax.swing.SwingConstants.RIGHT;
 public class Viewer extends JFrame 
 {
     // graphical parameters
-    static final int IMAGE_VIEWPORT_SIZE = 1000;
+    static final int IMAGE_VIEWPORT_SIZE = 500;
 
     // graphical components
     private final ImagePanel imageView = new ImagePanel();
+    private final JScrollPane imageViewScrollPane = new JScrollPane( imageView );
     private final JPanel numberPanel = new JPanel();
         private final JLabel numberLabel = new JLabel("Enter an integer & click the return key ", RIGHT);
         private final JTextField numberTextField = new JTextField(20); 
@@ -83,7 +85,8 @@ public class Viewer extends JFrame
         final Container container = getContentPane();
         container.setLayout(new BorderLayout());
         container.add(numberPanel, BorderLayout.NORTH );
-        container.add(imageView, BorderLayout.CENTER );
+//        container.add(imageView, BorderLayout.CENTER );
+        container.add(imageViewScrollPane, BorderLayout.CENTER );
         container.add(stringViewScrollPane, BorderLayout.EAST );
         container.add(logViewScrollPane, BorderLayout.SOUTH );
 
@@ -111,6 +114,8 @@ public class Viewer extends JFrame
         imageView.setImage( tree.getImageView() );
         imageView.repaint();
         stringView.setText( tree.getStringView() );
+        
+        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getImageView() ) ) );
     }
 
     //  _________________________
