@@ -26,6 +26,8 @@ package PositiveIntegerToTreeBijection;
 import static PositiveIntegerToTreeBijection.Viewer.NUM_PIXELS;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -263,6 +265,15 @@ public class PositiveIntegerToTreeBijection
             static final int PAD      = 3 * ELEMENT; 
     private static final int DELTA    = 2 * ( PAD + RADIUS );
     private static final int DIAMETER = 2 * RADIUS;
+    
+    Image getImage()
+    {
+        Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
+        int imageUpperLeftCornerX = ( NUM_PIXELS - imageViewWidth() ) / 2;
+        int imageUpperLeftCornerY = PAD;
+        viewGraphics( image.getGraphics(), imageUpperLeftCornerX, imageUpperLeftCornerY );
+        return image;
+    }
 
     /**
      *
