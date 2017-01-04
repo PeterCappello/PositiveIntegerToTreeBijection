@@ -16,7 +16,7 @@ public class ImagePanel extends JPanel
     public void paintComponent( Graphics graphics )
     {
         super.paintComponent( graphics );
-        graphics.drawImage( image, 0, 0, Viewer.NUM_PIXELS, Viewer.NUM_PIXELS, this );
+        graphics.drawImage(image, 0, 0, Viewer.IMAGE_VIEWPORT_SIZE, Viewer.IMAGE_VIEWPORT_SIZE, this );
     }
     
     void setImage( Image image ) { this.image = image; }

@@ -23,7 +23,6 @@
  */
 package PositiveIntegerToTreeBijection;
 
-import static PositiveIntegerToTreeBijection.Viewer.NUM_PIXELS;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -35,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static PositiveIntegerToTreeBijection.Viewer.IMAGE_VIEWPORT_SIZE;
 
 /**
  * Recursively maps a natural possibleFactor to a rooted, un-oriented tree.
@@ -239,7 +239,7 @@ public class PositiveIntegerToTreeBijection
     
     public int getPositiveInteger() { return positiveInteger; }
     
-    public String viewString() { return new String( PositiveIntegerToTreeBijection.this.viewString( "   ") ); }
+    public String getStringView() { return new String( PositiveIntegerToTreeBijection.this.viewString( "   ") ); }
 
     private StringBuilder viewString( String pad )
     {
@@ -266,10 +266,10 @@ public class PositiveIntegerToTreeBijection
     private static final int DELTA    = 2 * ( PAD + RADIUS );
     private static final int DIAMETER = 2 * RADIUS;
     
-    Image getImage()
+    Image getImageView()
     {
-        Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
-        int imageUpperLeftCornerX = ( NUM_PIXELS - imageViewWidth() ) / 2;
+        Image image = new BufferedImage( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE, BufferedImage.TYPE_INT_ARGB );
+        int imageUpperLeftCornerX = ( IMAGE_VIEWPORT_SIZE - imageViewWidth() ) / 2;
         int imageUpperLeftCornerY = PAD;
         viewGraphics( image.getGraphics(), imageUpperLeftCornerX, imageUpperLeftCornerY );
         return image;
