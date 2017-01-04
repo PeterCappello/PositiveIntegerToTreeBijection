@@ -23,14 +23,11 @@
  */
 package PositiveIntegerToTreeBijection;
 
-import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.PAD;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -111,11 +108,7 @@ public class Viewer extends JFrame
     private void update( int number )
     {
         tree = new PositiveIntegerToTreeBijection( number );
-        int imageUpperLeftCornerX = ( NUM_PIXELS - tree.imageViewWidth() ) / 2;
-        int imageUpperLeftCornerY = PAD;
-        Image image = new BufferedImage( NUM_PIXELS, NUM_PIXELS, BufferedImage.TYPE_INT_ARGB );
-        tree.viewGraphics( image.getGraphics(), imageUpperLeftCornerX, imageUpperLeftCornerY );
-        imageView.setImage( image );
+        imageView.setImage( tree.getImage() );
         imageView.repaint();
         stringView.setText( tree.viewString() );
     }
