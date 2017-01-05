@@ -45,7 +45,7 @@ public class PositiveIntegerToTreeBijection
     //
     // class attributes
     //___________________________
-    static private final int PRIMES_INITIAL_CAPACITY = 100;
+    static private final int PRIMES_INITIAL_CAPACITY = 30000;
 
     /**
      * List of first PRIMES_INITIAL_CAPACITY prime numbers

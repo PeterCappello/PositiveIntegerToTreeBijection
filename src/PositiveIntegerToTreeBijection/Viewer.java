@@ -56,14 +56,14 @@ public class Viewer extends JFrame
     private final JScrollPane imageViewScrollPane = new JScrollPane( imageView );
     private final JPanel numberPanel = new JPanel();
         private final JLabel numberLabel = new JLabel("Enter an integer & click the return key ", RIGHT);
-        private final JTextField numberTextField = new JTextField(20); 
-    private final JTextArea stringView = new JTextArea();
+        private final JTextField numberTextField = new JTextField(30); 
+    private final JTextArea stringView = new JTextArea( 30, 20 );
     private final JScrollPane stringViewScrollPane = new JScrollPane( stringView );
     private final JTextArea logView = new JTextArea( "1", 6, 50 );
     private final JScrollPane logViewScrollPane = new JScrollPane( logView );
 
     // model components
-    private int number = 399;
+    private int number = 1;
     private PositiveIntegerToTreeBijection tree = new PositiveIntegerToTreeBijection( number );
 
     public static void main(String[] args) 
@@ -85,7 +85,6 @@ public class Viewer extends JFrame
         final Container container = getContentPane();
         container.setLayout(new BorderLayout());
         container.add(numberPanel, BorderLayout.NORTH );
-//        container.add(imageView, BorderLayout.CENTER );
         container.add(imageViewScrollPane, BorderLayout.CENTER );
         container.add(stringViewScrollPane, BorderLayout.EAST );
         container.add(logViewScrollPane, BorderLayout.SOUTH );
@@ -98,7 +97,7 @@ public class Viewer extends JFrame
         setSize( dimension );
         setPreferredSize( dimension );        
         stringView.setEditable( false );
-        update( 399 );     
+        update( 111111111 );     
         setVisible(true);
 
         //  _______________________________________

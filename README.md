@@ -5,6 +5,8 @@ based on the following:
 
 [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
 
+The project currently enables the visualization of non-zero integers in [-2^(31) - 2, 2^(31) - 2].
+
 ## Running the project:
 
 1. Fork this project.
