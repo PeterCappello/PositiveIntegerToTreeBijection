@@ -7,8 +7,7 @@ based on the following:
 
 The project currently enables the tree visualization of non-zero integer _i_, where | _i_ | < 2<sup>31</sup> - 2.
 
-## Running the project:
+## Running the project
 
-1. Fork this project.
-2. From the project's root directory, run the command 
+From the project's root directory, run the command 
 <pre><code>java -jar dist/PositiveIntegerToTreeBijection.jar</code></pre> 
