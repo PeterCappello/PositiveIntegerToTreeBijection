@@ -23,6 +23,8 @@
  */
 package PositiveIntegerToTreeBijection;
 
+import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.primes;
+import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.ranks;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -49,18 +51,26 @@ import static javax.swing.SwingConstants.RIGHT;
 public class Viewer extends JFrame 
 {
     // graphical parameters
-    static final int IMAGE_VIEWPORT_SIZE = 500;
+    static final int IMAGE_VIEWPORT_SIZE = 800;
 
     // graphical components
     private final ImagePanel imageView = new ImagePanel();
     private final JScrollPane imageViewScrollPane = new JScrollPane( imageView );
     private final JPanel numberPanel = new JPanel();
         private final JLabel numberLabel = new JLabel("Enter an integer & click the return key ", RIGHT);
-        private final JTextField numberTextField = new JTextField(30); 
+        private final JTextField numberTextField = new JTextField( 30 ); 
     private final JTextArea stringView = new JTextArea( 30, 20 );
     private final JScrollPane stringViewScrollPane = new JScrollPane( stringView );
-    private final JTextArea logView = new JTextArea( "1", 6, 50 );
-    private final JScrollPane logViewScrollPane = new JScrollPane( logView );
+    private final JPanel extras = new JPanel();
+        private final JPanel primeAndRankPanel = new JPanel();
+            private final JLabel rankLabel = new JLabel("What is the prime with rank (enter a rank) ", RIGHT);
+            private final JTextField rankTextField = new JTextField( 30 );
+            private final JTextField primeOfRankTextField = new JTextField( 30 );
+            private final JLabel primeLabel = new JLabel("What is the rank of prime (enter a prime) ", RIGHT);
+            private final JTextField primeTextField = new JTextField( 30 );
+            private final JTextField rankOfPrimeTextField = new JTextField( 30 );
+        private final JTextArea logView = new JTextArea( "1", 6, 50 );
+        private final JScrollPane logViewScrollPane = new JScrollPane( logView );
 
     // model components
     private int number = 1;
@@ -76,22 +86,34 @@ public class Viewer extends JFrame
               .log(Level.INFO, "Initialization time: {0} ms.", (System.nanoTime() - startTime) / 1000000);
     }
 
-    final static String FRAME_TITLE = "Visualize map from Natural number to rooted tree";
+    final static String FRAME_TITLE = "Visualize map from Natural numbers to rooted, unoriented trees";
 
     private void initialize() 
     {
         setTitle(FRAME_TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final Container container = getContentPane();
-        container.setLayout(new BorderLayout());
+        container.setLayout( new BorderLayout() );
         container.add(numberPanel, BorderLayout.NORTH );
         container.add(imageViewScrollPane, BorderLayout.CENTER );
         container.add(stringViewScrollPane, BorderLayout.EAST );
-        container.add(logViewScrollPane, BorderLayout.SOUTH );
+        container.add(extras, BorderLayout.SOUTH );
+//        container.add(logViewScrollPane, BorderLayout.SOUTH );
 
-        numberPanel.setLayout( new GridLayout(1, 2) );
+        numberPanel.setLayout( new GridLayout( 1, 2) );
         numberPanel.add( numberLabel );
         numberPanel.add( numberTextField );
+        
+        extras.setLayout( new BorderLayout() );
+        extras.add( primeAndRankPanel, BorderLayout.CENTER );
+            primeAndRankPanel.setLayout( new GridLayout( 2, 3 ) );
+            primeAndRankPanel.add( rankLabel );
+            primeAndRankPanel.add( rankTextField );
+            primeAndRankPanel.add( primeOfRankTextField );
+            primeAndRankPanel.add( primeLabel );
+            primeAndRankPanel.add( primeTextField );
+            primeAndRankPanel.add( rankOfPrimeTextField );
+        extras.add( logViewScrollPane, BorderLayout.SOUTH );
 
         Dimension dimension = new Dimension( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE + this.getHeight() );
         setSize( dimension );
@@ -103,8 +125,14 @@ public class Viewer extends JFrame
         //  _______________________________________
         //  contoller TEMPLATE CODE for each action
         //  _______________________________________
-        // Enter positive integer
+        // Enter an integer
         numberTextField.addActionListener(this::numberTextFieldActionPerformed);
+        
+        // Enter an integer > 0
+        rankTextField.addActionListener(this::rankTextFieldActionPerformed);
+        
+        // Enter a prime
+        primeTextField.addActionListener(this::primeTextFieldActionPerformed);
     }
 
     private void update( int number )
@@ -122,15 +150,35 @@ public class Viewer extends JFrame
     //  _________________________
     private void numberTextFieldActionPerformed( ActionEvent unused ) 
     {
-        String numberText = numberTextField.getText();
+        number = getIntFromJTextField( numberTextField );
+        update( number );
+    }
+    
+    private void rankTextFieldActionPerformed( ActionEvent unused ) 
+    {
+        int rank = getIntFromJTextField( rankTextField );
+        // !! make more robust: enlarge primes as is done elsewhere
+        primeOfRankTextField.setText( primes.get( rank ).toString() );
+    }
+    
+    private void primeTextFieldActionPerformed( ActionEvent unused ) 
+    {
+        int prime = getIntFromJTextField( primeTextField );
+        // !! make more robust: enlarge primes as is done elsewhere
+        rankOfPrimeTextField.setText( ranks.get( prime ).toString() );
+    }
+    
+    private int getIntFromJTextField( JTextField jTextField )
+    {
+        String numberText = jTextField.getText();
         try 
         {
-            number = Integer.parseInt(numberText);
+            return Integer.parseInt( numberText );
         } 
-        catch ( NumberFormatException exception ) 
+        catch ( NumberFormatException unused ) 
         {
             JOptionPane.showMessageDialog( this, numberText + " is not an integer.", "Input error", ERROR_MESSAGE );
         }
-        update( number );
+        return 0; // unreachable code to satisfy compiler.
     }
 }
