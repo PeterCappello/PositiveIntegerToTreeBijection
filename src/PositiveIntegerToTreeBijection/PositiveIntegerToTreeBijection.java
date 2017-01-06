@@ -102,7 +102,7 @@ public class PositiveIntegerToTreeBijection
         return true;
     }
     
-    static private int prime( int rank )
+    static int prime( int rank )
     {
         if ( rank >= primes.size() - 1 )
         {
@@ -111,37 +111,46 @@ public class PositiveIntegerToTreeBijection
         return primes.get( rank );
     }
     
-    static private int rank( int prime )
+    static int rank( int prime ) throws IllegalArgumentException
     {
         if ( prime >= primes.get( primes.size() - 1 ) )
         {
             increaseRanksTo( prime );
         }
-        return ranks.get( prime );
+        Integer rank = ranks.get( prime );
+        if ( rank == null )
+        {
+            throw new IllegalArgumentException();
+        }
+        return rank;
     }
     
     static private void increasePrimesTo( int upperRank )
     { 
+        long startTime = System.nanoTime();
         int rank = primes.size();
         for ( int number = primes.get( rank - 1 ) + 2; rank <= upperRank; number += 2 )
         {
             rank = processPrimeCandidate( number, rank );
         }
         assert upperRank == primes.size() - 1;
+        long stopTime = System.nanoTime();
         Logger.getLogger( PositiveIntegerToTreeBijection.class.getCanonicalName() )
-              .log(Level.INFO, "Increased # of primes to {0}.", (primes.size() - 1 ) );
+              .log(Level.INFO, "Increased # of primes to {0} in {1} ms.", new Object[]{primes.size() - 1, (stopTime - startTime) / ( 1024 * 1024 )});
     }
     
     static private void increaseRanksTo( int upperPrime )
     {
+        long startTime = System.nanoTime();
         int rank = primes.size();
         for ( int number = primes.get( rank - 1 ) + 2; number <= upperPrime; number += 2 )
         {
             rank = processPrimeCandidate( number, rank );
         }
         assert upperPrime == primes.get( primes.size() - 1 );
+        long stopTime = System.nanoTime();
         Logger.getLogger( PositiveIntegerToTreeBijection.class.getCanonicalName() )
-              .log(Level.INFO, "Increased primes to {0}.", (primes.get( primes.size() - 1 ) ) );
+              .log(Level.INFO, "Increased primes to {0} in {1} ms.", new Object[]{primes.get( primes.size() - 1 ), (stopTime - startTime) / ( 1024 * 1024 )});
     }
     
     static private int processPrimeCandidate( int primeCandidate, int rank )

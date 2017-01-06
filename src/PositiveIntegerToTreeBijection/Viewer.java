@@ -23,8 +23,8 @@
  */
 package PositiveIntegerToTreeBijection;
 
-import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.primes;
-import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.ranks;
+import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.prime;
+import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.rank;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -98,7 +98,6 @@ public class Viewer extends JFrame
         container.add(imageViewScrollPane, BorderLayout.CENTER );
         container.add(stringViewScrollPane, BorderLayout.EAST );
         container.add(extras, BorderLayout.SOUTH );
-//        container.add(logViewScrollPane, BorderLayout.SOUTH );
 
         numberPanel.setLayout( new GridLayout( 1, 2) );
         numberPanel.add( numberLabel );
@@ -125,7 +124,7 @@ public class Viewer extends JFrame
         //  _______________________________________
         //  contoller TEMPLATE CODE for each action
         //  _______________________________________
-        // Enter an integer
+        // Enter a non-zero integer
         numberTextField.addActionListener(this::numberTextFieldActionPerformed);
         
         // Enter an integer > 0
@@ -150,25 +149,49 @@ public class Viewer extends JFrame
     //  _________________________
     private void numberTextFieldActionPerformed( ActionEvent unused ) 
     {
-        number = getIntFromJTextField( numberTextField );
-        update( number );
+        try
+        {
+            number = getIntFromJTextField( numberTextField );
+            update( number );
+        } 
+        catch ( IllegalArgumentException ex ) { return; }
     }
     
     private void rankTextFieldActionPerformed( ActionEvent unused ) 
     {
-        int rank = getIntFromJTextField( rankTextField );
-        // !! make more robust: enlarge primes as is done elsewhere
-        primeOfRankTextField.setText( primes.get( rank ).toString() );
+        try
+        {
+            int rank = getIntFromJTextField( rankTextField );
+            if ( rank > 0 )
+            {
+                primeOfRankTextField.setText( Integer.toString( prime( rank ) ) );
+            }
+            else
+            {
+                JOptionPane.showMessageDialog( this, rank + " is not positive; it must be > 0.", "Input error", ERROR_MESSAGE );
+            }
+        }
+        catch ( IllegalArgumentException ex ) { return; }
     }
     
     private void primeTextFieldActionPerformed( ActionEvent unused ) 
     {
-        int prime = getIntFromJTextField( primeTextField );
-        // !! make more robust: enlarge primes as is done elsewhere
-        rankOfPrimeTextField.setText( ranks.get( prime ).toString() );
+        try 
+        {
+            int prime = getIntFromJTextField( primeTextField );
+            try
+            {
+                rankOfPrimeTextField.setText( Integer.toString( rank( prime ) ) );
+            }
+            catch ( IllegalArgumentException ex ) 
+            { 
+                JOptionPane.showMessageDialog( this, prime + " is not a prime number.", "Input error", ERROR_MESSAGE );
+            }
+        }
+        catch ( IllegalArgumentException ex ) { return; }
     }
     
-    private int getIntFromJTextField( JTextField jTextField )
+    private int getIntFromJTextField( JTextField jTextField ) throws IllegalArgumentException
     {
         String numberText = jTextField.getText();
         try 
@@ -178,7 +201,7 @@ public class Viewer extends JFrame
         catch ( NumberFormatException unused ) 
         {
             JOptionPane.showMessageDialog( this, numberText + " is not an integer.", "Input error", ERROR_MESSAGE );
+            throw new IllegalArgumentException();
         }
-        return 0; // unreachable code to satisfy compiler.
     }
 }
