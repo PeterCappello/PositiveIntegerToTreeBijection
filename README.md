@@ -9,7 +9,7 @@ The project currently enables the tree visualization of non-zero integers
 whose largest prime factor < 16,000,000.
 
 It produces a map of the first n primes.
-When n > 1,000,000, the process takes a few seconds. 
+When n < 1,000,000, the process takes a few seconds. 
 It may take a couple of minutes to produce 16,000,000 primes.
 
 ## Running the project
