@@ -6,7 +6,7 @@ based on the following:
 [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
 
 The project currently enables the tree visualization of non-zero integers 
-whose largest prime factor < 16,000,000.
+whose largest prime factor is < 16,000,000.
 
 It produces a map of the first n primes.
 When n < 1,000,000, the process takes a few seconds. 
