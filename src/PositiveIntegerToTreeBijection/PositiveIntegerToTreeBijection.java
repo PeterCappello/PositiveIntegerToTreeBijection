@@ -45,7 +45,7 @@ public class PositiveIntegerToTreeBijection
     //
     // class attributes
     //___________________________
-    static private final int PRIMES_INITIAL_CAPACITY = 30000;
+    static private final int PRIMES_INITIAL_CAPACITY = 100000;
 
     /**
      * List of first PRIMES_INITIAL_CAPACITY prime numbers
@@ -85,16 +85,16 @@ public class PositiveIntegerToTreeBijection
     }
     
     /**
-     * Determines whether ODD integer possibleFactor is prime.
+     * Determines whether ODD integer number is prime.
      * @param number an ODD integer
-     * @return true if and only if possibleFactor is prime
+     * @return true if and only if number is prime
      */
     static public boolean isPrime( final int number )
     {
         final int maxFactor = (int) Math.sqrt( number );
-        for ( int rank = 1; primes.get( rank ) <= maxFactor; rank++ )
+        for ( int rank = 2, prime = 3; prime <= maxFactor; prime = primes.get( ++rank ) )
         {
-            if ( number % primes.get( rank ) == 0 )
+            if ( number % prime == 0 )
             {
                 return false;
             }
