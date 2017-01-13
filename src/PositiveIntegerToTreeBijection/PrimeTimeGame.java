@@ -30,6 +30,9 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -42,6 +45,11 @@ import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  *
@@ -93,6 +101,12 @@ public class PrimeTimeGame extends JFrame
     private PositiveIntegerToTreeBijection tree;
     private int level = 3;
     private int limit = 3;
+    
+    // media
+    	
+//    private final URL resource = getClass().getResource( "dun_dun.mp3" );
+//    private final Media startGameSound = new Media( "dun_dun.mp3" );
+//    private final MediaPlayer mediaPlayer = new MediaPlayer( startGameSound );
 
     public static void main(String[] args) 
     {
@@ -151,7 +165,7 @@ public class PrimeTimeGame extends JFrame
         setSize( dimension );
         setPreferredSize( dimension );        
         setVisible(true);
-
+ 
         //  _______________________________________
         //  contoller TEMPLATE CODE for each action
         //  _______________________________________
@@ -204,6 +218,21 @@ public class PrimeTimeGame extends JFrame
         imageView.repaint();
         imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( image ) ) );
         goButton.requestFocusInWindow();
+        
+        try
+        {
+            URL url = this.getClass().getClassLoader().getResource("sounds/dun_dun.wav");
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            Clip clip = AudioSystem.getClip();
+            // Open audio clip and load samples from the audio input stream.
+            clip.open( audioIn );
+            clip.start();
+        }
+        catch( IOException | LineUnavailableException | UnsupportedAudioFileException ex )
+        {
+            ex.printStackTrace();
+        }
+//        mediaPlayer.play();
     }
     
     private void goButtonActionPerformed( ActionEvent unused ) 
