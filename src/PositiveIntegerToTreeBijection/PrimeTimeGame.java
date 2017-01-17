@@ -65,7 +65,9 @@ public class PrimeTimeGame extends JFrame
     private final JPanel controlPanel = new JPanel();
     
     private final JLabel levelLabel = new JLabel( "  Level" );
-    private final String[] levelArray = { "1: 1 - 2", "2: 1 - 4", "3: 1 - 8", "4: 1 - 16" };
+    private final String[] levelArray = { "1: 1 - 2", "2: 1 - 4", "3: 1 - 8", 
+        "4: 1 - 16", "5: 1 - 32", "6: 1 - 64", "7: 1 - 128", "8: 1 - 256",
+        "9: 1 - 512", "10: 1 - 1024"};
     private final JComboBox<String> levelComboBox = new JComboBox<>( levelArray );
     
     private final JLabel typeLabel = new JLabel( "  Type" );
@@ -103,12 +105,14 @@ public class PrimeTimeGame extends JFrame
     private int limit = 3;
     
     // media
+    private URL url;
+    private URL dingSoundUrl;
     	
 //    private final URL resource = getClass().getResource( "dun_dun.mp3" );
 //    private final Media startGameSound = new Media( "dun_dun.mp3" );
 //    private final MediaPlayer mediaPlayer = new MediaPlayer( startGameSound );
 
-    public static void main(String[] args) 
+    public static void main(String[] args) throws UnsupportedAudioFileException, IOException 
     {
         long startTime = System.nanoTime();
         PositiveIntegerToTreeBijection.initialize();
@@ -120,7 +124,7 @@ public class PrimeTimeGame extends JFrame
 
     final static String FRAME_TITLE = "Prime Tme!";
 
-    private void initialize() 
+    private void initialize() throws UnsupportedAudioFileException, IOException 
     {
         setTitle( FRAME_TITLE );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -174,6 +178,11 @@ public class PrimeTimeGame extends JFrame
         goButton.addActionListener( this::goButtonActionPerformed );        
         yourAnswerTextField.addActionListener( this::yourAnswerTextFieldActionPerformed );
         levelComboBox.addActionListener( this::levelComboBoxActionPerformed) ;
+        
+        // Audio
+        url = this.getClass().getClassLoader().getResource("sounds/dun_dun.wav");
+        dingSoundUrl = this.getClass().getClassLoader().getResource("sounds/196106__aiwha__ding.wav");
+
     }
 
     private void displayAsTree( int number )
@@ -219,20 +228,19 @@ public class PrimeTimeGame extends JFrame
         imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( image ) ) );
         goButton.requestFocusInWindow();
         
+        // conversion from mp3 to wav: http://audio.online-convert.com/convert-to-wav
         try
         {
-            URL url = this.getClass().getClassLoader().getResource("sounds/dun_dun.wav");
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(url);
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream( url );
             Clip clip = AudioSystem.getClip();
-            // Open audio clip and load samples from the audio input stream.
             clip.open( audioIn );
             clip.start();
         }
         catch( IOException | LineUnavailableException | UnsupportedAudioFileException ex )
         {
+            // !! log not print.
             ex.printStackTrace();
         }
-//        mediaPlayer.play();
     }
     
     private void goButtonActionPerformed( ActionEvent unused ) 
@@ -243,6 +251,18 @@ public class PrimeTimeGame extends JFrame
         yourAnswerTextField.setText( "" );
         correctAnswerTextField.setText( "" );
         yourAnswerTextField.requestFocusInWindow();
+        try
+        {
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream( dingSoundUrl );
+            Clip clip = AudioSystem.getClip();
+            clip.open( audioIn );
+            clip.start();
+        }
+        catch( IOException | LineUnavailableException | UnsupportedAudioFileException ex )
+        {
+            // !! log not print.
+            ex.printStackTrace();
+        }
     }
     
     private void yourAnswerTextFieldActionPerformed( ActionEvent unused ) 
