@@ -16,7 +16,7 @@ where:
 * A map is injective when distinct elements in the domain (set A) map to distinct
 elements in the codomain (set B).
 
-* A map is surjective when every element in the codomain is mapped to by
+* A map is surjective when every element in the codomain is the image of
 some element in the domain.
 
 The bijection associated with this project is between the set of positive integers
@@ -28,6 +28,11 @@ and the set of finite, rooted, unoriented trees, where:
 * A tree is _rooted_ when one of its vertices has been designated as the root.
 
 * A tree is _unoriented_ when its edges are unoriented (aka undirected).
+
+The bijection makes use of the concept of a prime number.
+From [Wikipedia](https://en.wikipedia.org/wiki/Prime_number), 
+A prime number (or a prime) is a natural number greater than 1 that has no 
+positive divisors other than 1 and itself. 
 
 ## The project
 The project currently enables the tree visualization of non-zero integers 
