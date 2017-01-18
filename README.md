@@ -1,16 +1,41 @@
 # PositiveIntegerToTreeBijection
 
-The goal for this project is to provide a visual representation of non-zero integers as rooted, unoriented, finite trees 
-based on the following:
+Goal: Provide a visual representation of non-zero integers as rooted, unoriented, finite trees 
+based a bijection described in:
 
 [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
 
+## The bijection
+
+Before defining the bijection, we define some basic terms below.
+
+A bijection is a 1-to-1 correspondence between 2 sets:
+It is a map from a set A to a set B that is injective and surjective, 
+where:
+
+* A map is injective when distinct elements in the domain (set A) map to distinct
+elements in the codomain (set B).
+
+* A map is surjective when every element in the codomain is mapped to by
+some element in the domain.
+
+The bijection associated with this project is between the set of positive integers
+{ 1, 2, 3, ... } 
+and the set of finite, rooted, unoriented trees, where:
+
+* A tree is a graph with no cycles. 
+
+* A tree is _rooted_ when one of its vertices has been designated as the root.
+
+* A tree is _unoriented_ when its edges are unoriented (aka undirected).
+
+## The project
 The project currently enables the tree visualization of non-zero integers 
-whose largest prime factor is < 16,000,000.
+whose largest prime factor is < 10,000,000.
 
 It produces a map of the first n primes.
 When n < 1,000,000, the process takes a few seconds. 
-It may take a couple of minutes to produce 16,000,000 primes.
+It may take a couple of minutes to produce 10,000,000 primes.
 
 ## Running the project
 
