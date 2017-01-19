@@ -1,13 +1,13 @@
 # PositiveIntegerToTreeBijection
 
 Goal: Provide a visual representation of non-zero integers as rooted, unoriented, finite trees 
-based a bijection described in:
+based on a bijection described in:
 
 [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
 
 ## The bijection
 
-Before defining the bijection, we define some basic terms below.
+Before defining the bijection, we define some basic terms.
 
 A bijection is a 1-to-1 correspondence between 2 sets:
 It is a map from a set A to a set B that is injective and surjective, 

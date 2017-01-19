@@ -105,7 +105,7 @@ public class PrimeTimeGame extends JFrame
     private int limit = 3;
     
     // media
-    private URL url;
+    private URL dundunUrl;
     private URL dingSoundUrl;
     	
 //    private final URL resource = getClass().getResource( "dun_dun.mp3" );
@@ -180,7 +180,7 @@ public class PrimeTimeGame extends JFrame
         levelComboBox.addActionListener( this::levelComboBoxActionPerformed) ;
         
         // Audio
-        url = this.getClass().getClassLoader().getResource("sounds/dun_dun.wav");
+        dundunUrl = this.getClass().getClassLoader().getResource("sounds/dun_dun.wav");
         dingSoundUrl = this.getClass().getClassLoader().getResource("sounds/196106__aiwha__ding.wav");
 
     }
@@ -231,7 +231,7 @@ public class PrimeTimeGame extends JFrame
         // conversion from mp3 to wav: http://audio.online-convert.com/convert-to-wav
         try
         {
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream( url );
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(dundunUrl );
             Clip clip = AudioSystem.getClip();
             clip.open( audioIn );
             clip.start();
