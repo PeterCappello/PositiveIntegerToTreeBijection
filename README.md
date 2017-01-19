@@ -34,6 +34,12 @@ From [Wikipedia](https://en.wikipedia.org/wiki/Prime_number),
 A prime number (or a prime) is a natural number greater than 1 that has no 
 positive divisors other than 1 and itself. 
 
+There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
+
+The bijection defines a total ordering on this set of trees.
+However, there is a lattice based on containment of the multiset of prime factors.
+It might be interesting to look at it for [1, _n_], for some fixed values of _n_.
+
 ## The project
 The project currently enables the tree visualization of non-zero integers 
 whose largest prime factor is < 10,000,000.

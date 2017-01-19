@@ -49,6 +49,23 @@ public class Body
         color = Color.BLACK;
         parent = null;
     }
+    
+    /**
+     * Recursively define Body
+     * @param tree 
+     */
+//    Body( PositiveIntegerToTreeBijection tree )
+//    {
+//        // leaf?
+//        if ( tree.factorTrees().isEmpty() )
+//        {
+//            diameter = 1;
+//        }
+//        else
+//        {
+//            // mass to be added
+//        }
+//    }
 
     /**
      * Add a satellite to the List of satellites for this Body.
@@ -56,6 +73,20 @@ public class Body
      */
     void addSatellite( Body parent ) { satelliteList.add( parent ); }
 
+    /*
+     * See http://homepages.wmich.edu/~korista/Newton-Kepler.html
+     * p^2 = 4pi2a^3/ G(M1 + M2), where p is period, a is acceleration,
+     * G units are k^3 / ( m s^2 )
+     *
+     * For now, compute in a non-physical way based on statically defined values 
+     * for physical attributes, recursively defined in constructor.
+    */
+    void moveBodies() 
+    {
+        // orbitPosition
+        // x, y
+    }
+    
     void move() 
     {
         // move this Body
@@ -64,8 +95,8 @@ public class Body
         {
             orbitPosition -= 2 * Math.PI;
         }
-        x = parent.x  + parent.diameter/2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
-        y = parent.y  + parent.diameter/2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
+        x = parent.x + parent.diameter/2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
+        y = parent.y + parent.diameter/2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
         
         // move my sateillites
         satelliteList.forEach( Body::move );

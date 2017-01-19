@@ -30,7 +30,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -58,7 +57,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class PrimeTimeGame extends JFrame
 {
     // graphical parameters
-    static final int IMAGE_VIEWPORT_SIZE = 800;
+    static final int IMAGE_VIEWPORT_SIZE = 1000;
 
     // graphical components
     private final ImagePanel imageView = new ImagePanel();
@@ -101,25 +100,21 @@ public class PrimeTimeGame extends JFrame
     private Game game;
     private int number;
     private PositiveIntegerToTreeBijection tree;
-    private int level = 3;
+    private int level = 4;
     private int limit = 3;
     
     // media
     private URL dundunUrl;
     private URL dingSoundUrl;
-    	
-//    private final URL resource = getClass().getResource( "dun_dun.mp3" );
-//    private final Media startGameSound = new Media( "dun_dun.mp3" );
-//    private final MediaPlayer mediaPlayer = new MediaPlayer( startGameSound );
 
-    public static void main(String[] args) throws UnsupportedAudioFileException, IOException 
+    public static void main( String[] args ) throws UnsupportedAudioFileException, IOException 
     {
         long startTime = System.nanoTime();
         PositiveIntegerToTreeBijection.initialize();
         PrimeTimeGame primeTimeGame = new PrimeTimeGame();
         primeTimeGame.initialize();
         Logger.getLogger( primeTimeGame.getClass().getCanonicalName() )
-              .log(Level.INFO, "Initialization time: {0} ms.", (System.nanoTime() - startTime) / 1000000);
+              .log(Level.INFO, "Initialization time: {0} ms.", ( System.nanoTime() - startTime ) / 1000000 );
     }
 
     final static String FRAME_TITLE = "Prime Tme!";
