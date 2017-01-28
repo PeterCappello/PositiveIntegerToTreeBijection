@@ -23,10 +23,13 @@
  */
 package PositiveIntegerToTreeBijection;
 
+import static PositiveIntegerToTreeBijection.Body.SHOW_ORBIT;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -46,6 +49,9 @@ public class PositiveIntegerToTreeBijection
     // class attributes
     //___________________________
     static private final int PRIMES_INITIAL_CAPACITY = 1 << 20;
+    static private final double ONE_THIRD = 1.0 / 3.0;
+    static private final double FRAME_RATE = 16;
+    static private final double BASE_ANGLE = 1.0 / FRAME_RATE;
 
     /**
      * List of first PRIMES_INITIAL_CAPACITY prime numbers
@@ -174,12 +180,27 @@ public class PositiveIntegerToTreeBijection
     private int height;
     private int width;
     
-    PositiveIntegerToTreeBijection( PositiveIntegerToTreeBijection positiveIntegerTree )
-    {
-        this.isPositive      = positiveIntegerTree.isPositive;
-        this.positiveInteger = positiveIntegerTree.positiveInteger;
-        this.factorTrees     = positiveIntegerTree.factorTrees;
-    }
+    //___________________________
+    //
+    // planet attributes
+    //___________________________
+    private final int diameter;       // diameter of this body
+    private final int orbitRadius; // radius of its orbit
+    private final double stepSize;    // amount of radians incremented per time step
+    private       Color color = Color.BLUE; // of body
+//    private       Body parent = null;        // this orbits around parent
+    private       int x, y;                 // location of this body
+    private       double orbitPosition;     // orbit angular position in radians
+    
+//    PositiveIntegerToTreeBijection( PositiveIntegerToTreeBijection positiveIntegerTree )
+//    {
+//        this.isPositive      = positiveIntegerTree.isPositive;
+//        this.positiveInteger = positiveIntegerTree.positiveInteger;
+//        this.factorTrees     = positiveIntegerTree.factorTrees;
+//        
+//        // planet attributes
+//        this.diameter = positiveIntegerTree.diameter;
+//    }
     
     /**
      * Construct the tree that corresponds to a particular natural possibleFactor.
@@ -195,6 +216,13 @@ public class PositiveIntegerToTreeBijection
             factorTrees = cachedTree.factorTrees;
             height      = cachedTree.height;
             width       = cachedTree.width;
+            
+            // planet attributes
+            diameter = cachedTree.diameter;
+            orbitRadius = cachedTree.orbitRadius; // radius of its orbit
+            stepSize = cachedTree.stepSize;    // amount of radians incremented per time step
+            color = Color.BLUE; // of body
+            orbitPosition = cachedTree.orbitPosition;
             return;
         }
         
@@ -220,6 +248,22 @@ public class PositiveIntegerToTreeBijection
         width = ( 1 < width ) ? width : 1;
         height++;
       
+        // planet attributes
+        diameter = (int) Math.pow( positiveInteger, ONE_THIRD );
+        stepSize = ( factorTrees.isEmpty() ) ? BASE_ANGLE : factorTrees.get( 0 ).stepSize / 2.0;    // amount of radians incremented per time step
+        color = Color.BLUE; // of body
+//        parent = cachedTree.parent; 
+        int maxSatelliteOrbitRadius = factorTrees.stream().map( tree -> tree.orbitRadius).max( ( radius1, radius2 ) -> radius2 - radius1 ).get(); 
+        orbitRadius = diameter + 2 + 4 * maxSatelliteOrbitRadius; 
+        x = cachedTree.x;
+        y = cachedTree.y;                 // location of this body
+        orbitPosition = cachedTree.orbitPosition;
+        int nFactors = factorTrees.size();
+        for ( int i = 0; i < nFactors; i++ )
+        {
+            factorTrees.get( i ).orbitPosition = 2.0 * Math.PI * ( ( double ) i ) / nFactors;
+        }
+        
         // cache tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
     }
@@ -280,6 +324,13 @@ public class PositiveIntegerToTreeBijection
         viewGraphics( image.getGraphics(), PAD, PAD );
         return image;
     }
+    
+    Image getPlanetsView()
+    {
+        Image image = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
+        viewPlanets( image.getGraphics(), PAD, PAD );
+        return image;
+    }
 
     /**
      *
@@ -319,6 +370,42 @@ public class PositiveIntegerToTreeBijection
 
     /**
      *
+     * @param graphics of image on which tree is rendered
+     * @param x col of upper left corner of rectangle containing tree
+     * @param y row of upper left corner of rectangle containing tree
+     */
+    public void viewPlanets( Graphics graphics, int x, int y )
+    {
+        graphics.setColor( Color.BLACK );
+                       
+        // coordinates of center of root
+        int rootX = x + rootX();
+        int rootY = y + rootY();
+        
+        graphics.setColor( Color.BLACK );
+           
+        // set 1st possibleFactor tree's upperleft corner coordinates 
+        int factorTreeX = x;
+        int factorTreeY = y + DELTA;
+        
+        for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
+        {
+            // draw edge from this root to possibleFactor tree's root
+            graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
+            
+            // draw possibleFactor tree
+            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY );
+            
+            // set next possibleFactor tree's upperleft corner's x coordinate
+            factorTreeX += DELTA * factorTree.width; 
+        }
+        
+        // draw root
+        drawDisk( graphics, rootX, rootY );
+    }
+    
+    /**
+     *
      * @return width in pixels of rectangle enclosing image of tree
      */
     public int imageViewWidth() { return ( width() + 1 ) * DELTA; }
@@ -343,6 +430,44 @@ public class PositiveIntegerToTreeBijection
     int rootX() { return width * DELTA / 2 - RADIUS; }
     
     int rootY() { return PAD + RADIUS; }
+    
+    //_______________________________
+    //
+    // planetary motion methods
+    //_______________________________
+    void move( PositiveIntegerToTreeBijection parent ) 
+    {
+        // move this Body
+        orbitPosition += stepSize;
+        if ( orbitPosition > 2 * Math.PI )
+        {
+            orbitPosition -= 2 * Math.PI;
+        }
+        x = parent.x + parent.diameter/2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
+        y = parent.y + parent.diameter/2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
+        
+        // move my sateillites
+        factorTrees.forEach( satellite -> satellite.move( this ) );
+    }
+    
+    public void draw( PositiveIntegerToTreeBijection parent, Graphics graphics )
+     {
+         // draw this
+         if ( SHOW_ORBIT ) 
+         {
+             graphics.setColor( Color.WHITE );
+             graphics.drawOval( parent.x - (int) orbitRadius + parent.diameter/2,
+                                parent.y - (int) orbitRadius + parent.diameter/2,
+                                2 * (int) orbitRadius,
+                                2 * (int) orbitRadius
+                              );
+         }
+         graphics.setColor( color );
+         graphics.fillOval( x, y, diameter, diameter );
+         
+        // draw my satellites
+        factorTrees.forEach( satellite -> satellite.draw( this, graphics ) );
+     }
     
     //_____________ Methods For Unit Testing ______________________
     public List<PositiveIntegerToTreeBijection> getFfactorTrees() { return factorTrees; } 

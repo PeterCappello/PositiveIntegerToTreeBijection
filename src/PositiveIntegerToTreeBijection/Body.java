@@ -25,7 +25,7 @@ public class Body
     private final Body parent;        // this orbits around parent
     private final List<Body> satelliteList;
     private int x, y;                 // location of this body
-    private double orbitPosition;     // orbit position in radians
+    private double orbitPosition;     // orbit angular position in radians
 
     Body( Body parent, int diameter, double orbitRadius, double stepSize, Color color ) 
     {     
@@ -49,43 +49,12 @@ public class Body
         color = Color.BLACK;
         parent = null;
     }
-    
-    /**
-     * Recursively define Body
-     * @param tree 
-     */
-//    Body( PositiveIntegerToTreeBijection tree )
-//    {
-//        // leaf?
-//        if ( tree.factorTrees().isEmpty() )
-//        {
-//            diameter = 1;
-//        }
-//        else
-//        {
-//            // mass to be added
-//        }
-//    }
 
     /**
      * Add a satellite to the List of satellites for this Body.
      * @param parent 
      */
     void addSatellite( Body parent ) { satelliteList.add( parent ); }
-
-    /*
-     * See http://homepages.wmich.edu/~korista/Newton-Kepler.html
-     * p^2 = 4pi2a^3/ G(M1 + M2), where p is period, a is acceleration,
-     * G units are k^3 / ( m s^2 )
-     *
-     * For now, compute in a non-physical way based on statically defined values 
-     * for physical attributes, recursively defined in constructor.
-    */
-    void moveBodies() 
-    {
-        // orbitPosition
-        // x, y
-    }
     
     void move() 
     {

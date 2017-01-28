@@ -205,6 +205,16 @@ public class PrimeTimeGame extends JFrame
         
         imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getImageView() ) ) );
     }
+    
+    private void displayAsPlanets( int number )
+    {
+        tree = new PositiveIntegerToTreeBijection( number );
+        imageView.setImage( tree.getPlanetsView() );
+        imageView.repaint();
+//        stringView.setText( tree.getStringView() );
+        
+        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getImageView() ) ) );
+    }
 
     //  _________________________
     //  contoller for each action
@@ -262,7 +272,8 @@ public class PrimeTimeGame extends JFrame
     private void goButtonActionPerformed( ActionEvent unused ) 
     {
         number = game.next();
-        displayAsTree( number );
+//        displayAsTree( number );
+        displayAsPlanets( number );
         roundTextField.setText( String.valueOf( game.round() ) );
         yourAnswerTextField.setText( "" );
         correctAnswerTextField.setText( "" );
