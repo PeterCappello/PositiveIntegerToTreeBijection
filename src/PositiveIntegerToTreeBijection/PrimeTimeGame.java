@@ -56,6 +56,11 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class PrimeTimeGame extends JFrame
 {
+    // constants
+    static final int TREE = 0;
+    static final int PLANETS = 1;
+    static final ViewAs[] VIEWS = { ViewAs.TREE, ViewAs.PLANETS };
+    
     // graphical parameters
     static final int IMAGE_VIEWPORT_SIZE = 1000;
 
@@ -75,6 +80,10 @@ public class PrimeTimeGame extends JFrame
     
     private final JLabel limitLabel = new JLabel( "  Limit" );
     private final JTextField limitTextField = new JTextField( "  3", 10 );
+    
+    private final JLabel viewAsLabel = new JLabel( "  View as" );
+    private final String[] viewAsArray = { "a tree", "an n-body system" };
+    private final JComboBox<String> viewAsComboBox = new JComboBox<>( viewAsArray );
     
     private final JButton newGameButton = new JButton( "New game" );
     private final JButton goButton = new JButton( "GO!" );
@@ -102,10 +111,14 @@ public class PrimeTimeGame extends JFrame
     private PositiveIntegerToTreeBijection tree;
     private int level = 4;
     private int limit = 3;
+    private ViewAs viewAs = ViewAs.TREE;
     
     // media
     private URL dundunUrl;
     private URL dingSoundUrl;
+    
+    // animation
+    private final Animation animation = new Animation();
 
     public static void main( String[] args ) throws UnsupportedAudioFileException, IOException 
     {
@@ -128,7 +141,7 @@ public class PrimeTimeGame extends JFrame
         
         container.add( imageViewScrollPane, BorderLayout.CENTER );
         container.add( controlPanel, BorderLayout.NORTH );
-            controlPanel.setLayout( new GridLayout( 8, 2) );
+            controlPanel.setLayout( new GridLayout( 9, 2) );
             controlPanel.add( levelLabel );
             controlPanel.add( levelComboBox );
                 levelComboBox.setSelectedIndex( 2 );
@@ -142,6 +155,9 @@ public class PrimeTimeGame extends JFrame
             
             controlPanel.add( limitLabel );
             controlPanel.add( limitTextField );
+            
+            controlPanel.add( viewAsLabel );
+            controlPanel.add( viewAsComboBox );
             
             controlPanel.add( newGameButton );
             controlPanel.add( goButton );
@@ -166,18 +182,18 @@ public class PrimeTimeGame extends JFrame
         setVisible(true);
  
         //  _______________________________________
-        //  contoller TEMPLATE CODE for each action
+        //  add ActionListener for each action
         //  _______________________________________
         limitTextField.addActionListener( this::limitTextFieldActionPerformed );
         newGameButton.addActionListener( this::newGameButtonActionPerformed );
         goButton.addActionListener( this::goButtonActionPerformed );        
         yourAnswerTextField.addActionListener( this::yourAnswerTextFieldActionPerformed );
         levelComboBox.addActionListener( this::levelComboBoxActionPerformed) ;
+        viewAsComboBox.addActionListener( this::viewAsComboBoxActionPerformed) ;
         
         // Audio
         dundunUrl = this.getClass().getClassLoader().getResource("sounds/dun_dun.wav");
         dingSoundUrl = this.getClass().getClassLoader().getResource("sounds/196106__aiwha__ding.wav");
-
     }
 
     private void displayAsTree( int number )
@@ -206,6 +222,11 @@ public class PrimeTimeGame extends JFrame
             limit = getIntFromJTextField( limitTextField );
         }
         catch ( IllegalArgumentException ex ) {}
+    }
+    
+    private void viewAsComboBoxActionPerformed( ActionEvent unused ) 
+    {
+        viewAs = VIEWS[ viewAsComboBox.getSelectedIndex() ];
     }
     
     private void newGameButtonActionPerformed( ActionEvent unused ) 
