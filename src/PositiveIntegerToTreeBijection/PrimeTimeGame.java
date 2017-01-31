@@ -251,8 +251,8 @@ public class PrimeTimeGame extends JFrame
     private void goButtonActionPerformed( ActionEvent unused ) 
     {
         number = game.next();
-//        displayAsTree( number );
-        displayAsPlanets( number );
+        displayAsTree( number );
+//        displayAsPlanets( number );
         roundTextField.setText( String.valueOf( game.round() ) );
         yourAnswerTextField.setText( "" );
         correctAnswerTextField.setText( "" );

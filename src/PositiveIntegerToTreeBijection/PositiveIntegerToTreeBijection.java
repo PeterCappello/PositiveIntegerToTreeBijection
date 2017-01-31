@@ -253,7 +253,10 @@ public class PositiveIntegerToTreeBijection
         stepSize = ( factorTrees.isEmpty() ) ? BASE_ANGLE : factorTrees.get( 0 ).stepSize / 2.0;    // amount of radians incremented per time step
         color = Color.BLUE; // of body
 //        parent = cachedTree.parent; 
-        int maxSatelliteOrbitRadius = factorTrees.stream().map( tree -> tree.orbitRadius).max( ( radius1, radius2 ) -> radius2 - radius1 ).get(); 
+//System.out.println( "number: " + positiveInteger );
+        int maxSatelliteOrbitRadius = ( factorTrees.isEmpty() ) 
+                ? 0 
+                : factorTrees.stream().map( tree -> tree.orbitRadius).max( ( radius1, radius2 ) -> radius2 - radius1 ).get(); 
         orbitRadius = diameter + 2 + 4 * maxSatelliteOrbitRadius; 
         x = cachedTree.x;
         y = cachedTree.y;                 // location of this body
