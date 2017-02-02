@@ -177,7 +177,7 @@ public final class Tree
     private final int positiveInteger;
     private List<Tree> factorTrees = new LinkedList<>();
     private int height = 1;
-    private int width;
+    private int width = 1;
     
     //___________________________
     //
@@ -281,7 +281,6 @@ public final class Tree
         //___________________
         if ( positiveInteger == 1 )
         {
-            width = 1;
             return;
         }
         
@@ -301,15 +300,18 @@ public final class Tree
         // !! Re: planet view, see issue w/ caching below.
         factorTrees = primeFactorRanks( positiveInteger )
                 .stream()
-                .map( rankOfPrime -> 
-                { 
-                    Tree tree = new Tree( rankOfPrime );
-                    height = ( height < tree.height ) ? tree.height : height;
-                    width += tree.width;
-                    return tree; 
-                } )
+                .map( rankOfPrime -> { return new Tree( rankOfPrime ); } )
                 .collect( Collectors.toList() );
-        height++; // add 1 for tree's root
+        height = 1 + factorTrees
+                .stream()
+                .mapToInt( Tree::height )
+                .max()
+                .getAsInt();
+        width = factorTrees
+                .stream()
+                .mapToInt( Tree::width )
+                .sum();
+        
     
         // cache tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
@@ -337,6 +339,8 @@ public final class Tree
         }
         return primeFactorRanks;
     }
+    
+    private int height() { return height; }
     
 //    private void makeTree( int rank )
 //    {
@@ -541,8 +545,6 @@ public final class Tree
     
     //_____________ Methods For Unit Testing ______________________
     public List<Tree> getFfactorTrees() { return factorTrees; } 
-    
-    int height() { return height; }
-    
+        
     int width() { return width; }
 }
