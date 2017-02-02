@@ -298,11 +298,10 @@ public final class Tree
         //
         // recursive case
         //___________________        
-        /* !! Re: planet view, see issue w/ caching below.
-        */                
+        // !! Re: planet view, see issue w/ caching below.
         factorTrees = primeFactorRanks( positiveInteger )
                 .stream()
-                .map(rankOfPrime -> 
+                .map( rankOfPrime -> 
                 { 
                     Tree tree = new Tree( rankOfPrime );
                     height = ( height < tree.height ) ? tree.height : height;
@@ -310,17 +309,14 @@ public final class Tree
                     return tree; 
                 } )
                 .collect( Collectors.toList() );
-        height++;
+        height++; // add 1 for tree's root
     
         // cache tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
     }
-    /**
-     * ?? Can I functionalize this ??
-     * @param n
-     * @return 
-     */
-    List<Integer> primeFactorRanks( int n )
+    
+    // !! Make recursive !!
+    private List<Integer> primeFactorRanks( int n )
     {
         List<Integer> primeFactorRanks = new LinkedList<>();
         int possibleFactorRank = 1;
