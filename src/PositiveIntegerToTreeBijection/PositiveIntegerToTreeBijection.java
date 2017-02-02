@@ -308,9 +308,9 @@ public final class PositiveIntegerToTreeBijection
         height += ( factorTrees.isEmpty() ) 
                 ? 0 
                 : factorTrees.stream()
-                        .map( tree -> tree.height )
-                        .max( ( h1, h2 ) -> h2 - h1 )
-                        .get();
+                        .mapToInt( tree -> tree.height )
+                        .max()
+                        .getAsInt();
         width += ( factorTrees.isEmpty() ) 
                 ? 1 
                 : factorTrees.stream()
