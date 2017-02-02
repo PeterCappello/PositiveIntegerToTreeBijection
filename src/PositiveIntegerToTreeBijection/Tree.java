@@ -28,6 +28,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,7 +36,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
-import static java.util.stream.Collectors.toCollection;
 
 /**
  * Recursively maps a natural possibleFactor to a rooted, un-oriented tree.
@@ -62,7 +62,7 @@ public final class Tree
     static public Map<Integer, Integer> ranks = new HashMap<>( PRIMES_INITIAL_CAPACITY );
     
     // cache of PositiveIntegerTree objects
-    static private Map<Integer, Tree> integerToPositiveIntegerTreeMap = new HashMap<>();
+    private static final Map<Integer, Tree> integerToPositiveIntegerTreeMap = new HashMap<>();
     
     static void initialize()
     {
@@ -171,13 +171,13 @@ public final class Tree
     
     //___________________________
     //
-    // object attributes
+    // immutable object attributes
     //___________________________
     private final boolean isPositive;
     private final int positiveInteger;
-    private List<Tree> factorTrees = new LinkedList<>();
-    private int height = 1;
-    private int width = 1;
+    private final List<Tree> factorTrees;
+    private final int height;
+    private final int width;
     
     //___________________________
     //
@@ -225,7 +225,7 @@ public final class Tree
 //            return;
 //        }
 //        
-//        // for each factor, make its factor tree
+//        // for each primeFactor, make its primeFactor tree
 //        int possibleFactorRank = 1;
 //        int number = positiveInteger;
 //        int maxFactor = (int) Math.sqrt( number );
@@ -281,15 +281,17 @@ public final class Tree
         //___________________
         if ( positiveInteger == 1 )
         {
+            height = width = 1;
+            factorTrees = new LinkedList<>();
             return;
         }
         
         Tree cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
         if ( cachedTree != null )
-        {
-            factorTrees = cachedTree.factorTrees;
+        {         
             height      = cachedTree.height;
             width       = cachedTree.width;
+            factorTrees = cachedTree.factorTrees;
             return;
         }
         
@@ -298,7 +300,7 @@ public final class Tree
         // recursive case
         //___________________        
         // !! Re: planet view, see issue w/ caching below.
-        factorTrees = primeFactorRanks( positiveInteger )
+        factorTrees = primeFactorRanks( positiveInteger, 1, (int) Math.sqrt( positiveInteger ), new LinkedList<>() )
                 .stream()
                 .map( rankOfPrime -> { return new Tree( rankOfPrime ); } )
                 .collect( Collectors.toList() );
@@ -312,34 +314,31 @@ public final class Tree
                 .mapToInt( Tree::width )
                 .sum();
         
-    
-        // cache tree
+        // cache this tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
     }
     
-    // !! Make recursive !!
-    private List<Integer> primeFactorRanks( int n )
+    private List<Integer> primeFactorRanks( int n, int rank, int limit, List<Integer> factorList )
     {
-        List<Integer> primeFactorRanks = new LinkedList<>();
-        int possibleFactorRank = 1;
-        int number = n;
-        int maxFactor = (int) Math.sqrt( number );
-        for (int possibleFactor = prime(possibleFactorRank); possibleFactor <= maxFactor; possibleFactor = prime(++possibleFactorRank) )
+        if ( n == 1 ) 
         {
-            for ( ; number % possibleFactor == 0; number /= possibleFactor )
-            {
-                primeFactorRanks.add( possibleFactorRank );
-            }
-            maxFactor = (int) Math.sqrt( number );
+            return factorList;
         }
-        // Is number prime and > sqrt maxFactor? (e.g., for 6 = 2 * 3, 3 > sqrt( 6 / 2 ) )
-        if ( number > 1 )
+        int primeFactor = prime( rank );
+        if ( primeFactor > limit ) 
         {
-            primeFactorRanks.add( rank( number ) );
+            factorList.add( rank( n ) );
+            return factorList;
         }
-        return primeFactorRanks;
+        if ( n % primeFactor == 0 )
+        {
+            int newN = n / primeFactor;
+            factorList.add( rank );
+            return primeFactorRanks( newN, rank, (int) Math.sqrt( newN ), factorList );
+        }
+        return primeFactorRanks( n, ++rank, limit, factorList );
     }
-    
+       
     private int height() { return height; }
     
 //    private void makeTree( int rank )
