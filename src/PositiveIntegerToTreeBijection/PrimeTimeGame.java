@@ -114,8 +114,9 @@ public class PrimeTimeGame extends JFrame
     private ViewAs viewAs = ViewAs.TREE;
     
     // media
+    // Source http://soundbible.com/tags-game.html
     private URL dundunUrl;
-    private URL dingSoundUrl;
+    private URL dingSoundUrl; // https://www.freesound.org/people/Aiwha/sounds/196106/
     
     // animation
     private final Animation animation = new Animation();
