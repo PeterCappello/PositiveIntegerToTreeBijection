@@ -19,17 +19,17 @@ import java.awt.Graphics;
  */
 public class PositiveIntegerToTreeBijectionTest
 {
-    public static PositiveIntegerToTreeBijection tree1;
-    public static PositiveIntegerToTreeBijection tree2;
-    public static PositiveIntegerToTreeBijection tree3;
+    public static Tree tree1;
+    public static Tree tree2;
+    public static Tree tree3;
     
 //    @BeforeClass
 //    public static void setUpClass() 
 //    {
-//        PositiveIntegerToTreeBijection.setPrimesArray( 100 );
-//        tree1 = new PositiveIntegerToTreeBijection(2);
-//        tree2 = new PositiveIntegerToTreeBijection(3);
-//        tree3 = new PositiveIntegerToTreeBijection(1002);
+//        Tree.setPrimesArray( 100 );
+//        tree1 = new Tree(2);
+//        tree2 = new Tree(3);
+//        tree3 = new Tree(1002);
 //    }
 //    
 //    @AfterClass
@@ -55,15 +55,15 @@ public class PositiveIntegerToTreeBijectionTest
 //    @Test
 //    public void testIsPrime()
 //    {
-//        assertTrue(PositiveIntegerToTreeBijection.isPrime(2));
-//        assertTrue(PositiveIntegerToTreeBijection.isPrime(3));
-//        assertTrue(PositiveIntegerToTreeBijection.isPrime(7));
-//        assertTrue(PositiveIntegerToTreeBijection.isPrime(37));
+//        assertTrue(Tree.isPrime(2));
+//        assertTrue(Tree.isPrime(3));
+//        assertTrue(Tree.isPrime(7));
+//        assertTrue(Tree.isPrime(37));
 //
-//        assertFalse(PositiveIntegerToTreeBijection.isPrime(4));
-//        assertFalse(PositiveIntegerToTreeBijection.isPrime(9));
-//        assertFalse(PositiveIntegerToTreeBijection.isPrime(24));
-//        assertFalse(PositiveIntegerToTreeBijection.isPrime(49));
+//        assertFalse(Tree.isPrime(4));
+//        assertFalse(Tree.isPrime(9));
+//        assertFalse(Tree.isPrime(24));
+//        assertFalse(Tree.isPrime(49));
 //    }
 //    
 //    @Test

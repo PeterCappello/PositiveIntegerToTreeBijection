@@ -108,7 +108,7 @@ public class PrimeTimeGame extends JFrame
     // model
     private Game game;
     private int number;
-    private PositiveIntegerToTreeBijection tree;
+    private Tree tree;
     private int level = 4;
     private int limit = 3;
     private ViewAs viewAs = ViewAs.TREE;
@@ -124,7 +124,7 @@ public class PrimeTimeGame extends JFrame
     public static void main( String[] args ) throws UnsupportedAudioFileException, IOException 
     {
         long startTime = System.nanoTime();
-        PositiveIntegerToTreeBijection.initialize();
+        Tree.initialize();
         PrimeTimeGame primeTimeGame = new PrimeTimeGame();
         primeTimeGame.initialize();
         Logger.getLogger( primeTimeGame.getClass().getCanonicalName() )
@@ -199,7 +199,7 @@ public class PrimeTimeGame extends JFrame
 
     private void displayAsTree( int number )
     {
-        tree = new PositiveIntegerToTreeBijection( number );
+        tree = new Tree( number );
         imageView.setImage( tree.getImageView() );
         imageView.repaint();
 //        stringView.setText( tree.getStringView() );
@@ -209,7 +209,7 @@ public class PrimeTimeGame extends JFrame
     
     private void displayAsPlanets( int number )
     {
-        tree = new PositiveIntegerToTreeBijection( number );
+        tree = new Tree( number );
         imageView.setImage( tree.getPlanetsView() );
         imageView.repaint();
 //        stringView.setText( tree.getStringView() );

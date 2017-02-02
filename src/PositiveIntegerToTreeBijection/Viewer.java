@@ -23,8 +23,8 @@
  */
 package PositiveIntegerToTreeBijection;
 
-import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.prime;
-import static PositiveIntegerToTreeBijection.PositiveIntegerToTreeBijection.rank;
+import static PositiveIntegerToTreeBijection.Tree.prime;
+import static PositiveIntegerToTreeBijection.Tree.rank;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -74,12 +74,12 @@ public class Viewer extends JFrame
 
     // model components
     private int number = 1;
-    private PositiveIntegerToTreeBijection tree = new PositiveIntegerToTreeBijection( number );
+    private Tree tree = new Tree( number );
 
     public static void main(String[] args) 
     {
         long startTime = System.nanoTime();
-        PositiveIntegerToTreeBijection.initialize();
+        Tree.initialize();
         Viewer viewer = new Viewer();
         viewer.initialize();
         Logger.getLogger( viewer.getClass().getCanonicalName() )
@@ -118,7 +118,8 @@ public class Viewer extends JFrame
         setSize( dimension );
         setPreferredSize( dimension );        
         stringView.setEditable( false );
-        update( 111111111 );     
+//        update( 111111111 ); 
+update( 1 );
         setVisible(true);
 
         //  _______________________________________
@@ -136,7 +137,7 @@ public class Viewer extends JFrame
 
     private void update( int number )
     {
-        tree = new PositiveIntegerToTreeBijection( number );
+        tree = new Tree( number );
         imageView.setImage( tree.getImageView() );
         imageView.repaint();
         stringView.setText( tree.getStringView() );

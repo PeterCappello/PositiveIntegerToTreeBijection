@@ -28,20 +28,20 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toCollection;
 
 /**
  * Recursively maps a natural possibleFactor to a rooted, un-oriented tree.
  * @author Pete Cappello
  */
-public final class PositiveIntegerToTreeBijection
+public final class Tree
 {   
     //___________________________
     //
@@ -62,7 +62,7 @@ public final class PositiveIntegerToTreeBijection
     static public Map<Integer, Integer> ranks = new HashMap<>( PRIMES_INITIAL_CAPACITY );
     
     // cache of PositiveIntegerTree objects
-    static private Map<Integer, PositiveIntegerToTreeBijection> integerToPositiveIntegerTreeMap = new HashMap<>();
+    static private Map<Integer, Tree> integerToPositiveIntegerTreeMap = new HashMap<>();
     
     static void initialize()
     {
@@ -140,7 +140,7 @@ public final class PositiveIntegerToTreeBijection
         }
         assert upperRank == primes.size() - 1;
         long stopTime = System.nanoTime();
-        Logger.getLogger( PositiveIntegerToTreeBijection.class.getCanonicalName() )
+        Logger.getLogger(Tree.class.getCanonicalName() )
               .log(Level.INFO, "Increased # of primes to {0} in {1} ms.", new Object[]{primes.size() - 1, (stopTime - startTime) / ( 1024 * 1024 )});
     }
     
@@ -154,7 +154,7 @@ public final class PositiveIntegerToTreeBijection
         }
         assert upperPrime == primes.get( primes.size() - 1 );
         long stopTime = System.nanoTime();
-        Logger.getLogger( PositiveIntegerToTreeBijection.class.getCanonicalName() )
+        Logger.getLogger(Tree.class.getCanonicalName() )
               .log(Level.INFO, "Increased primes to {0} in {1} ms.", new Object[]{primes.get( primes.size() - 1 ), (stopTime - startTime) / ( 1024 * 1024 )});
     }
     
@@ -175,7 +175,7 @@ public final class PositiveIntegerToTreeBijection
     //___________________________
     private final boolean isPositive;
     private final int positiveInteger;
-    private List<PositiveIntegerToTreeBijection> factorTrees = new LinkedList<>();
+    private List<Tree> factorTrees = new LinkedList<>();
     private int height = 1;
     private int width;
     
@@ -191,7 +191,7 @@ public final class PositiveIntegerToTreeBijection
 //    private       int x, y;                 // location of this body
 //    private       double orbitPosition;     // orbit angular position in radians
     
-//    PositiveIntegerToTreeBijection( PositiveIntegerToTreeBijection positiveIntegerTree )
+//    Tree( Tree positiveIntegerTree )
 //    {
 //        this.isPositive      = positiveIntegerTree.isPositive;
 //        this.positiveInteger = positiveIntegerTree.positiveInteger;
@@ -205,11 +205,11 @@ public final class PositiveIntegerToTreeBijection
      * Construct the tree that corresponds to a particular natural possibleFactor.
      * @param integer whose corresponding tree is being constructed 
      */
-//    PositiveIntegerToTreeBijection( int integer ) throws ArrayIndexOutOfBoundsException
+//    Tree( int integer ) throws ArrayIndexOutOfBoundsException
 //    {
 //        isPositive = integer > 0;
 //        positiveInteger = ( isPositive ) ? integer : -integer;
-//        PositiveIntegerToTreeBijection cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
+//        Tree cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
 //        if ( cachedTree != null )
 //        {
 //            factorTrees = cachedTree.factorTrees;
@@ -270,7 +270,7 @@ public final class PositiveIntegerToTreeBijection
 //        integerToPositiveIntegerTreeMap.put( positiveInteger, this );
 //    }
     
-    PositiveIntegerToTreeBijection( int integer ) throws ArrayIndexOutOfBoundsException
+    Tree( int integer ) throws ArrayIndexOutOfBoundsException
     {
         isPositive = integer > 0;
         positiveInteger = ( isPositive ) ? integer : -integer;
@@ -285,7 +285,7 @@ public final class PositiveIntegerToTreeBijection
             return;
         }
         
-        PositiveIntegerToTreeBijection cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
+        Tree cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
         if ( cachedTree != null )
         {
             factorTrees = cachedTree.factorTrees;
@@ -298,31 +298,31 @@ public final class PositiveIntegerToTreeBijection
         //
         // recursive case
         //___________________        
-        /* factorTrees: Fix to cache in stream: See makeTree; 
-        * Re: planet view, see issue w/ caching below.
+        /* !! Re: planet view, see issue w/ caching below.
         */                
         factorTrees = primeFactorRanks( positiveInteger )
                 .stream()
-                .map( rankOfPrime -> new PositiveIntegerToTreeBijection( rankOfPrime ) )
-                .collect( toCollection( LinkedList::new ) );
-        height += ( factorTrees.isEmpty() ) 
-                ? 0 
-                : factorTrees.stream()
-                        .mapToInt( tree -> tree.height )
-                        .max()
-                        .getAsInt();
-        width += ( factorTrees.isEmpty() ) 
-                ? 1 
-                : factorTrees.stream()
-                        .mapToInt( tree -> tree.width )
-                        .sum();      
+                .map(rankOfPrime -> 
+                { 
+                    Tree tree = new Tree( rankOfPrime );
+                    height = ( height < tree.height ) ? tree.height : height;
+                    width += tree.width;
+                    return tree; 
+                } )
+                .collect( Collectors.toList() );
+        height++;
+    
         // cache tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
     }
-    
+    /**
+     * ?? Can I functionalize this ??
+     * @param n
+     * @return 
+     */
     List<Integer> primeFactorRanks( int n )
     {
-        List<Integer> primeFactors = new LinkedList<>();
+        List<Integer> primeFactorRanks = new LinkedList<>();
         int possibleFactorRank = 1;
         int number = n;
         int maxFactor = (int) Math.sqrt( number );
@@ -330,25 +330,25 @@ public final class PositiveIntegerToTreeBijection
         {
             for ( ; number % possibleFactor == 0; number /= possibleFactor )
             {
-                primeFactors.add( possibleFactorRank );
+                primeFactorRanks.add( possibleFactorRank );
             }
             maxFactor = (int) Math.sqrt( number );
         }
         // Is number prime and > sqrt maxFactor? (e.g., for 6 = 2 * 3, 3 > sqrt( 6 / 2 ) )
         if ( number > 1 )
         {
-            primeFactors.add( rank( number ) );
+            primeFactorRanks.add( rank( number ) );
         }
-        return primeFactors;
+        return primeFactorRanks;
     }
     
 //    private void makeTree( int rank )
 //    {
-//        PositiveIntegerToTreeBijection numberTree = integerToPositiveIntegerTreeMap.get( rank );
+//        Tree numberTree = integerToPositiveIntegerTreeMap.get( rank );
 //        if ( numberTree == null )
 //        {
 //            // no cached tree for this possibleFactor, make one
-//            numberTree = new PositiveIntegerToTreeBijection( rank );
+//            numberTree = new Tree( rank );
 //            integerToPositiveIntegerTreeMap.put( rank, numberTree );
 //        }
 //        factorTrees.add( numberTree );
@@ -361,11 +361,11 @@ public final class PositiveIntegerToTreeBijection
 //        }
 //    }
     
-    List<PositiveIntegerToTreeBijection> factorTrees() { return factorTrees; }
+    List<Tree> factorTrees() { return factorTrees; }
     
     public int getPositiveInteger() { return positiveInteger; }
     
-    public String getStringView() { return new String( PositiveIntegerToTreeBijection.this.viewString( "   ") ); }
+    public String getStringView() { return new String( Tree.this.viewString( "   ") ); }
 
     private StringBuilder viewString( String pad )
     {
@@ -377,7 +377,7 @@ public final class PositiveIntegerToTreeBijection
                 .append( positiveInteger < primes.size() ? prime( positiveInteger ) : "" );
         if ( ! factorTrees.isEmpty() )
         {
-            for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
+            for ( Tree factorTree : factorTrees )
             {
                 stringBuilder.append(factorTree.viewString( pad + "    ") );
             }
@@ -426,7 +426,7 @@ public final class PositiveIntegerToTreeBijection
         int factorTreeX = x;
         int factorTreeY = y + DELTA;
         
-        for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
+        for ( Tree factorTree : factorTrees )
         {
             // draw edge from this root to possibleFactor tree's root
             graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
@@ -462,7 +462,7 @@ public final class PositiveIntegerToTreeBijection
         int factorTreeX = x;
         int factorTreeY = y + DELTA;
         
-        for ( PositiveIntegerToTreeBijection factorTree : factorTrees )
+        for ( Tree factorTree : factorTrees )
         {
             // draw edge from this root to possibleFactor tree's root
             graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
@@ -509,7 +509,7 @@ public final class PositiveIntegerToTreeBijection
     //
     // planetary motion methods
     //_______________________________
-//    void move( PositiveIntegerToTreeBijection parent ) 
+//    void move( Tree parent ) 
 //    {
 //        // move this Body
 //        orbitPosition += stepSize;
@@ -524,7 +524,7 @@ public final class PositiveIntegerToTreeBijection
 //        factorTrees.forEach( satellite -> satellite.move( this ) );
 //    }
 //    
-//    public void draw( PositiveIntegerToTreeBijection parent, Graphics graphics )
+//    public void draw( Tree parent, Graphics graphics )
 //     {
 //         // draw this
 //         if ( SHOW_ORBIT ) 
@@ -544,7 +544,7 @@ public final class PositiveIntegerToTreeBijection
 //     }
     
     //_____________ Methods For Unit Testing ______________________
-    public List<PositiveIntegerToTreeBijection> getFfactorTrees() { return factorTrees; } 
+    public List<Tree> getFfactorTrees() { return factorTrees; } 
     
     int height() { return height; }
     
