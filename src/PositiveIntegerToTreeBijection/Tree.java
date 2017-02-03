@@ -300,9 +300,9 @@ public final class Tree
         // recursive case
         //___________________        
         // !! Re: planet view, see issue w/ caching below.
-        factorTrees = primeFactorRanks( positiveInteger )
+        factorTrees = primeFactors( positiveInteger )
                 .stream()
-                .map( primeFactorRank -> new Tree( primeFactorRank ) )
+                .map( primeFactor -> new Tree( rank( primeFactor ) ) )
                 .collect( Collectors.toList() );
         height = 1 + factorTrees
                 .stream()
@@ -317,53 +317,38 @@ public final class Tree
         // cache this tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
     }
-    
-    private List<Integer> primeFactorRanks( int n )
+        
+    private List<Integer> primeFactors( int n )
     {
-        return  primeFactorRanks( n, 1, (int) Math.sqrt( n ), new LinkedList<>() );
+        /* add 1 to n before taking sqrt to avoid situation where sqrt( n^2 )
+        * returns n - epsilon, (int) of which is n - 1 which could produce
+        * an incorrect answer.
+        */
+        return primeFactors( n, 1, (int) Math.sqrt( n + 1 ), new LinkedList<>() );
     }
     
-    private List<Integer> primeFactorRanks( int n, int rank, int limit, List<Integer> primeFactorRanks )
+    private List<Integer> primeFactors( int n, int rank, int limit, List<Integer> primeFactors )
     {
         if ( n == 1 ) 
         {
-            return primeFactorRanks;
+            return primeFactors;
         }
         int primeFactor = prime( rank );
         if ( primeFactor > limit ) 
         {
-            primeFactorRanks.add( rank( n ) );
-            return primeFactorRanks;
+            primeFactors.add( n );
+            return primeFactors;
         }
         if ( n % primeFactor == 0 )
         {
             int newN = n / primeFactor;
-            primeFactorRanks.add( rank );
-            return primeFactorRanks(newN, rank, (int) Math.sqrt( newN ), primeFactorRanks );
+            primeFactors.add( primeFactor );
+            return primeFactors( newN, rank, (int) Math.sqrt( newN + 1 ), primeFactors );
         }
-        return primeFactorRanks(n, ++rank, limit, primeFactorRanks );
+        return primeFactors( n, ++rank, limit, primeFactors );
     }
        
     private int height() { return height; }
-    
-//    private void makeTree( int rank )
-//    {
-//        Tree numberTree = integerToPositiveIntegerTreeMap.get( rank );
-//        if ( numberTree == null )
-//        {
-//            // no cached tree for this possibleFactor, make one
-//            numberTree = new Tree( rank );
-//            integerToPositiveIntegerTreeMap.put( rank, numberTree );
-//        }
-//        factorTrees.add( numberTree );
-//
-//        // update width & height calculation
-//        width += numberTree.width;
-//        if ( numberTree.height > height )
-//        {
-//             height = numberTree.height;
-//        }
-//    }
     
     List<Tree> factorTrees() { return factorTrees; }
     
