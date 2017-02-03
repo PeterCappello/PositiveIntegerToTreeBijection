@@ -300,9 +300,9 @@ public final class Tree
         // recursive case
         //___________________        
         // !! Re: planet view, see issue w/ caching below.
-        factorTrees = primeFactorRanks( positiveInteger, 1, (int) Math.sqrt( positiveInteger ), new LinkedList<>() )
+        factorTrees = primeFactorRanks( positiveInteger )
                 .stream()
-                .map( rankOfPrime -> { return new Tree( rankOfPrime ); } )
+                .map( primeFactorRank -> new Tree( primeFactorRank ) )
                 .collect( Collectors.toList() );
         height = 1 + factorTrees
                 .stream()
@@ -318,25 +318,30 @@ public final class Tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
     }
     
-    private List<Integer> primeFactorRanks( int n, int rank, int limit, List<Integer> factorList )
+    private List<Integer> primeFactorRanks( int n )
+    {
+        return  primeFactorRanks( n, 1, (int) Math.sqrt( n ), new LinkedList<>() );
+    }
+    
+    private List<Integer> primeFactorRanks( int n, int rank, int limit, List<Integer> primeFactorRanks )
     {
         if ( n == 1 ) 
         {
-            return factorList;
+            return primeFactorRanks;
         }
         int primeFactor = prime( rank );
         if ( primeFactor > limit ) 
         {
-            factorList.add( rank( n ) );
-            return factorList;
+            primeFactorRanks.add( rank( n ) );
+            return primeFactorRanks;
         }
         if ( n % primeFactor == 0 )
         {
             int newN = n / primeFactor;
-            factorList.add( rank );
-            return primeFactorRanks( newN, rank, (int) Math.sqrt( newN ), factorList );
+            primeFactorRanks.add( rank );
+            return primeFactorRanks(newN, rank, (int) Math.sqrt( newN ), primeFactorRanks );
         }
-        return primeFactorRanks( n, ++rank, limit, factorList );
+        return primeFactorRanks(n, ++rank, limit, primeFactorRanks );
     }
        
     private int height() { return height; }
