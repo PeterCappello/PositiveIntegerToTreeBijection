@@ -317,6 +317,12 @@ public final class Tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
     }
     
+    /**
+     *
+     * @return
+     */
+    public Integer n() { return ( isPositive ) ? positiveInteger : - positiveInteger; }
+    
     // !! Make recursive !!
     private List<Integer> primeFactorRanks( int n )
     {
@@ -392,16 +398,23 @@ public final class Tree
     private static final int DELTA    = 2 * ( PAD + RADIUS );
     private static final int DIAMETER = 2 * RADIUS;
     
-    Image getImageView()
+//    Image getImageView()
+//    {
+//        Image image = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
+//        viewGraphics( image.getGraphics(), PAD, PAD );
+//        return image;
+//    }
+    
+    BufferedImage getImageView()
     {
-        Image image = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
+        BufferedImage image = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
         viewGraphics( image.getGraphics(), PAD, PAD );
         return image;
     }
     
-    Image getPlanetsView()
+    BufferedImage getPlanetsView()
     {
-        Image image = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
+        BufferedImage image = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
         viewPlanets( image.getGraphics(), PAD, PAD );
         return image;
     }
