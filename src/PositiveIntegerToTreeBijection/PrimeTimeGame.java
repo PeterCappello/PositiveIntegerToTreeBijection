@@ -200,7 +200,7 @@ public class PrimeTimeGame extends JFrame
     private void displayAsTree( int number )
     {
         tree = new Tree( number );
-        imageView.image( tree.getImageView() );
+        imageView.setImage( tree.getImageView() );
         imageView.repaint();
 //        stringView.setText( tree.getStringView() );
         
@@ -210,7 +210,7 @@ public class PrimeTimeGame extends JFrame
     private void displayAsPlanets( int number )
     {
         tree = new Tree( number );
-        imageView.image( tree.getPlanetsView() );
+        imageView.setImage( tree.getPlanetsView() );
         imageView.repaint();
 //        stringView.setText( tree.getStringView() );
         
@@ -249,8 +249,8 @@ public class PrimeTimeGame extends JFrame
         goButton.setEnabled( true );
         yourAnswerTextField.setText( "" );
         correctAnswerTextField.setText( "" );
-        BufferedImage image = new BufferedImage( 800, 800, BufferedImage.TYPE_INT_ARGB );
-        imageView.image( image );
+        Image image = new BufferedImage( 800, 800, BufferedImage.TYPE_INT_ARGB );
+        imageView.setImage( image );
         imageView.repaint();
         imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( image ) ) );
         goButton.requestFocusInWindow();

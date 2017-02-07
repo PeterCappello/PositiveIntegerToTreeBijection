@@ -26,25 +26,13 @@ package PositiveIntegerToTreeBijection;
 import static PositiveIntegerToTreeBijection.Tree.prime;
 import static PositiveIntegerToTreeBijection.Tree.rank;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.font.TextAttribute;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -70,8 +58,7 @@ public class Viewer extends JFrame
     private final JScrollPane imageViewScrollPane = new JScrollPane( imageView );
     private final JPanel numberPanel = new JPanel();
         private final JLabel numberLabel = new JLabel("Enter an integer & click the return key ", RIGHT);
-        private final JTextField numberTextField = new JTextField( 30 );
-        private JButton  saveButton = new JButton( "Save");
+        private final JTextField numberTextField = new JTextField( 30 ); 
     private final JTextArea stringView = new JTextArea( 30, 20 );
     private final JScrollPane stringViewScrollPane = new JScrollPane( stringView );
     private final JPanel extras = new JPanel();
@@ -82,14 +69,12 @@ public class Viewer extends JFrame
             private final JLabel primeLabel = new JLabel("What is the rank of prime (enter a prime) ", RIGHT);
             private final JTextField primeTextField = new JTextField( 30 );
             private final JTextField rankOfPrimeTextField = new JTextField( 30 );
-        private final JTextArea logView = new JTextArea( "LOG", 6, 50 );
+        private final JTextArea logView = new JTextArea( "1", 6, 50 );
         private final JScrollPane logViewScrollPane = new JScrollPane( logView );
 
     // model components
     private int number = 1;
     private Tree tree = new Tree( number );
-    
-    private File imageFolder;
 
     public static void main(String[] args) 
     {
@@ -114,10 +99,9 @@ public class Viewer extends JFrame
         container.add(stringViewScrollPane, BorderLayout.EAST );
         container.add(extras, BorderLayout.SOUTH );
 
-        numberPanel.setLayout( new GridLayout( 1, 3 ) );
+        numberPanel.setLayout( new GridLayout( 1, 2) );
         numberPanel.add( numberLabel );
         numberPanel.add( numberTextField );
-        numberPanel.add( saveButton );
         
         extras.setLayout( new BorderLayout() );
         extras.add( primeAndRankPanel, BorderLayout.CENTER );
@@ -135,7 +119,7 @@ public class Viewer extends JFrame
         setPreferredSize( dimension );        
         stringView.setEditable( false );
 //        update( 111111111 ); 
-        update( 36 );
+update( 1 );
         setVisible(true);
 
         //  _______________________________________
@@ -149,15 +133,12 @@ public class Viewer extends JFrame
         
         // Enter a prime
         primeTextField.addActionListener(this::primeTextFieldActionPerformed);
-        
-        // Save the image of the view of the associated tree
-        saveButton.addActionListener(this::saveButtonActionPerformed);
     }
 
     private void update( int number )
     {
         tree = new Tree( number );
-        imageView.image( tree.getImageView() );
+        imageView.setImage( tree.getImageView() );
         imageView.repaint();
         stringView.setText( tree.getStringView() );
         
@@ -223,38 +204,5 @@ public class Viewer extends JFrame
             JOptionPane.showMessageDialog( this, numberText + " is not an integer.", "Input error", ERROR_MESSAGE );
             throw new IllegalArgumentException();
         }
-    }
-    
-    private void saveButtonActionPerformed( ActionEvent actionEvent )
-    {
-        BufferedImage  bufferedImage = imageView.image();
-        Graphics graphics = bufferedImage.getGraphics();
-        graphics.setColor( Color.BLACK );
-        Map<TextAttribute, Object> textAttributes  = new HashMap<>();
-        textAttributes.put(TextAttribute.FAMILY, graphics.getFont().getFamily());
-        textAttributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-        textAttributes.put(TextAttribute.SIZE, (int) (graphics.getFont().getSize() * 1.4));
-        Font font = Font.getFont( textAttributes );
-        graphics.setFont( font );
-        graphics.drawString( tree.n().toString(), 10, 20);
-        
-        File currentDirectory = null;
-        JFileChooser fileChooser = new JFileChooser( currentDirectory );
-        int returnValue = fileChooser.showDialog( this, "Save");
-        if ( returnValue == JFileChooser.APPROVE_OPTION )
-        {
-            File imageFile = fileChooser.getSelectedFile();
-            try
-            {
-                ImageIO.write( bufferedImage, "png", imageFile );
-            }
-            catch ( IOException ioException )
-            {
-                ioException.printStackTrace();
-            }
-        }
-        
-        imageView.image( bufferedImage );
-        imageView.repaint();
     }
 }
