@@ -226,18 +226,8 @@ public class Viewer extends JFrame
     
     private void saveButtonActionPerformed( ActionEvent actionEvent )
     {
-        // augment image with number of imaged tree.
-        BufferedImage bufferedImage = imageView.image();
-        Graphics graphics = bufferedImage.getGraphics();
-        graphics.setColor( Color.BLACK );
-        Map<TextAttribute, Object> textAttributes = new HashMap<>();
-        textAttributes.put(TextAttribute.FAMILY, graphics.getFont().getFamily());
-        textAttributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-        textAttributes.put(TextAttribute.SIZE, (int) (graphics.getFont().getSize() * 1.4));
-        Font font = Font.getFont( textAttributes );
-        graphics.setFont( font );
-        
-        graphics.drawString( tree.n().toString(), 0, 20 );
+        BufferedImage bufferedImage = labelImage();
+ 
         File file = null;
         JFileChooser fileChooser = new JFileChooser( file );
         int returnValue = fileChooser.showDialog( this, "Save");
@@ -255,5 +245,21 @@ public class Viewer extends JFrame
         }
         imageView.image( bufferedImage ); // ?? Unnecessaary
         imageView.repaint();
+    }
+    
+    private BufferedImage labelImage()
+    {
+        // augment image with number of imaged tree.
+        BufferedImage bufferedImage = imageView.image();
+        Graphics graphics = bufferedImage.getGraphics();
+        graphics.setColor( Color.BLACK );
+        Map<TextAttribute, Object> textAttributes = new HashMap<>();
+        textAttributes.put(TextAttribute.FAMILY, graphics.getFont().getFamily());
+        textAttributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+        textAttributes.put(TextAttribute.SIZE, (int) (graphics.getFont().getSize() * 1.4));
+        Font font = Font.getFont( textAttributes );
+        graphics.setFont( font );
+        graphics.drawString( tree.n().toString(), 0, 20 );
+        return bufferedImage;
     }
 }
