@@ -317,8 +317,11 @@ public final class Tree
         // cache this tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
     }
+    
+    Integer n() { return ( isPositive ) ? positiveInteger : -positiveInteger; }
+
         
-    private List<Integer> primeFactors( int n )
+            private List<Integer> primeFactors( int n )
     {
         /* add 1 to n before taking sqrt to avoid situation where sqrt( n^2 )
         * returns n - epsilon, (int) of which is n - 1 which could produce
@@ -381,18 +384,18 @@ public final class Tree
     private static final int DELTA    = 2 * ( PAD + RADIUS );
     private static final int DIAMETER = 2 * RADIUS;
     
-    Image getImageView()
+    BufferedImage getImageView()
     {
-        Image image = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
-        viewGraphics( image.getGraphics(), PAD, PAD );
-        return image;
+        BufferedImage bufferedImage = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
+        viewGraphics( bufferedImage.getGraphics(), PAD, PAD );
+        return bufferedImage;
     }
     
-    Image getPlanetsView()
+    BufferedImage getPlanetsView()
     {
-        Image image = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
-        viewPlanets( image.getGraphics(), PAD, PAD );
-        return image;
+        BufferedImage bufferedImage = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
+        viewPlanets( bufferedImage.getGraphics(), PAD, PAD );
+        return bufferedImage;
     }
 
     /**

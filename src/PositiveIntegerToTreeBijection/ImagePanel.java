@@ -2,6 +2,7 @@ package PositiveIntegerToTreeBijection;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 /**
@@ -10,14 +11,16 @@ import javax.swing.JPanel;
  */
 public class ImagePanel extends JPanel
 {
-    private Image image;
+    private BufferedImage bufferedImage;
     
     @Override
     public void paintComponent( Graphics graphics )
     {
         super.paintComponent( graphics );
-        graphics.drawImage(image, 0, 0, Viewer.IMAGE_VIEWPORT_SIZE, Viewer.IMAGE_VIEWPORT_SIZE, this );
+        graphics.drawImage( bufferedImage, 0, 0, Viewer.IMAGE_VIEWPORT_SIZE, Viewer.IMAGE_VIEWPORT_SIZE, this );
     }
     
-    void setImage( Image image ) { this.image = image; }
+    BufferedImage image() { return bufferedImage; }
+    
+    void image( BufferedImage bufferedImage ) { this.bufferedImage = bufferedImage; }
 }

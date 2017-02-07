@@ -200,7 +200,7 @@ public class PrimeTimeGame extends JFrame
     private void displayAsTree( int number )
     {
         tree = new Tree( number );
-        imageView.setImage( tree.getImageView() );
+        imageView.image( tree.getImageView() );
         imageView.repaint();
 //        stringView.setText( tree.getStringView() );
         
@@ -210,7 +210,7 @@ public class PrimeTimeGame extends JFrame
     private void displayAsPlanets( int number )
     {
         tree = new Tree( number );
-        imageView.setImage( tree.getPlanetsView() );
+        imageView.image( tree.getPlanetsView() );
         imageView.repaint();
 //        stringView.setText( tree.getStringView() );
         
@@ -249,10 +249,10 @@ public class PrimeTimeGame extends JFrame
         goButton.setEnabled( true );
         yourAnswerTextField.setText( "" );
         correctAnswerTextField.setText( "" );
-        Image image = new BufferedImage( 800, 800, BufferedImage.TYPE_INT_ARGB );
-        imageView.setImage( image );
+        BufferedImage bufferedImage = new BufferedImage( 800, 800, BufferedImage.TYPE_INT_ARGB );
+        imageView.image( bufferedImage );
         imageView.repaint();
-        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( image ) ) );
+        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( bufferedImage ) ) );
         goButton.requestFocusInWindow();
         
         // conversion from mp3 to wav: http://audio.online-convert.com/convert-to-wav
