@@ -27,35 +27,8 @@ package PositiveIntegerToTreeBijection;
  *
  * @author Peter Cappello
  */
-public class Animation extends Thread
-{    
-    private static final int SLEEP_TIME = 500;
-    private final Tree tree;
-    private final ImagePanel imagePanel;
-    
-    Animation( Tree tree, ImagePanel imagePanel )
-    {
-        this.tree = tree;
-        this.imagePanel = imagePanel;
-        start();
-        System.out.println("Animation constructed and started.");
-    }
-    
-    @Override
-    public void run()
-    {
-        System.out.println("Animation run method entered.");
-        while ( true )
-        {
-            System.out.println("Iteration started.");
-            imagePanel.image( tree.getPlanetsView() );
-            System.out.println("Animation: imagePanel set.");
-            imagePanel.repaint();
-            System.out.println("Animation: repaint finished.");
-            try 
-            {
-                sleep( SLEEP_TIME );
-            } catch ( InterruptedException ignore ) { System.out.println( "InterruptedException caught");}
-        }
-    }
+public interface View 
+{
+    void start();
+    void stop();
 }

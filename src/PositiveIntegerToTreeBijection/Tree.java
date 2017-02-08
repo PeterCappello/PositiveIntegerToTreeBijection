@@ -179,6 +179,8 @@ public final class Tree
     private final int height;
     private final int width;
     
+    private int xTest;
+    
     //___________________________
     //
     // planet attributes
@@ -404,8 +406,9 @@ public final class Tree
      * @param x col of upper left corner of rectangle containing tree
      * @param y row of upper left corner of rectangle containing tree
      */
-    public void viewGraphics( Graphics graphics, int x, int y )
+    public void viewGraphics( Graphics g, int x, int y )
     {
+        Graphics graphics = g.create();
         graphics.setColor( Color.BLACK );
                        
         // coordinates of center of root
@@ -441,9 +444,7 @@ public final class Tree
      * @param y row of upper left corner of rectangle containing tree
      */
     public void viewPlanets( Graphics graphics, int x, int y )
-    {
-        graphics.setColor( Color.BLACK );
-                       
+    {                      
         // coordinates of center of root
         int rootX = x + rootX();
         int rootY = y + rootY();

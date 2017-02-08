@@ -82,7 +82,7 @@ public class PrimeTimeGame extends JFrame
     private final JTextField limitTextField = new JTextField( "  3", 10 );
     
     private final JLabel viewAsLabel = new JLabel( "  View as" );
-    private final String[] viewAsArray = { "a tree", "an n-body system" };
+    private final String[] viewAsArray = { "a tree", "celestial bodies" };
     private final JComboBox<String> viewAsComboBox = new JComboBox<>( viewAsArray );
     
     private final JButton newGameButton = new JButton( "New game" );
@@ -111,7 +111,7 @@ public class PrimeTimeGame extends JFrame
     private Tree tree;
     private int level = 4;
     private int limit = 3;
-    private ViewAs viewAs = ViewAs.TREE;
+    private ViewAs viewAs = ViewAs.PLANETS;
     
     // media
     // Source http://soundbible.com/tags-game.html
@@ -119,7 +119,7 @@ public class PrimeTimeGame extends JFrame
     private URL dingSoundUrl; // https://www.freesound.org/people/Aiwha/sounds/196106/
     
     // animation
-    private final Animation animation = new Animation();
+//    private final Animation animation;
 
     public static void main( String[] args ) throws UnsupportedAudioFileException, IOException 
     {

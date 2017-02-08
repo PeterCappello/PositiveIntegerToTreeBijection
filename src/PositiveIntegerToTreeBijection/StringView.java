@@ -23,39 +23,35 @@
  */
 package PositiveIntegerToTreeBijection;
 
+import java.awt.Graphics;
+
 /**
  *
  * @author Peter Cappello
  */
-public class Animation extends Thread
-{    
-    private static final int SLEEP_TIME = 500;
-    private final Tree tree;
+public class StringView implements View 
+{
     private final ImagePanel imagePanel;
+    private final Graphics graphics;
+    private final Tree tree;
     
-    Animation( Tree tree, ImagePanel imagePanel )
+    StringView( ImagePanel imagePanel, Graphics graphics, Tree tree ) 
     {
-        this.tree = tree;
         this.imagePanel = imagePanel;
-        start();
-        System.out.println("Animation constructed and started.");
+        this.graphics = graphics;
+        this.tree = tree; 
     }
     
     @Override
-    public void run()
+    public void start() 
     {
-        System.out.println("Animation run method entered.");
-        while ( true )
-        {
-            System.out.println("Iteration started.");
-            imagePanel.image( tree.getPlanetsView() );
-            System.out.println("Animation: imagePanel set.");
-            imagePanel.repaint();
-            System.out.println("Animation: repaint finished.");
-            try 
-            {
-                sleep( SLEEP_TIME );
-            } catch ( InterruptedException ignore ) { System.out.println( "InterruptedException caught");}
-        }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void stop() 
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }

@@ -67,6 +67,7 @@ public class Viewer extends JFrame
     static final int IMAGE_VIEWPORT_SIZE = 800;
 
     // graphical components
+    private final TimerBasedAnimation timerBasedAnimation = new TimerBasedAnimation();
     private final ImagePanel imageView = new ImagePanel();
     private final JScrollPane imageViewScrollPane = new JScrollPane( imageView );
     private final JPanel numberPanel = new JPanel();
@@ -89,6 +90,9 @@ public class Viewer extends JFrame
     // model components
     private int number = 1;
     private Tree tree = new Tree( number );
+    
+    // animation components
+    private Animation animation;
 
     public static void main(String[] args) 
     {
@@ -111,13 +115,15 @@ public class Viewer extends JFrame
         container.add(numberPanel, BorderLayout.NORTH );
         container.add(imageViewScrollPane, BorderLayout.CENTER );
         container.add(stringViewScrollPane, BorderLayout.EAST );
+        timerBasedAnimation.setPreferredSize( new Dimension( 350, 250 ) );
+        container.add( timerBasedAnimation, BorderLayout.WEST );
         container.add(extras, BorderLayout.SOUTH );
 
         numberPanel.setLayout( new GridLayout( 1, 3 ) );
         numberPanel.add( numberLabel );
         numberPanel.add( numberTextField );
         numberPanel.add( saveButton );
-        
+
         extras.setLayout( new BorderLayout() );
         extras.add( primeAndRankPanel, BorderLayout.CENTER );
             primeAndRankPanel.setLayout( new GridLayout( 2, 3 ) );
@@ -156,11 +162,9 @@ public class Viewer extends JFrame
     private void update( int number )
     {
         tree = new Tree( number );
-        imageView.image( tree.getImageView() );
-        imageView.repaint();
         stringView.setText( tree.getStringView() );
-        
         imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getImageView() ) ) );
+        timerBasedAnimation.newAnimation( tree );
     }
 
     //  _________________________
@@ -168,12 +172,26 @@ public class Viewer extends JFrame
     //  _________________________
     private void numberTextFieldActionPerformed( ActionEvent unused ) 
     {
+        if ( animation != null )
+        {
+            animation.interrupt();
+            System.out.println( "PREVIOUS animation interruped");
+        }
         try
         {
             number = getIntFromJTextField( numberTextField );
-            update( number );
         } 
         catch ( IllegalArgumentException ex ) { return; }
+        update( number );
+           
+//        tree = new Tree( number );
+//        if ( animation != null )
+//        {
+//            animation.interrupt();
+//            System.out.println( " CURRENT animation interrupted" );
+//        }
+//        System.out.println( tree.getStringView() );
+//        animation = new Animation( tree, imageView );
     }
     
     private void rankTextFieldActionPerformed( ActionEvent unused ) 
