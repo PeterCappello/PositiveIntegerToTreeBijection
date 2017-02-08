@@ -57,7 +57,7 @@ import javax.swing.JTextField;
 import static javax.swing.SwingConstants.RIGHT;
 
 /**
- * Viewer for an integer as a rooted, unoriented tree.
+ * Viewer for an integer as a rooted tree.
  *
  * @author Peter Cappello
  */
@@ -91,9 +91,6 @@ public class Viewer extends JFrame
     private int number = 1;
     private Tree tree = new Tree( number );
     
-    // animation components
-    private Animation animation;
-
     public static void main(String[] args) 
     {
         long startTime = System.nanoTime();
@@ -172,26 +169,12 @@ public class Viewer extends JFrame
     //  _________________________
     private void numberTextFieldActionPerformed( ActionEvent unused ) 
     {
-        if ( animation != null )
-        {
-            animation.interrupt();
-            System.out.println( "PREVIOUS animation interruped");
-        }
         try
         {
             number = getIntFromJTextField( numberTextField );
         } 
         catch ( IllegalArgumentException ex ) { return; }
         update( number );
-           
-//        tree = new Tree( number );
-//        if ( animation != null )
-//        {
-//            animation.interrupt();
-//            System.out.println( " CURRENT animation interrupted" );
-//        }
-//        System.out.println( tree.getStringView() );
-//        animation = new Animation( tree, imageView );
     }
     
     private void rankTextFieldActionPerformed( ActionEvent unused ) 
