@@ -17,14 +17,16 @@ import javax.swing.Timer;
  */
 public class TimerBasedAnimation extends JPanel implements ActionListener 
 {
+    private static final int SLEEP_TIME = 500;
     private final Timer timer;
-    private Tree tree = new Tree( 36 );
+    private Tree tree;
+    private final Boolean treeLock = Boolean.FALSE;
     private int xx = 0;
     private int yy = 0;
 
     public TimerBasedAnimation() 
     {
-      timer = new Timer( 500, this );
+      timer = new Timer( SLEEP_TIME, this );
       timer.setInitialDelay( 0 );
       timer.start();
     }
@@ -33,7 +35,10 @@ public class TimerBasedAnimation extends JPanel implements ActionListener
     public void paint( Graphics graphics ) 
     {
       super.paintComponent( graphics );
-      tree.viewPlanets( graphics, xx, yy);
+      synchronized ( treeLock ) 
+      {
+        tree.viewPlanets( graphics, xx, yy);
+      }
     }
 
     @Override
@@ -46,6 +51,6 @@ public class TimerBasedAnimation extends JPanel implements ActionListener
     
     void newAnimation( Tree tree )
     {
-        this.tree = tree;
+        synchronized ( treeLock ) { this.tree = tree; }
     }
 }

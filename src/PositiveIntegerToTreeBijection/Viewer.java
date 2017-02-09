@@ -68,6 +68,7 @@ public class Viewer extends JFrame
 
     // graphical components
     private final TimerBasedAnimation timerBasedAnimation = new TimerBasedAnimation();
+    private final JScrollPane animationScrollPane = new JScrollPane( timerBasedAnimation );
     private final ImagePanel imageView = new ImagePanel();
     private final JScrollPane imageViewScrollPane = new JScrollPane( imageView );
     private final JPanel numberPanel = new JPanel();
@@ -89,7 +90,7 @@ public class Viewer extends JFrame
 
     // model components
     private int number = 1;
-    private Tree tree = new Tree( number );
+    private Tree tree = new Tree( number, null );
     
     public static void main(String[] args) 
     {
@@ -112,8 +113,8 @@ public class Viewer extends JFrame
         container.add(numberPanel, BorderLayout.NORTH );
         container.add(imageViewScrollPane, BorderLayout.CENTER );
         container.add(stringViewScrollPane, BorderLayout.EAST );
-        timerBasedAnimation.setPreferredSize( new Dimension( 350, 250 ) );
-        container.add( timerBasedAnimation, BorderLayout.WEST );
+        timerBasedAnimation.setPreferredSize( new Dimension( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE ) );
+        container.add( animationScrollPane, BorderLayout.WEST );
         container.add(extras, BorderLayout.SOUTH );
 
         numberPanel.setLayout( new GridLayout( 1, 3 ) );
@@ -132,12 +133,12 @@ public class Viewer extends JFrame
             primeAndRankPanel.add( rankOfPrimeTextField );
         extras.add( logViewScrollPane, BorderLayout.SOUTH );
 
-        Dimension dimension = new Dimension( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE + this.getHeight() );
+        Dimension dimension = new Dimension( 2* IMAGE_VIEWPORT_SIZE, 2 * IMAGE_VIEWPORT_SIZE + this.getHeight() );
         setSize( dimension );
         setPreferredSize( dimension );        
         stringView.setEditable( false );
 //        update( 111111111 ); 
-        update( 36 );
+        update( 108 );
         setVisible(true);
 
         //  _______________________________________
@@ -158,7 +159,7 @@ public class Viewer extends JFrame
 
     private void update( int number )
     {
-        tree = new Tree( number );
+        tree = new Tree( number, null );
         stringView.setText( tree.getStringView() );
         imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getImageView() ) ) );
         timerBasedAnimation.newAnimation( tree );

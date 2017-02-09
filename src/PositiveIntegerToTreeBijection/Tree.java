@@ -25,10 +25,11 @@ package PositiveIntegerToTreeBijection;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
+import static java.lang.Math.cos;
+import static java.lang.Math.pow;
+import static java.lang.Math.sin;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,6 +52,7 @@ public final class Tree
     static private final double ONE_THIRD = 1.0 / 3.0;
     static private final double FRAME_RATE = 16;
     static private final double BASE_ANGLE = 1.0 / FRAME_RATE;
+    static private final int UNIT = 4;
     
     /**
      * List of first PRIMES_INITIAL_CAPACITY prime numbers
@@ -64,10 +66,7 @@ public final class Tree
     // cache of PositiveIntegerTree objects
     private static final Map<Integer, Tree> integerToPositiveIntegerTreeMap = new HashMap<>();
     
-    static void initialize()
-    {
-        setPrimesArray();
-    }
+    static void initialize() { setPrimesArray(); }
     
     /**
      * Initialize the primes List and the ranks map with the first 
@@ -175,107 +174,27 @@ public final class Tree
     //___________________________
     private final boolean isPositive;
     private final int positiveInteger;
+    private final Tree parent;
     private final List<Tree> factorTrees;
     private final int height;
     private final int width;
-    
-    private int xTest;
-    
+        
     //___________________________
     //
     // planet attributes
     //___________________________
-//    private final int diameter;       // diameter of this body
-//    private final int orbitRadius; // radius of its orbit
-//    private final double stepSize;    // amount of radians incremented per time step
-//    private       Color color = Color.BLUE; // of body
-////    private       Body parent = null;        // this orbits around parent
-//    private       int x, y;                 // location of this body
-//    private       double orbitPosition;     // orbit angular position in radians
+    private final int diameter;       // diameter of this body
+    private final int orbitRadius; // radius of its orbit
+    private final double stepSize;    // amount of radians incremented per time step
+    private       Color color = Color.BLUE; // of body
+    private       int x, y;                 // location of this body
+    private       double orbitPosition;     // orbit angular position in radians
     
-//    Tree( Tree positiveIntegerTree )
-//    {
-//        this.isPositive      = positiveIntegerTree.isPositive;
-//        this.positiveInteger = positiveIntegerTree.positiveInteger;
-//        this.factorTrees     = positiveIntegerTree.factorTrees;
-//        
-//        // planet attributes
-//        this.diameter = positiveIntegerTree.diameter;
-//    }
-    
-    /**
-     * Construct the tree that corresponds to a particular natural possibleFactor.
-     * @param integer whose corresponding tree is being constructed 
-     */
-//    Tree( int integer ) throws ArrayIndexOutOfBoundsException
-//    {
-//        isPositive = integer > 0;
-//        positiveInteger = ( isPositive ) ? integer : -integer;
-//        Tree cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
-//        if ( cachedTree != null )
-//        {
-//            factorTrees = cachedTree.factorTrees;
-//            height      = cachedTree.height;
-//            width       = cachedTree.width;
-//            
-//            // planet attributes
-////            diameter = cachedTree.diameter;
-////            orbitRadius = cachedTree.orbitRadius; // radius of its orbit
-////            stepSize = cachedTree.stepSize;    // amount of radians incremented per time step
-////            color = Color.BLUE; // of body
-////            orbitPosition = cachedTree.orbitPosition;
-//            return;
-//        }
-//        
-//        // for each primeFactor, make its primeFactor tree
-//        int possibleFactorRank = 1;
-//        int number = positiveInteger;
-//        int maxFactor = (int) Math.sqrt( number );
-//        for (int possibleFactor = prime(possibleFactorRank); possibleFactor <= maxFactor; possibleFactor = prime(++possibleFactorRank) )
-//        {
-//            for ( ; number % possibleFactor == 0; number /= possibleFactor )
-//            {
-//                makeTree( possibleFactorRank );
-//            }
-//            maxFactor = (int) Math.sqrt( number );
-//        }
-//        // Is number prime and > sqrt maxFactor? (e.g., for 6 = 2 * 3, 3 > sqrt( 6/2 ) )
-//        if ( number > 1 )
-//        {
-//            makeTree( rank( number ) );
-//        }
-//        
-//        // complete width & height calculation
-//        width = ( 1 < width ) ? width : 1;
-//        height++;
-//      
-//        // planet attributes
-////        diameter = (int) Math.pow( positiveInteger, ONE_THIRD );
-////        stepSize = ( factorTrees.isEmpty() ) ? BASE_ANGLE : factorTrees.get( 0 ).stepSize / 2.0;    // amount of radians incremented per time step
-////        color = Color.BLUE; // of body
-//////        parent = cachedTree.parent; 
-//////System.out.println( "number: " + positiveInteger );
-////        int maxSatelliteOrbitRadius = ( factorTrees.isEmpty() ) 
-////                ? 0 
-////                : factorTrees.stream().map( tree -> tree.orbitRadius).max( ( radius1, radius2 ) -> radius2 - radius1 ).get(); 
-////        orbitRadius = diameter + 2 + 4 * maxSatelliteOrbitRadius; 
-////        x = cachedTree.x;
-////        y = cachedTree.y;                 // location of this body
-////        orbitPosition = cachedTree.orbitPosition;
-////        int nFactors = factorTrees.size();
-////        for ( int i = 0; i < nFactors; i++ )
-////        {
-////            factorTrees.get( i ).orbitPosition = 2.0 * Math.PI * ( ( double ) i ) / nFactors;
-////        }
-//        
-//        // cache tree
-//        integerToPositiveIntegerTreeMap.put( positiveInteger, this );
-//    }
-    
-    Tree( int integer ) throws ArrayIndexOutOfBoundsException
+    Tree( int integer, Tree parent ) throws ArrayIndexOutOfBoundsException
     {
         isPositive = integer > 0;
         positiveInteger = ( isPositive ) ? integer : -integer;
+        this.parent = parent;
         
         //__________________
         //
@@ -285,15 +204,25 @@ public final class Tree
         {
             height = width = 1;
             factorTrees = new LinkedList<>();
+            diameter = UNIT;
+            orbitRadius = diameter + 2;
+            stepSize = BASE_ANGLE;
             return;
         }
         
         Tree cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
         if ( cachedTree != null )
         {         
-            height      = cachedTree.height;
-            width       = cachedTree.width;
-            factorTrees = cachedTree.factorTrees;
+            height = cachedTree.height;
+            width  = cachedTree.width;
+            // copying subtrees; each tree node has its own animation state.
+            factorTrees = cachedTree.factorTrees
+                    .stream()
+                    .map( t -> new Tree( t, this ) )
+                    .collect( Collectors.toList());
+            diameter = cachedTree.diameter;
+            orbitRadius = cachedTree.orbitRadius;
+            stepSize = cachedTree.stepSize;
             return;
         }
         
@@ -301,10 +230,9 @@ public final class Tree
         //
         // recursive case
         //___________________        
-        // !! Re: planet view, see issue w/ caching below.
         factorTrees = primeFactors( positiveInteger )
                 .stream()
-                .map( primeFactor -> new Tree( rank( primeFactor ) ) )
+                .map( primeFactor -> new Tree( rank( primeFactor ), this ) )
                 .collect( Collectors.toList() );
         height = 1 + factorTrees
                 .stream()
@@ -315,9 +243,45 @@ public final class Tree
                 .stream()
                 .mapToInt( Tree::width )
                 .sum();
-        
+        //__________________________
+        // planet attributes
+        //__________________________
+        diameter = (int) pow( positiveInteger, ONE_THIRD ) * UNIT;
+        stepSize = ( factorTrees.isEmpty() ) ? BASE_ANGLE : factorTrees.get( 0 ).stepSize / 2.0; // radians incremented per time step
+        color = Color.BLUE; // of body
+        int maxSatelliteOrbitRadius = ( factorTrees.isEmpty() ) 
+                ? 0 
+                : factorTrees.stream().map( tree -> tree.orbitRadius).max( ( radius1, radius2 ) -> radius2 - radius1 ).get(); 
+        orbitRadius = diameter + 2 + 4 * maxSatelliteOrbitRadius; 
+        orbitPosition = Math.random() * 2 * Math.PI;
+        int nFactors = factorTrees.size();
+        for ( int i = 0; i < nFactors; i++ )
+        {
+            factorTrees.get( i ).orbitPosition = 2.0 * Math.PI * ( ( double ) i ) / nFactors;
+        }
+
         // cache this tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
+    }
+    
+    /**
+     * 
+     * @param tree deep copy of tree.
+     */
+    Tree( Tree tree, Tree parent )
+    {
+        this.parent = parent;
+        isPositive = tree.isPositive;
+        positiveInteger = tree.positiveInteger;
+        height = tree.height;
+        width = tree.width;
+        factorTrees = tree.factorTrees()
+                .stream()
+                .map( t -> new Tree( t, this ) )
+                .collect( Collectors.toList());
+        diameter = tree.diameter;
+        orbitRadius = tree.orbitRadius;
+        stepSize = tree.stepSize;
     }
     
     Integer n() { return ( isPositive ) ? positiveInteger : -positiveInteger; }
@@ -445,30 +409,32 @@ public final class Tree
      */
     public void viewPlanets( Graphics graphics, int x, int y )
     {                      
-        // coordinates of center of root
-        int rootX = x + rootX();
-        int rootY = y + rootY();
-        
-        graphics.setColor( Color.BLACK );
-           
-        // set 1st possibleFactor tree's upperleft corner coordinates 
-        int factorTreeX = x;
-        int factorTreeY = y + DELTA;
-        
-        for ( Tree factorTree : factorTrees )
-        {
-            // draw edge from this root to possibleFactor tree's root
-            graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
-            
-            // draw possibleFactor tree
-            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY );
-            
-            // set next possibleFactor tree's upperleft corner's x coordinate
-            factorTreeX += DELTA * factorTree.width; 
-        }
-        
-        // draw root
-        drawDisk( graphics, rootX, rootY );
+        move();
+        draw( graphics );
+//        // coordinates of center of root
+//        int rootX = x + rootX();
+//        int rootY = y + rootY();
+//        
+//        graphics.setColor( Color.BLACK );
+//           
+//        // set 1st possibleFactor tree's upperleft corner coordinates 
+//        int factorTreeX = x;
+//        int factorTreeY = y + DELTA;
+//        
+//        for ( Tree factorTree : factorTrees )
+//        {
+//            // draw edge from this root to possibleFactor tree's root
+//            graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
+//            
+//            // draw possibleFactor tree
+//            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY );
+//            
+//            // set next possibleFactor tree's upperleft corner's x coordinate
+//            factorTreeX += DELTA * factorTree.width; 
+//        }
+//        
+//        // draw root
+//        drawDisk( graphics, rootX, rootY );
     }
     
     /**
@@ -493,7 +459,7 @@ public final class Tree
             graphics.drawOval( x - RADIUS, y - RADIUS, DIAMETER, DIAMETER );
         }
     }
-    
+        
     int rootX() { return width * DELTA / 2 - RADIUS; }
     
     int rootY() { return PAD + RADIUS; }
@@ -502,24 +468,27 @@ public final class Tree
     //
     // planetary motion methods
     //_______________________________
-//    void move( Tree parent ) 
-//    {
-//        // move this Body
-//        orbitPosition += stepSize;
-//        if ( orbitPosition > 2 * Math.PI )
-//        {
-//            orbitPosition -= 2 * Math.PI;
-//        }
-//        x = parent.x + parent.diameter/2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
-//        y = parent.y + parent.diameter/2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
-//        
-//        // move my sateillites
-//        factorTrees.forEach( satellite -> satellite.move( this ) );
-//    }
-//    
-//    public void draw( Tree parent, Graphics graphics )
-//     {
-//         // draw this
+    void move() 
+    {
+        // move this Body
+        orbitPosition += stepSize;
+        if ( orbitPosition > 2 * Math.PI )
+        {
+            orbitPosition -= 2 * Math.PI;
+        }
+        int parentX = ( parent == null ) ? Viewer.IMAGE_VIEWPORT_SIZE / 2 : parent.x;
+        int parentY = ( parent == null ) ? Viewer.IMAGE_VIEWPORT_SIZE / 2 : parent.y;
+        int parentDiameter = ( parent == null ) ? 0 : parent.diameter;
+        x = parentX + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
+        y = parentY + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
+        
+        // move my sateillites
+        factorTrees.forEach( satellite -> satellite.move() );
+    }
+    
+    public void draw( Graphics graphics )
+     {
+         // draw this
 //         if ( SHOW_ORBIT ) 
 //         {
 //             graphics.setColor( Color.WHITE );
@@ -529,12 +498,12 @@ public final class Tree
 //                                2 * (int) orbitRadius
 //                              );
 //         }
-//         graphics.setColor( color );
-//         graphics.fillOval( x, y, diameter, diameter );
-//         
-//        // draw my satellites
-//        factorTrees.forEach( satellite -> satellite.draw( this, graphics ) );
-//     }
+         graphics.setColor( color );
+         graphics.fillOval( x, y, diameter, diameter );
+         
+        // draw my satellites
+        factorTrees.forEach( satellite -> satellite.draw( graphics ) );
+     }
     
     //_____________ Methods For Unit Testing ______________________
     public List<Tree> getFfactorTrees() { return factorTrees; } 
