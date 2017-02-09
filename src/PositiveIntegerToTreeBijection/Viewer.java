@@ -90,7 +90,7 @@ public class Viewer extends JFrame
 
     // model components
     private int number = 1;
-    private Tree tree = new Tree( number, null );
+    private Tree tree = new Tree( number );
     
     public static void main(String[] args) 
     {
@@ -159,7 +159,7 @@ public class Viewer extends JFrame
 
     private void update( int number )
     {
-        tree = new Tree( number, null );
+        tree = new Tree( number );
         stringView.setText( tree.getStringView() );
         imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getImageView() ) ) );
         timerBasedAnimation.newAnimation( tree );
