@@ -172,6 +172,7 @@ public final class Tree
     //
     // immutable object attributes
     //___________________________
+    private final boolean isRoot;
     private final boolean isPositive;
     private final int positiveInteger;
     private final Tree parent;
@@ -181,17 +182,33 @@ public final class Tree
         
     //___________________________
     //
-    // planet attributes
+    // immutable planet attributes
     //___________________________
     private final int diameter;       // diameter of this body
     private final int orbitRadius; // radius of its orbit
     private final double stepSize;    // amount of radians incremented per time step
     private       Color color = Color.BLUE; // of body
+    //___________________________
+    //
+    // mutable planet attributes
+    //___________________________
     private       int x, y;                 // location of this body
     private       double orbitPosition;     // orbit angular position in radians
     
-    Tree( int integer, Tree parent ) throws ArrayIndexOutOfBoundsException
+    /**
+     * Constructor for root.
+     * @param integer 
+     */
+    Tree( int integer ) { this( integer, null ); }
+        
+    /**
+     * Constructor for subtree.
+     * @param integer
+     * @param parent 
+     */
+    Tree( int integer, Tree parent )
     {
+        isRoot = parent == null;
         isPositive = integer > 0;
         positiveInteger = ( isPositive ) ? integer : -integer;
         this.parent = parent;
@@ -244,6 +261,7 @@ public final class Tree
                 .mapToInt( Tree::width )
                 .sum();
         //__________________________
+        //
         // planet attributes
         //__________________________
         diameter = (int) pow( positiveInteger, ONE_THIRD ) * UNIT;
@@ -269,7 +287,7 @@ public final class Tree
      * @param tree deep copy of tree.
      */
     Tree( Tree tree, Tree parent )
-    {
+    {   isRoot = parent == null;
         this.parent = parent;
         isPositive = tree.isPositive;
         positiveInteger = tree.positiveInteger;
@@ -287,7 +305,7 @@ public final class Tree
     Integer n() { return ( isPositive ) ? positiveInteger : -positiveInteger; }
 
         
-            private List<Integer> primeFactors( int n )
+    private List<Integer> primeFactors( int n )
     {
         /* add 1 to n before taking sqrt to avoid situation where sqrt( n^2 )
         * returns n - epsilon, (int) of which is n - 1 which could produce
@@ -366,7 +384,7 @@ public final class Tree
 
     /**
      *
-     * @param graphics of image on which tree is rendered
+     * @param g
      * @param x col of upper left corner of rectangle containing tree
      * @param y row of upper left corner of rectangle containing tree
      */
@@ -411,30 +429,6 @@ public final class Tree
     {                      
         move();
         draw( graphics );
-//        // coordinates of center of root
-//        int rootX = x + rootX();
-//        int rootY = y + rootY();
-//        
-//        graphics.setColor( Color.BLACK );
-//           
-//        // set 1st possibleFactor tree's upperleft corner coordinates 
-//        int factorTreeX = x;
-//        int factorTreeY = y + DELTA;
-//        
-//        for ( Tree factorTree : factorTrees )
-//        {
-//            // draw edge from this root to possibleFactor tree's root
-//            graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
-//            
-//            // draw possibleFactor tree
-//            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY );
-//            
-//            // set next possibleFactor tree's upperleft corner's x coordinate
-//            factorTreeX += DELTA * factorTree.width; 
-//        }
-//        
-//        // draw root
-//        drawDisk( graphics, rootX, rootY );
     }
     
     /**
@@ -476,9 +470,9 @@ public final class Tree
         {
             orbitPosition -= 2 * Math.PI;
         }
-        int parentX = ( parent == null ) ? Viewer.IMAGE_VIEWPORT_SIZE / 2 : parent.x;
-        int parentY = ( parent == null ) ? Viewer.IMAGE_VIEWPORT_SIZE / 2 : parent.y;
-        int parentDiameter = ( parent == null ) ? 0 : parent.diameter;
+        int parentX = isRoot ? Viewer.IMAGE_VIEWPORT_SIZE / 2 : parent.x;
+        int parentY = isRoot ? Viewer.IMAGE_VIEWPORT_SIZE / 2 : parent.y;
+        int parentDiameter = isRoot ? 0 : parent.diameter;
         x = parentX + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
         y = parentY + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
         
