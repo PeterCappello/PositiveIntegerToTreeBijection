@@ -67,7 +67,7 @@ public class Viewer extends JFrame
     static final int IMAGE_VIEWPORT_SIZE = 800;
 
     // graphical components
-    private final TimerBasedAnimation timerBasedAnimation = new TimerBasedAnimation();
+    private final Animation timerBasedAnimation = new Animation();
     private final JScrollPane animationScrollPane = new JScrollPane( timerBasedAnimation );
     private final ImagePanel imageView = new ImagePanel();
     private final JScrollPane imageViewScrollPane = new JScrollPane( imageView );
@@ -113,7 +113,11 @@ public class Viewer extends JFrame
         container.add(numberPanel, BorderLayout.NORTH );
         container.add(imageViewScrollPane, BorderLayout.CENTER );
         container.add(stringViewScrollPane, BorderLayout.EAST );
+        
+        // Animation does not display w/o these 2 statements.
         timerBasedAnimation.setPreferredSize( new Dimension( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE ) );
+        animationScrollPane.setPreferredSize( new Dimension( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE ) );
+        
         container.add( animationScrollPane, BorderLayout.WEST );
         container.add(extras, BorderLayout.SOUTH );
 
@@ -138,7 +142,7 @@ public class Viewer extends JFrame
         setPreferredSize( dimension );        
         stringView.setEditable( false );
 //        update( 111111111 ); 
-        update( 108 );
+        update( 2 );
         setVisible(true);
 
         //  _______________________________________

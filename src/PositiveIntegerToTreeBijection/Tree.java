@@ -53,7 +53,7 @@ public final class Tree
     static private final double ONE_THIRD = 1.0 / 3.0;
     static private final double FRAME_RATE = 16;
     static private final double BASE_ANGLE = 1.0 / FRAME_RATE;
-    static private final int UNIT = 4;
+    static private final int UNIT = 8;
     
     static private final boolean SHOW_ORBIT = true;
     /**
@@ -187,15 +187,15 @@ public final class Tree
     // immutable planet attributes
     //___________________________
     private final int diameter;       // diameter of this body
-    private final int orbitRadius; // radius of its orbit
+    private final int orbitRadius;    // radius of its orbit around its PARENT.
     private final double stepSize;    // amount of radians incremented per time step
     private       Color color = Color.BLUE; // of body
     //___________________________
     //
     // mutable planet attributes
     //___________________________
-    private       int x, y;                 // location of this body
-    private       double orbitPosition;     // orbit angular position in radians
+    private       int x, y;              // location of this body
+    private       double orbitAngle;     // orbit angular position in radians
     
     /**
      * Constructor for root.
@@ -224,7 +224,7 @@ public final class Tree
             height = width = 1;
             factorTrees = new LinkedList<>();
             diameter = 1;
-            orbitRadius = (isRoot ? 0 : parent.orbitRadius ) + 1; //diameter + UNIT;
+            orbitRadius = isRoot ? 0 : parent.diameter + 1;
             stepSize = BASE_ANGLE;
             return;
         }
@@ -266,21 +266,27 @@ public final class Tree
         //
         // planet attributes
         //__________________________
-        diameter = (int) pow( positiveInteger, ONE_THIRD ) * UNIT;
+        diameter = (int) pow( positiveInteger, ONE_THIRD );
         stepSize = ( factorTrees.isEmpty() ) ? BASE_ANGLE : factorTrees.get( 0 ).stepSize / 2.0; // radians incremented per time step
         color = Color.BLUE; // of body
         int maxSatelliteOrbitRadius = ( factorTrees.isEmpty() ) 
                 ? 0 
                 : factorTrees.stream()
                         .mapToInt( Tree::orbitRadius )
-                        .max().getAsInt();
-        int parentOrbitRadius = isRoot ? 0 : parent.orbitRadius;
-        orbitRadius = ( isRoot ? 0 : parent.orbitRadius ) + ( isRoot ? 0 : parent.diameter ) + 2 + 4 * maxSatelliteOrbitRadius; 
-        orbitPosition = Math.random() * 2 * Math.PI;
+                        .max()
+                        .getAsInt();
+        
+        // compute distance from its parent
+        int parentRadius = isRoot 
+                ? 0 
+                : ( parent.diameter < 2 ) ? 1 : parent.diameter / 2;
+        orbitRadius = isRoot ? 0 : parentRadius + 2 + 4 * maxSatelliteOrbitRadius;
+        
+        orbitAngle = Math.random() * 2 * Math.PI;
         int nFactors = factorTrees.size();
         for ( int i = 0; i < nFactors; i++ )
         {
-            factorTrees.get( i ).orbitPosition = 2.0 * Math.PI * ( ( double ) i ) / nFactors;
+            factorTrees.get( i ).orbitAngle = 2.0 * Math.PI * ( ( double ) i ) / nFactors;
         }
 
         // cache this tree
@@ -346,7 +352,33 @@ public final class Tree
     
     public int getPositiveInteger() { return positiveInteger; }
     
-    public String getStringView() { return new String( Tree.this.viewString( "   ") ); }
+    public String getStringView() { return new String( viewString( "   ") ); }
+    
+    public String toString() { return toString( "  " ).toString(); }
+    
+    private StringBuilder toString( String pad )
+    {
+         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder
+                .append( pad ).append( '\n' ).append( pad )
+                .append( "isRoot: " + isRoot ). append( "  " )
+                .append( isPositive ? "" : "-")
+                .append( positiveInteger ).append( "  " )
+                .append( positiveInteger ).append( "  " )
+                .append( positiveInteger < primes.size() ? prime( positiveInteger ) : "" )
+                .append( " diameter: " + diameter )
+                .append( " orbitRadius: " + orbitRadius )
+                .append( " orbitAngle: " + orbitAngle )
+                .append( " x: " + x ).append( " y: " + y );
+        if ( ! factorTrees.isEmpty() )
+        {
+            for ( Tree factorTree : factorTrees )
+            {
+                stringBuilder.append(factorTree.viewString( pad + "    ") );
+            }
+        }
+        return stringBuilder;
+    }
 
     private StringBuilder viewString( String pad )
     {
@@ -354,13 +386,13 @@ public final class Tree
         stringBuilder
                 .append( pad ).append( '\n' ).append( pad )
                 .append( isPositive ? "" : "-")
-                .append( positiveInteger ).append( "  ")
+                .append( positiveInteger ).append( "   " )
                 .append( positiveInteger < primes.size() ? prime( positiveInteger ) : "" );
         if ( ! factorTrees.isEmpty() )
         {
             for ( Tree factorTree : factorTrees )
             {
-                stringBuilder.append(factorTree.viewString( pad + "    ") );
+                stringBuilder.append(factorTree.viewString( pad + "    " ) );
             }
         }
         return stringBuilder;
@@ -383,7 +415,7 @@ public final class Tree
     BufferedImage getPlanetsView()
     {
         BufferedImage bufferedImage = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
-        viewPlanets( bufferedImage.getGraphics(), PAD, PAD );
+        viewPlanets( bufferedImage.getGraphics() );
         return bufferedImage;
     }
 
@@ -427,10 +459,8 @@ public final class Tree
     /**
      *
      * @param graphics of image on which tree is rendered
-     * @param x col of upper left corner of rectangle containing tree
-     * @param y row of upper left corner of rectangle containing tree
      */
-    public void viewPlanets( Graphics graphics, int x, int y )
+    public void viewPlanets( Graphics graphics )
     {                      
         move();
         draw( graphics );
@@ -472,43 +502,46 @@ public final class Tree
         // move this Body
         if ( isRoot )
         {
-            x = y = IMAGE_VIEWPORT_SIZE / 2;
-            return;
+            x = y = 0;
         }
-        orbitPosition += stepSize;
-        if ( orbitPosition > 2 * Math.PI )
+        else
         {
-            orbitPosition -= 2 * Math.PI;
+            orbitAngle += stepSize;
+            if ( orbitAngle > 2 * Math.PI )
+            {
+                orbitAngle -= 2 * Math.PI;
+            }
+            x = parent.x + (int) ( orbitRadius * cos( orbitAngle ) );
+            y = parent.y + (int) ( orbitRadius * sin( orbitAngle ) );
         }
-        int parentX = isRoot ? IMAGE_VIEWPORT_SIZE / 2 : parent.x;
-        int parentY = isRoot ? IMAGE_VIEWPORT_SIZE / 2 : parent.y;
-        int parentDiameter = isRoot ? 0 : parent.diameter;
-        x = parentX + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
-        y = parentY + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
-        
+     System.out.println("move: n: " + n() + " x: " + x + " y: " + y);
+     
         // move my sateillites
         factorTrees.forEach( satellite -> satellite.move() );
+        System.out.println( this );
     }
     
     public void draw( Graphics graphics )
      {
-        int parentX = isRoot ? IMAGE_VIEWPORT_SIZE / 2 : parent.x;
-        int parentY = isRoot ? IMAGE_VIEWPORT_SIZE / 2 : parent.y;
-        int parentDiameter = isRoot ? 0 : parent.diameter;
-        x = parentX + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
-        y = parentY + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
+         // !! put OFFSET as a constanst
+         int OFFESET = IMAGE_VIEWPORT_SIZE / 2;
+        int parentX = isRoot ? 0 : parent.x;
+        int parentY = isRoot ? 0 : parent.y;
+        
          // draw this
          if ( SHOW_ORBIT ) 
          {
              graphics.setColor( Color.RED );
-             graphics.drawOval( UNIT * ( parentX - (int) orbitRadius + parentDiameter / 2 ),
-                                UNIT * ( parentY - (int) orbitRadius + parentDiameter /2 ),
+             graphics.drawOval( OFFESET + UNIT * ( parentX - (int) orbitRadius ),
+                                OFFESET + UNIT * ( parentY - (int) orbitRadius ),
                                 UNIT * 2 * (int) orbitRadius,
                                 UNIT * 2 * (int) orbitRadius
                               );
+            System.out.println("draw upper left ORBIT coordinates: n: " + n() + " x: " + (OFFESET + UNIT * ( parentX - (int) orbitRadius) ) + " y: " + ( OFFESET + UNIT * ( parentY - (int) orbitRadius ) ) + " orbit diameter: " + (UNIT * 2 * (int) orbitRadius) );
          }
          graphics.setColor( color );
-         graphics.fillOval( UNIT * x, UNIT * y, UNIT * diameter, UNIT * diameter );
+         System.out.println("Actual upper left BODY coordinates: n: " + n() + " x: " + ( OFFESET + (int) ( UNIT * ( x - diameter / 2.0 ) ) ) + " y: " + ( OFFESET + (int) ( UNIT * ( y - diameter / 2.0 ) ) ) + " UNIT * diameter: " + (UNIT * diameter) );
+         graphics.fillOval(  OFFESET + (int) ( UNIT * ( x - diameter / 2.0 ) ), OFFESET + (int) ( UNIT * ( y - diameter / 2.0 ) ), UNIT * diameter, UNIT * diameter );
          
         // draw my satellites
         factorTrees.forEach( satellite -> satellite.draw( graphics ) );
