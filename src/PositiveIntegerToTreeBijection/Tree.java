@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import static PositiveIntegerToTreeBijection.Viewer.IMAGE_VIEWPORT_SIZE;
 
 /**
  * Recursively maps a natural possibleFactor to a rooted, un-oriented tree.
@@ -54,6 +55,7 @@ public final class Tree
     static private final double BASE_ANGLE = 1.0 / FRAME_RATE;
     static private final int UNIT = 4;
     
+    static private final boolean SHOW_ORBIT = true;
     /**
      * List of first PRIMES_INITIAL_CAPACITY prime numbers
      */
@@ -215,14 +217,14 @@ public final class Tree
         
         //__________________
         //
-        // base case
+        // base case: leaf
         //___________________
         if ( positiveInteger == 1 )
         {
             height = width = 1;
             factorTrees = new LinkedList<>();
-            diameter = UNIT;
-            orbitRadius = diameter + 2;
+            diameter = 1;
+            orbitRadius = (isRoot ? 0 : parent.orbitRadius ) + 1; //diameter + UNIT;
             stepSize = BASE_ANGLE;
             return;
         }
@@ -269,8 +271,11 @@ public final class Tree
         color = Color.BLUE; // of body
         int maxSatelliteOrbitRadius = ( factorTrees.isEmpty() ) 
                 ? 0 
-                : factorTrees.stream().map( tree -> tree.orbitRadius).max( ( radius1, radius2 ) -> radius2 - radius1 ).get(); 
-        orbitRadius = diameter + 2 + 4 * maxSatelliteOrbitRadius; 
+                : factorTrees.stream()
+                        .mapToInt( Tree::orbitRadius )
+                        .max().getAsInt();
+        int parentOrbitRadius = isRoot ? 0 : parent.orbitRadius;
+        orbitRadius = ( isRoot ? 0 : parent.orbitRadius ) + ( isRoot ? 0 : parent.diameter ) + 2 + 4 * maxSatelliteOrbitRadius; 
         orbitPosition = Math.random() * 2 * Math.PI;
         int nFactors = factorTrees.size();
         for ( int i = 0; i < nFactors; i++ )
@@ -465,13 +470,18 @@ public final class Tree
     void move() 
     {
         // move this Body
+        if ( isRoot )
+        {
+            x = y = IMAGE_VIEWPORT_SIZE / 2;
+            return;
+        }
         orbitPosition += stepSize;
         if ( orbitPosition > 2 * Math.PI )
         {
             orbitPosition -= 2 * Math.PI;
         }
-        int parentX = isRoot ? Viewer.IMAGE_VIEWPORT_SIZE / 2 : parent.x;
-        int parentY = isRoot ? Viewer.IMAGE_VIEWPORT_SIZE / 2 : parent.y;
+        int parentX = isRoot ? IMAGE_VIEWPORT_SIZE / 2 : parent.x;
+        int parentY = isRoot ? IMAGE_VIEWPORT_SIZE / 2 : parent.y;
         int parentDiameter = isRoot ? 0 : parent.diameter;
         x = parentX + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
         y = parentY + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
@@ -482,18 +492,23 @@ public final class Tree
     
     public void draw( Graphics graphics )
      {
+        int parentX = isRoot ? IMAGE_VIEWPORT_SIZE / 2 : parent.x;
+        int parentY = isRoot ? IMAGE_VIEWPORT_SIZE / 2 : parent.y;
+        int parentDiameter = isRoot ? 0 : parent.diameter;
+        x = parentX + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * cos( orbitPosition ) );
+        y = parentY + parentDiameter / 2 - diameter/2 + (int) ( orbitRadius * sin( orbitPosition ) );
          // draw this
-//         if ( SHOW_ORBIT ) 
-//         {
-//             graphics.setColor( Color.WHITE );
-//             graphics.drawOval( parent.x - (int) orbitRadius + parent.diameter/2,
-//                                parent.y - (int) orbitRadius + parent.diameter/2,
-//                                2 * (int) orbitRadius,
-//                                2 * (int) orbitRadius
-//                              );
-//         }
+         if ( SHOW_ORBIT ) 
+         {
+             graphics.setColor( Color.RED );
+             graphics.drawOval( UNIT * ( parentX - (int) orbitRadius + parentDiameter / 2 ),
+                                UNIT * ( parentY - (int) orbitRadius + parentDiameter /2 ),
+                                UNIT * 2 * (int) orbitRadius,
+                                UNIT * 2 * (int) orbitRadius
+                              );
+         }
          graphics.setColor( color );
-         graphics.fillOval( x, y, diameter, diameter );
+         graphics.fillOval( UNIT * x, UNIT * y, UNIT * diameter, UNIT * diameter );
          
         // draw my satellites
         factorTrees.forEach( satellite -> satellite.draw( graphics ) );
@@ -503,4 +518,8 @@ public final class Tree
     public List<Tree> getFfactorTrees() { return factorTrees; } 
         
     int width() { return width; }
+    
+    int diameter() { return diameter; }
+    
+    int orbitRadius() { return orbitRadius; }
 }
