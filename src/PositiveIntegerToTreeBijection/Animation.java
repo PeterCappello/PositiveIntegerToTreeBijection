@@ -32,7 +32,6 @@ public class Animation extends JPanel implements ActionListener
     public void paint( Graphics graphics ) 
     {
       super.paintComponent( graphics );
-      System.out.println( "paint: tree " + tree );
       tree.viewPlanets( graphics );
     }
 

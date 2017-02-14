@@ -89,8 +89,8 @@ public class Viewer extends JFrame
         private final JScrollPane logViewScrollPane = new JScrollPane( logView );
 
     // model components
-    private int number = 1;
-    private Tree tree = new Tree( number );
+    private int number;
+    private Tree tree;
     
     public static void main(String[] args) 
     {
@@ -142,7 +142,7 @@ public class Viewer extends JFrame
         setPreferredSize( dimension );        
         stringView.setEditable( false );
 //        update( 111111111 ); 
-        update( 2 );
+        update( 5 );
         setVisible(true);
 
         //  _______________________________________
