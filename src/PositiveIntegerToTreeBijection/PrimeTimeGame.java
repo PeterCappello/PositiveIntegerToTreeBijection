@@ -177,7 +177,7 @@ public class PrimeTimeGame extends JFrame
             
             goButton.setEnabled( false );
 
-        Dimension dimension = new Dimension( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE + this.getHeight() );
+        Dimension dimension = new Dimension( IMAGE_VIEWPORT_SIZE + this.getHeight(), IMAGE_VIEWPORT_SIZE );
         setSize( dimension );
         setPreferredSize( dimension );        
         setVisible(true);

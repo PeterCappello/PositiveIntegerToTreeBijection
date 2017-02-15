@@ -51,6 +51,7 @@ public final class Tree
     static private final int PRIMES_INITIAL_CAPACITY = 1 << 10;
     static private final double ONE_THIRD = 1.0 / 3.0;
     static private final double FRAME_RATE = 16;
+    static private final double G = 1.0; // Gravitational constant
     static private final double BASE_ANGLE = 1.0 / FRAME_RATE;
     static private final double SCALE = 8;
     static private final double OFFESET = IMAGE_VIEWPORT_SIZE / 2;
@@ -224,9 +225,8 @@ public final class Tree
             height = width = 1;
             factorTrees = new LinkedList<>();
             diameter = 1.0;
-            orbitRadius = isRoot ? 0 : parent.diameter + 3.0; //1.0
+            computeOrbitRadius();
             stepSize = BASE_ANGLE;
-            System.out.println( this );
             return;
         }
         
@@ -234,6 +234,10 @@ public final class Tree
         if ( cachedTree != null )
         { 
             copy( cachedTree );
+            // ?? Why can't this be done in copy method?  Check for 1,2,3,4,5.
+            stepSize = isRoot
+                ? 0.0
+                : G * mass() * parent.mass() / Math.pow( orbitRadius, 2.0 ); // radians/time step
             return;
         }
            
@@ -258,14 +262,18 @@ public final class Tree
         //
         // planet attributes
         //__________________________
-        diameter = 1.0; //positiveInteger; //(int) pow( positiveInteger, ONE_THIRD );
-        stepSize = ( factorTrees.isEmpty() ) ? BASE_ANGLE : factorTrees.get( 0 ).stepSize / 2.0; // radians incremented per time step
+        diameter = Math.pow( 3.0 * Math.PI * mass(), ONE_THIRD );
         computeOrbitRadius();
         final int nFactors = factorTrees.size();
         for ( int i = 0; i < nFactors; i++ )
         {
             factorTrees.get( i ).orbitAngle = 2.0 * Math.PI * ( ( double ) i ) / nFactors;
         }
+        double massProduct = mass() * ( isRoot ? 1.0 : parent.mass() );
+        stepSize = isRoot
+                ? 0.0
+                : G * massProduct / Math.pow( orbitRadius, 2.0 ); // radians/time step
+        System.out.println( "n: " + n() + " distance: " + orbitRadius + " angular speed: " + stepSize);
 
         // cache this tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
@@ -280,6 +288,9 @@ public final class Tree
         isRoot = parent == null;
         this.parent = parent;
         copy( tree );
+        stepSize = isRoot
+                ? 0.0
+                : G * mass() * parent.mass() / Math.pow( orbitRadius, 2.0 ); // radians/time step
     }
         
     /**
@@ -299,7 +310,6 @@ public final class Tree
                 .collect( Collectors.toList());
         diameter = tree.diameter;
         computeOrbitRadius();
-        stepSize = tree.stepSize;
         final int nFactors = factorTrees.size();
         for ( int i = 0; i < nFactors; i++ )
         {
@@ -314,17 +324,15 @@ public final class Tree
         double maxSatelliteOrbitRadius = ( factorTrees.isEmpty() ) 
                 ? 0.0
                 : factorTrees.stream()
-//                        .mapToInt( Tree::orbitRadius )
                         .mapToDouble( Tree::orbitRadius )
                         .max()
                         .getAsDouble();
-//                        .getAsInt();
         
         // compute distance from its parent
         double parentRadius = isRoot 
-                ? 0 
+                ? 0.0
                 : ( parent.diameter < 2.0 ) ? 1.0 : parent.diameter / 2.0;
-        orbitRadius = isRoot ? 0 : parentRadius + maxSatelliteOrbitRadius + (parent.diameter + 1) + 5;
+        orbitRadius = isRoot ? 0.0 : parentRadius + maxSatelliteOrbitRadius + ( parent.diameter + 1.0 ) + 5.0;
     }
         
     private List<Integer> primeFactors( int n )
@@ -562,6 +570,8 @@ public final class Tree
     int width() { return width; }
     
     double diameter() { return diameter; }
+    
+    double mass() { return positiveInteger; }
     
     double orbitRadius() { return orbitRadius; }
 }
