@@ -30,6 +30,14 @@ rank   | prime
 6 | 13
 7 | 17
 
+Let _r( n )_ denote the r<sup>th</sup> prime (e.g., _r_( 4 ) = 7 ).
+
+The bijection is defined recursively as follows:
+
+1. 1 maps to the tree consisting of only a root;
+2. for _n_ > 1, let n = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, where the p<sub>i</sub> are its prime factors, and
+_r_( p<sub>1</sub> ), _r_( p<sub>2</sub> ), ... , _r_( p<sub>k</sub> ) be the ranks of _n_'s prime factors.
+
 There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
 
 The bijection defines a total ordering on this set of trees.
