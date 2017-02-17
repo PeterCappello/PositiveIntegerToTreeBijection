@@ -40,6 +40,7 @@ _r_( p<sub>1</sub> ), _r_( p<sub>2</sub> ), ... , _r_( p<sub>k</sub> ) be the ra
 Then n maps to the tree with a root and a subtree associated with _r_( p<sub>k</sub> ), for each of its _k_ prime factors.
 
 The bijection is illustrated for integers 1 to 32.
+
 ![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png "Tree corresponding to 1")
 ![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png)
 ![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png)
@@ -49,12 +50,7 @@ The bijection is illustrated for integers 1 to 32.
 ![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png "Tree corresponding to 1")
 
 
-Xxxxxxxxxx
-
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png" >
-
-![text][7]
-[7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/tree/master/src/images/7.png "Tree corresponding to 7")
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png" width="100"em>
 
 n   | tree           
  ---: | :---
