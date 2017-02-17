@@ -43,7 +43,7 @@ The bijection is illustrated for integers 1 to 32.
 
 n   | tree           
  ---: | :---
-7 |![alt text](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/edit/master/src/images/7.png "Tree corresponding to 7")
+7 |![alt text](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/tree/master/src/images/7.png "Tree corresponding to 7")
  
 2 | 3
 3 | 5
