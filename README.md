@@ -7,19 +7,7 @@ based on a bijection described in:
 
 ## The bijection
 
-Before defining the bijection, we define some basic terms.
-
-A bijection is a 1-to-1 correspondence between 2 sets:
-It is a map from a set A to a set B that is injective and surjective, 
-where:
-
-* A map is injective when distinct elements in the domain (set A) map to distinct
-elements in the codomain (set B).
-
-* A map is surjective when every element in the codomain is the image of
-some element in the domain.
-
-The bijection associated with this project is between the set of positive integers
+The [bijection](https://en.wikipedia.org/wiki/Bijection) associated with this project is between the set of positive integers
 { 1, 2, 3, ... } 
 and the set of finite, rooted, unoriented trees, where:
 
@@ -29,10 +17,41 @@ and the set of finite, rooted, unoriented trees, where:
 
 * A tree is _unoriented_ when its edges are unoriented (aka undirected).
 
-The bijection makes use of the concept of a prime number.
-From [Wikipedia](https://en.wikipedia.org/wiki/Prime_number), 
-A prime number (or a prime) is a natural number greater than 1 that has no 
-positive divisors other than 1 and itself. 
+The bijection makes use of the concept of a [prime number](https://en.wikipedia.org/wiki/Prime_number)
+and its index or rank, which is illustrated in the table below.
+
+rank   | prime           
+ ---: | :---
+1 | 2  
+2 | 3
+3 | 5
+4 | 7
+5 | 11 
+6 | 13
+7 | 17
+
+Let _r( n )_ denote the r<sup>th</sup> prime (e.g., _r_( 4 ) = 7 ).
+
+The bijection is defined recursively as follows:
+
+1. 1 maps to the tree consisting of only a root;
+2. Let 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, where the p<sub>i</sub> are its prime factors, and
+_r_( p<sub>1</sub> ), _r_( p<sub>2</sub> ), ... , _r_( p<sub>k</sub> ) be the ranks of _n_'s prime factors.
+Then n maps to the tree with a root and a subtree associated with _r_( p<sub>k</sub> ), for each of its _k_ prime factors.
+
+The bijection is illustrated for integers 1 to 32.
+
+n   | tree           
+ ---: | :---
+7 |![alt text](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/edit/master/src/images/7.png "Tree corresponding to 7")
+ 
+2 | 3
+3 | 5
+4 | 7
+5 | 11 
+6 | 13
+7 | 17
+
 
 There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
 
