@@ -36,7 +36,7 @@ Then, the inverse function of _p_, _p_<sup>-1</sup> maps a prime number to its i
 
 The bijection &tau; : **N** &map; **T** is defined recursively as follows:
 
-1. τ (1) is the rooted tree comprised of exactly one node, its root;
+1. τ ( 1 ) is the rooted tree comprised of exactly one node, its root;
 
 1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, 
  where the p<sub>i</sub> are its prime factors, 
