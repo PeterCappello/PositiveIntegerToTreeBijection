@@ -41,7 +41,7 @@ The bijection &tau; : **N** &map; **T** is defined ecursively as follows:
 1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, 
  where the p<sub>i</sub> are its prime factors, 
  _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) are the ranks of _n_'s prime factors, 
-   τ (n) is the rooted, unoriented tree with _k_ subtrees,
+   τ ( _n_ ) is the rooted, unoriented tree with _k_ subtrees,
    τ ( _p_<sup>-1</sup>( p<sub>1</sub> ) ), τ ( _p_<sup>-1</sup>( p<sub>2</sub> ) ), ..., τ ( _p_<sup>-1</sup>( p<sub>k</sub> ) ).
 
 The bijection is illustrated below for the integers 1 to 32.
