@@ -41,26 +41,16 @@ Then n maps to the tree with a root and a subtree associated with _r_( p<sub>k</
 
 The bijection is illustrated for integers 1 to 32.
 
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1.png" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2.png" alt="Tree corresponding to 2">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/3.png" alt="Tree corresponding to 3">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/4.png" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/5.png" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/6.png" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/8.png" alt="Tree corresponding to 1">
+
 ![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png "Tree corresponding to 1")
-![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png)
-![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png)
-![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png)
-![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png)
-![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png)
-![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png "Tree corresponding to 1")
-
-
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png" width="100"em>
-
-n   | tree           
- ---: | :---
-1 | 2
-2 | 3
-3 | 5
-4 | 7
-5 | 11 
-6 | 13
-7 | 17
 
 
 There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
