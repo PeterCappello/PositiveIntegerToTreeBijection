@@ -17,6 +17,10 @@ and the set of finite, rooted, unoriented trees, where:
 
 * A tree is _unoriented_ when its edges are unoriented (aka undirected).
 
+Let **N**, **P**, **T** denote the sets of the natural numbers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
+Let function _p_ : **N** \&map; **P** denote the _n_<sup>th</sup> prime (e.g., _p_( 4 ) = 7 ).
+Define the function \&Tau; : **N** \&map; **T** recursively as follows:
+
 The bijection makes use of the concept of a [prime number](https://en.wikipedia.org/wiki/Prime_number)
 and its index or rank, which is illustrated in the table below.
 
@@ -30,7 +34,7 @@ rank   | prime
 6 | 13
 7 | 17
 
-Let _r( n )_ denote the r<sup>th</sup> prime (e.g., _r_( 4 ) = 7 ).
+Let _r( n )_ denote the _n_<sup>th</sup> prime (e.g., _r_( 4 ) = 7 ).
 
 The bijection is defined recursively as follows:
 
