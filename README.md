@@ -13,13 +13,9 @@ and the set of finite, rooted, unoriented trees, where:
 
 * A tree is a graph with no cycles. 
 
-* A tree is _rooted_ when one of its vertices has been designated as the root.
+* A tree is _rooted_ when exactly 1 of its vertices has been designated as the root.
 
 * A tree is _unoriented_ when its edges are unoriented (aka undirected).
-
-Let **N**, **P**, **T** denote the sets of the natural numbers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
-Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p_( 4 ) = 7 ).
-Define the function \&tau; : **N** &map; **T** recursively as follows:
 
 The bijection makes use of the concept of a [prime number](https://en.wikipedia.org/wiki/Prime_number)
 and its index or rank, which is illustrated in the table below.
@@ -34,6 +30,12 @@ rank   | prime
 6 | 13
 7 | 17
 
+Let **N**, **P**, **T** denote the sets of the natural numbers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
+Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p_( 4 ) = 7 ).
+Then, the inverse function of _p_, _p_<sup>-1</sup> maps a prime number to its index or rank (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
+
+The bijection &tau; : **N** &map; **T** is defined ecursively as follows:
+
 Let _r( n )_ denote the _n_<sup>th</sup> prime (e.g., _r_( 4 ) = 7 ).
 
 The bijection is defined recursively as follows:
@@ -43,7 +45,7 @@ The bijection is defined recursively as follows:
 _r_( p<sub>1</sub> ), _r_( p<sub>2</sub> ), ... , _r_( p<sub>k</sub> ) be the ranks of _n_'s prime factors.
 Then n maps to the tree with a root and a subtree associated with _r_( p<sub>k</sub> ), for each of its _k_ prime factors.
 
-The bijection is illustrated for integers 1 to 32.
+The bijection is illustrated below for the integers 1 to 32.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1.png "Tree corresponding to 1")
 ![2](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2.png "Tree corresponding to 2")
