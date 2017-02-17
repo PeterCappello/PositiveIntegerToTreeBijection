@@ -51,7 +51,7 @@ public final class Tree
     static private final int PRIMES_INITIAL_CAPACITY = 1 << 10;
     static private final double ONE_THIRD = 1.0 / 3.0;
     static private final double FRAME_RATE = 16;
-    static private final double G = 1.0; // Gravitational constant
+    static private final double G = 0.1; // Gravitational constant
     static private final double BASE_ANGLE = 1.0 / FRAME_RATE;
     static private final double SCALE = 8;
     static private final double OFFESET = IMAGE_VIEWPORT_SIZE / 2;
@@ -273,7 +273,6 @@ public final class Tree
         stepSize = isRoot
                 ? 0.0
                 : G * massProduct / Math.pow( orbitRadius, 2.0 ); // radians/time step
-        System.out.println( "n: " + n() + " distance: " + orbitRadius + " angular speed: " + stepSize);
 
         // cache this tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
@@ -332,7 +331,7 @@ public final class Tree
         double parentRadius = isRoot 
                 ? 0.0
                 : ( parent.diameter < 2.0 ) ? 1.0 : parent.diameter / 2.0;
-        orbitRadius = isRoot ? 0.0 : parentRadius + maxSatelliteOrbitRadius + ( parent.diameter + 1.0 ) + 5.0;
+        orbitRadius = isRoot ? 0.0 : parentRadius + maxSatelliteOrbitRadius + ( 2 * parent.diameter + 1.0 ) + 5.0;
     }
         
     private List<Integer> primeFactors( int n )

@@ -42,14 +42,14 @@ public class Animation extends JPanel implements ActionListener
     public Animation() 
     {
       timer = new Timer( SLEEP_TIME, this );
-      timer.start();
+//      timer.start();
     }
 
     @Override
     public void paint( Graphics graphics ) 
     {
       super.paintComponent( graphics );
-      tree.viewPlanets( graphics );
+//      tree.viewPlanets( graphics );
     }
 
     @Override
