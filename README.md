@@ -41,7 +41,12 @@ Then n maps to the tree with a root and a subtree associated with _r_( p<sub>k</
 
 The bijection is illustrated for integers 1 to 32.
 
-![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/tree/master/src/images/7.png)
+![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png)
+
+
+Xxxxxxxxxx
+
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png" >
 
 ![text][7]
 [7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/tree/master/src/images/7.png "Tree corresponding to 7")
