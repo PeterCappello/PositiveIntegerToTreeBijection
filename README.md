@@ -7,19 +7,7 @@ based on a bijection described in:
 
 ## The bijection
 
-Before defining the bijection, we define some basic terms.
-
-A bijection is a 1-to-1 correspondence between 2 sets:
-It is a map from a set A to a set B that is injective and surjective, 
-where:
-
-* A map is injective when distinct elements in the domain (set A) map to distinct
-elements in the codomain (set B).
-
-* A map is surjective when every element in the codomain is the image of
-some element in the domain.
-
-The bijection associated with this project is between the set of positive integers
+The [bijection](https://en.wikipedia.org/wiki/Bijection) associated with this project is between the set of positive integers
 { 1, 2, 3, ... } 
 and the set of finite, rooted, unoriented trees, where:
 
@@ -29,10 +17,18 @@ and the set of finite, rooted, unoriented trees, where:
 
 * A tree is _unoriented_ when its edges are unoriented (aka undirected).
 
-The bijection makes use of the concept of a prime number.
-From [Wikipedia](https://en.wikipedia.org/wiki/Prime_number), 
-A prime number (or a prime) is a natural number greater than 1 that has no 
-positive divisors other than 1 and itself. 
+The bijection makes use of the concept of a [prime number](https://en.wikipedia.org/wiki/Prime_number)
+and its index or rank, which is illustrated in the table below.
+
+rank   | prime           
+ ---: | :---
+1 | 2  
+2 | 3
+3 | 5
+4 | 7
+5 | 11 
+6 | 13
+7 | 17
 
 There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
 
