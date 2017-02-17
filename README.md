@@ -38,17 +38,17 @@ The bijection &tau; : **N** &map; **T** is defined ecursively as follows:
 
 1. τ (1) is the rooted tree comprised of exactly one node, its root;
 
-1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, where the p<sub>i</sub> are its prime factors, 
-and
- _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) 
- are the ranks of _n_'s prime factors, 
-τ (n) is the rooted, unoriented tree with _k_ subtrees, τ ( p_<sup>-1</sup>( p<sub>_i_</sub> ), for 1 &le; i &le; _k_.
+1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, 
+ where the p<sub>i</sub> are its prime factors, 
+ _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) are the ranks of _n_'s prime factors, 
+ τ (n) is the rooted, unoriented tree with _k_ subtrees,
+  τ ( p_<sup>-1</sup>( p<sub>1</sub> ), τ ( p_<sup>-1</sup>( p<sub>2</sub> ), ..., τ ( p_<sup>-1</sup>( p<sub>k</sub> ).
 
 
 1. 1 maps to the tree consisting of only a root;
 2. Let 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, where the p<sub>i</sub> are its prime factors, and
 _r_( p<sub>1</sub> ), _r_( p<sub>2</sub> ), ... , _r_( p<sub>k</sub> ) be the ranks of _n_'s prime factors.
-Then n maps to the tree with a root and a subtree associated with _r_( p<sub>k</sub> ), for each of its _k_ prime factors.
+Then n maps to the tree whose root has a subtree associated with _r_( p<sub>k</sub> ), for each of its _k_ prime factors.
 
 The bijection is illustrated below for the integers 1 to 32.
 
