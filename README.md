@@ -39,6 +39,20 @@ The bijection is defined recursively as follows:
 _r_( p<sub>1</sub> ), _r_( p<sub>2</sub> ), ... , _r_( p<sub>k</sub> ) be the ranks of _n_'s prime factors.
 Then n maps to the tree with a root and a subtree associated with _r_( p<sub>k</sub> ), for each of its _k_ prime factors.
 
+The bijection is illustrated for integers 1 to 32.
+
+n   | tree           
+ ---: | :---
+7 |![alt text](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/edit/master/src/images/7.png "Tree corresponding to 7")
+ 
+2 | 3
+3 | 5
+4 | 7
+5 | 11 
+6 | 13
+7 | 17
+
+
 There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
 
 The bijection defines a total ordering on this set of trees.
