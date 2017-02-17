@@ -3,9 +3,6 @@
 Goal: Provide a visual representation of non-zero integers as rooted, unoriented, finite trees 
 based on a bijection described in:
 
-<a href="https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html" target="_parent">
-Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.]</a>
-
 [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
 
 ## The bijection
@@ -38,10 +35,13 @@ Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p
 Then, the inverse function of _p_, _p_<sup>-1</sup> maps a prime number to its index or rank (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
 
 The bijection &tau; : **N** &map; **T** is defined ecursively as follows:
+1. τ (1) is the rooted tree comprised of exactly one node, its root;
+2. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, where the p<sub>i</sub> are its prime factors, 
+and
+ _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) 
+ are the ranks of _n_'s prime factors, 
+τ (n) is the rooted, unoriented tree with _k_ subtrees, τ ( p_<sup>-1</sup>( p<sub>_i_</sub> ), for 1 &le; i &le; _k_.
 
-Let _r( n )_ denote the _n_<sup>th</sup> prime (e.g., _r_( 4 ) = 7 ).
-
-The bijection is defined recursively as follows:
 
 1. 1 maps to the tree consisting of only a root;
 2. Let 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, where the p<sub>i</sub> are its prime factors, and
