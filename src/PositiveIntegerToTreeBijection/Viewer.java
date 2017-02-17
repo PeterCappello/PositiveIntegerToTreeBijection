@@ -267,7 +267,8 @@ public class Viewer extends JFrame
         textAttributes.put(TextAttribute.SIZE, (int) (graphics.getFont().getSize() * 1.4));
         Font font = Font.getFont( textAttributes );
         graphics.setFont( font );
-        graphics.drawString( tree.n().toString(), 0, 20 );
+        String numberString = tree.n().toString();
+        graphics.drawString( numberString, 0, 20 );
         return bufferedImage;
     }
 }
