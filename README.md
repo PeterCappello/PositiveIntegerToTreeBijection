@@ -41,14 +41,14 @@ Then n maps to the tree with a root and a subtree associated with _r_( p<sub>k</
 
 The bijection is illustrated for integers 1 to 32.
 
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1.png" width="100"em alt="Tree corresponding to 1">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2.png" width="100"em alt="Tree corresponding to 2">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/3.png" width="100"em alt="Tree corresponding to 3">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/4.png" width="100"em alt="Tree corresponding to 1">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/5.png" width="100"em alt="Tree corresponding to 1">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/6.png" width="100"em alt="Tree corresponding to 1">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png" width="100"em alt="Tree corresponding to 1">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/8.png" width="100"em alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1.png" width="100em" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2.png" width="100em" alt="Tree corresponding to 2">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/3.png" width="100em" alt="Tree corresponding to 3">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/4.png" width="100em" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/5.png" width="100em" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/6.png" width="100em" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png" width="100em" alt="Tree corresponding to 1">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/8.png" width="100em" alt="Tree corresponding to 1">
 
 ![7](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/7.png "Tree corresponding to 1")
 
