@@ -35,8 +35,10 @@ Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p
 Then, the inverse function of _p_, _p_<sup>-1</sup> maps a prime number to its index or rank (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
 
 The bijection &tau; : **N** &map; **T** is defined ecursively as follows:
+
 1. τ (1) is the rooted tree comprised of exactly one node, its root;
-2. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, where the p<sub>i</sub> are its prime factors, 
+
+1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, where the p<sub>i</sub> are its prime factors, 
 and
  _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) 
  are the ranks of _n_'s prime factors, 
