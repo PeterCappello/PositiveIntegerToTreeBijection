@@ -66,22 +66,39 @@ The bijection is illustrated for integers 1 to 32.
 ![14](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/14.png "Tree corresponding to 14")
 ![15](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/15.png "Tree corresponding to 15")
 ![16](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/16.png "Tree corresponding to 16")
+
+<hr />
+
 ![17](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/17.png "Tree corresponding to 17")
 ![18](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/18.png "Tree corresponding to 18")
 ![19](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/19.png "Tree corresponding to 19")
 
+<hr />
+
 ![20](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/20.png "Tree corresponding to 20")
 ![21](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/21.png "Tree corresponding to 21")
 ![22](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/22.png "Tree corresponding to 22")
+
+<hr />
+
 ![23](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/23.png "Tree corresponding to 23")
 ![24](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/24.png "Tree corresponding to 24")
 ![25](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/25.png "Tree corresponding to 25")
+
+<hr />
+
 ![26](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/26.png "Tree corresponding to 26")
 ![27](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/27.png "Tree corresponding to 27")
 ![28](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/28.png "Tree corresponding to 28")
+
+<hr />
+
 ![29](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/29.png "Tree corresponding to 29")
 ![30](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/30.png "Tree corresponding to 30")
 ![31](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/31.png "Tree corresponding to 31")
+
+<hr />
+
 ![32](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/32.png "Tree corresponding to 32")
 
 
