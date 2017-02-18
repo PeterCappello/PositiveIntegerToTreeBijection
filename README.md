@@ -44,11 +44,11 @@ The invertible function &tau; : **N** &map; **T** is defined recursively as foll
 1. τ ( 1 ) is the rooted tree comprised of exactly one node, its root;
 
 1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, 
- where each p<sub>i</sub> is 1 of its _k_ prime factors and
+ where each p<sub>i</sub> is 1 of its _k_ _prime factors_ and
  
- _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) are the _k_ indices of _n_'s _k_ prime factors, 
+ _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) are the _k_ _indices_ of _n_'s _k_ prime factors, 
  
-   τ ( _n_ ) is the rooted, unoriented tree with a subtree corresponding to the _index_ of each of _n_'s prime factors:
+   τ ( _n_ ) is the rooted, unoriented tree with a _subtree_ corresponding to the index of each of _n_'s _k_ prime factors:
    
    τ ( _p_<sup>-1</sup>( p<sub>1</sub> ) ), τ ( _p_<sup>-1</sup>( p<sub>2</sub> ) ), ..., τ ( _p_<sup>-1</sup>( p<sub>k</sub> ) ).
 
