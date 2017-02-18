@@ -121,7 +121,7 @@ The bijection is illustrated below for the integers 1 to 32.
 
 ![32](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/32.png "Tree corresponding to 32")
 
-The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &maps; **N* is defined recursively:
+The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &map; **N**, is defined recursively:
 
 1. &tau;<sup>-1</sup> ( &bull; ) = 1;
 
