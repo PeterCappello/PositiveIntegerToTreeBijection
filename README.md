@@ -37,9 +37,9 @@ rank   | prime
 
 Let **N**, **P**, and **T** denote the sets of the natural numbers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
 Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p_( 4 ) = 7 ).
-Then, the inverse function of _p_, _p_<sup>-1</sup> maps a prime number to its index or rank (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
+The inverse function of _p_, _p_<sup>-1</sup> : **P** &map; **N** maps a prime number to its index or rank (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
 
-The bijection &tau; : **N** &map; **T** is defined recursively as follows:
+The invertible function &tau; : **N** &map; **T** is defined recursively as follows:
 
 1. τ ( 1 ) is the rooted tree comprised of exactly one node, its root;
 
