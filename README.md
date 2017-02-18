@@ -46,7 +46,7 @@ The invertible function &tau; : **N** &map; **T** is defined recursively as foll
 1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, 
  where each p<sub>i</sub> is 1 of _n_'s _k_ _prime factors_ 
   
- τ ( _n_ ) is the rooted, unoriented tree with _subtrees_ 
+ τ ( _n_ ) is the rooted, unoriented tree with _k_ _subtrees_ 
  
  τ ( _r_<sub>1</sub> ) ), τ ( _r_<sub>2</sub> ) ), ..., τ ( _r_<sub>k</sub> ) ), where
  
