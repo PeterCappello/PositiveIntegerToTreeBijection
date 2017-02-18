@@ -59,7 +59,7 @@ Each node other than the root is labeled with numbers on its left and right.  Th
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/399.png "Tree corresponding to 399")
 
-The bijection is illustrated below for the integers 1 to 32.
+&tau; ( _n_ ) is illustrated below for 1 &le; _n_ &le; 32.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1.png "Tree corresponding to 1")
 ![2](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2.png "Tree corresponding to 2")
