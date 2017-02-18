@@ -35,7 +35,7 @@ index   | prime
 6 | 13
 7 | 17
 
-Let **N**, **P**, and **T** denote the sets of the positive integers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
+Let **N**, **P**, and **T** denote the set of positive integers, prime numbers, and finite, rooted, undirected trees, respectively. 
 Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p_( 4 ) = 7 ).
 The inverse function of _p_, _p_<sup>-1</sup> : **P** &map; **N** maps a prime number to its index (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
 
