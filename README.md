@@ -8,7 +8,7 @@ based on a bijection described in:
 #Contents
 * The bijection
 * The _explorer_ application
-* The _game_ applicatio
+* The _game_ application
 
 ## The bijection
 
