@@ -117,7 +117,7 @@ The map τ is a bijection. Its inverse is defined recursively:
 
 2. For tree _t_ adjacent to subtrees _t_<sub>1</sub>, _t_<sub>2</sub>, · · · , _t_<sub>k</sub>, 
 
-<p style="text-align: center;">&tau;<sup>-1</sup> ( _t_ ) = &Pi;<sub>_t_ = 1 to _k_</sub> = _p_ ( &tau;<sup>-1</sup> ( _t_<sub>_k_</sub> ) ) .</p>
+<&tau;<sup>-1</sup> ( _t_ ) = &Pi;<sub>_t_ = 1 to _k_</sub> = _p_ ( &tau;<sup>-1</sup> ( _t_<sub>_k_</sub> ) ).
 
 There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
 
