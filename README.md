@@ -52,7 +52,7 @@ The invertible function &tau; : **N** &map; **T** is defined recursively as foll
  
   _r_<sub>i</sub> = _p_<sup>-1</sup>( p<sub>i</sub> ), the index of  p<sub>i</sub>, where 
   
-  p<sub>i</sub> is the _i_<sup>th</sup> prime factor of _k_ prime factors of _n_.
+  p<sub>i</sub> is the _i_<sup>th</sup> prime factor of _n_, for 1 &le; i &le; k.
 
 The tree &tau; ( 399 ) is illustrated below.  In that figure, the root is labelled with the number that corresponds to the tree;
 Each node other than the root is labeled with numbers on the left and right.  The number on a node's left side is a prime factor of the number corresponding to its _parent tree_ (e.g., 399 = 3 * 7 * 19); the number on the node's right is the _index_ of the prime number on its left (e.g., 19 is the 8<sup>th</sup> prime number) and corresponds to the number of the tree rooted at that node.
