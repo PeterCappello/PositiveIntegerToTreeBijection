@@ -48,7 +48,7 @@ The invertible function &tau; : **N** &map; **T** is defined recursively as foll
   
  τ ( _n_ ) is the rooted, unoriented tree with _k_ _subtrees_ 
  
- τ ( _r_<sub>1</sub> ) ), τ ( _r_<sub>2</sub> ) ), ..., τ ( _r_<sub>k</sub> ) ), where
+ τ ( _r_<sub>1</sub> ), τ ( _r_<sub>2</sub> ), ..., τ ( _r_<sub>k</sub> ), where
  
   _r_<sub>i</sub> = _p_<sup>-1</sup>( p<sub>i</sub> ) is the index of  p<sub>i</sub>, where 
   
