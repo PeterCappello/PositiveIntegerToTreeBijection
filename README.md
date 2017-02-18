@@ -35,7 +35,7 @@ Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p
 Then, the inverse function of _p_, _p_<sup>-1</sup> maps a prime number to its index or rank (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
 
 The bijection &tau; ( 399 ) is illustrated below.  In that figure, the root is labelled with the number that corresponds to the tree;
-Each node other than the root is labeled with numbers on the left and right.  The number on the left of a node is a prime factor, p, of the number corresponding to its _parent tree_; the number on the right of the node is the _rank of p_ which represents the number of the subtree rooted at that node.
+Each node other than the root is labeled with numbers on the left and right.  The number on the left of a node is a prime factor, p, of the number corresponding to its _parent tree_; the number on the right of the node is the _rank_ of the prime number on its left and represents the number of the subtree rooted at that node.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/399.png "Tree corresponding to 399")
 
