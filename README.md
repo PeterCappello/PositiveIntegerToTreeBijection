@@ -44,13 +44,17 @@ The invertible function &tau; : **N** &map; **T** is defined recursively as foll
 1. τ ( 1 ) is the rooted tree comprised of exactly one node, its root;
 
 1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, 
- where each p<sub>i</sub> is 1 of _n_'s _k_ _prime factors_ and
+ where each p<sub>i</sub> is 1 of _n_'s _k_ _prime factors_ 
  
  _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) are the _k_ _indices_ of _n_'s _k_ prime factors, 
  
-   τ ( _n_ ) is the rooted, unoriented tree with a _subtree_ corresponding to the index of each of _n_'s _k_ prime factors:
-   
-   τ ( _p_<sup>-1</sup>( p<sub>1</sub> ) ), τ ( _p_<sup>-1</sup>( p<sub>2</sub> ) ), ..., τ ( _p_<sup>-1</sup>( p<sub>k</sub> ) ).
+ τ ( _n_ ) is the rooted, unoriented tree with a _subtrees_ 
+ 
+ τ ( _r_<sub>1</sub> ) ), τ ( _r_<sub>2</sub> ) ), ..., τ ( _r_<sub>k</sub> ) ), where
+ 
+  _r_<sub>i</sub> = _p_<sup>-1</sup>( p<sub>i</sub> ), the index of  p<sub>i</sub>, where 
+  
+  p<sub>i</sub> is the _i_<sup>th</sup> prime factor of _k_ prime factors of _n_.
 
 The tree &tau; ( 399 ) is illustrated below.  In that figure, the root is labelled with the number that corresponds to the tree;
 Each node other than the root is labeled with numbers on the left and right.  The number on a node's left side is a prime factor of the number corresponding to its _parent tree_ (e.g., 399 = 3 * 7 * 19); the number on the node's right is the _index_ of the prime number on its left (e.g., 19 is the 8<sup>th</sup> prime number) and corresponds to the number of the tree rooted at that node.
