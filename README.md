@@ -44,7 +44,7 @@ The bijection &tau; : **N** &map; **T** is defined recursively as follows:
    τ ( _n_ ) is the rooted, unoriented tree with _k_ subtrees,
    τ ( _p_<sup>-1</sup>( p<sub>1</sub> ) ), τ ( _p_<sup>-1</sup>( p<sub>2</sub> ) ), ..., τ ( _p_<sup>-1</sup>( p<sub>k</sub> ) ).
 
-The bijection &tau; ( 399 ) is illustrated below.  In that figure, the root is labelled with the number that corresponds to the tree;
+The tree &tau; ( 399 ) is illustrated below.  In that figure, the root is labelled with the number that corresponds to the tree;
 Each node other than the root is labeled with numbers on the left and right.  The number on the left of a node is a prime factor, p, of the number corresponding to its _parent tree_; the number on the right of the node is the _rank_ of the prime number on its left and represents the number of the subtree rooted at that node.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/399.png "Tree corresponding to 399")
