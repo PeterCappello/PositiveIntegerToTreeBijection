@@ -5,6 +5,11 @@ based on a bijection described in:
 
 [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
 
+#Contents
+* The bijection
+* The _bijection explorer_ application
+* The _bijection game_ applicatio
+
 ## The bijection
 
 The [bijection](https://en.wikipedia.org/wiki/Bijection) associated with this project is between the set of positive integers
@@ -125,7 +130,7 @@ The bijection defines a total ordering on this set of trees.
 However, there is a lattice based on containment of the multiset of prime factors.
 It might be interesting to look at it for [1, _n_], for some fixed values of _n_.
 
-## The project
+## The _bijection explorer_ application
 The project currently enables the tree visualization of non-zero integers 
 whose largest prime factor is < 10,000,000.
 
@@ -133,7 +138,11 @@ It produces a map of the first n primes.
 When n < 1,000,000, the process takes a few seconds. 
 It may take a couple of minutes to produce 10,000,000 primes.
 
-## Running the project
+### Running the project
 
 From the project's root directory, run the command 
 <pre><code>java -jar dist/PositiveIntegerToTreeBijection.jar</code></pre> 
+
+## The _bijection game_ applicatio
+To be elaborated as the game development progresses - although a bare bones version currently exists.
+
