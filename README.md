@@ -118,7 +118,7 @@ The bijection is illustrated below for the integers 1 to 32.
 
 The map τ is a bijection. Its inverse is defined recursively:
 
-1. &tau; ( &dot; ) = 1;
+1. &tau; ( &bull; ) = 1;
 
 2. For tree _t_ adjacent to subtrees _t_<sub>1</sub>, _t_<sub>2</sub>, · · · , _t_<sub>k</sub>, 
 
