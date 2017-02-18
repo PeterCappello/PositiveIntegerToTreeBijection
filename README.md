@@ -47,7 +47,9 @@ The invertible function &tau; : **N** &map; **T** is defined recursively as foll
  where the p<sub>i</sub> are its prime factors and
  
  _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) are the ranks of _n_'s prime factors, 
+ 
    τ ( _n_ ) is the rooted, unoriented tree with _k_ subtrees,
+   
    τ ( _p_<sup>-1</sup>( p<sub>1</sub> ) ), τ ( _p_<sup>-1</sup>( p<sub>2</sub> ) ), ..., τ ( _p_<sup>-1</sup>( p<sub>k</sub> ) ).
 
 The tree &tau; ( 399 ) is illustrated below.  In that figure, the root is labelled with the number that corresponds to the tree;
