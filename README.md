@@ -7,8 +7,8 @@ based on a bijection described in:
 
 #Contents
 * The bijection
-* The _bijection explorer_ application
-* The _bijection game_ applicatio
+* The _explorer_ application
+* The _game_ applicatio
 
 ## The bijection
 
