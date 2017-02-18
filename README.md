@@ -111,6 +111,12 @@ The bijection is illustrated below for the integers 1 to 32.
 
 ![32](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/32.png "Tree corresponding to 32")
 
+The map τ is a bijection. Its inverse is defined recursively:
+
+1. &tau; ( &dot; ) = 1;
+
+2. For tree _t_ adjacent to subtrees t<sub>1</sub>, t<sub>2</sub>, · · · , t<sub>k</sub>, 
+ &tau;<sup>-1</sup> ( _t_ ) = $Pi;<sub>t = 1 to _j_</sub> = p( &tau;<sup>-1</sup> ( _t_<sub>_i_</sub> ) ) .
 
 There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
 
