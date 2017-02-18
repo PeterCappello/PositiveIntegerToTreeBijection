@@ -35,7 +35,7 @@ rank   | prime
 6 | 13
 7 | 17
 
-Let **N**, **P**, **T** denote the sets of the natural numbers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
+Let **N**, **P**, and **T** denote the sets of the natural numbers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
 Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p_( 4 ) = 7 ).
 Then, the inverse function of _p_, _p_<sup>-1</sup> maps a prime number to its index or rank (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
 
