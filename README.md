@@ -143,6 +143,6 @@ It may take a couple of minutes to produce 10,000,000 primes.
 From the project's root directory, run the command 
 <pre><code>java -jar dist/PositiveIntegerToTreeBijection.jar</code></pre> 
 
-## The _bijection game_ applicatio
+## The _bijection game_ application
 To be elaborated as the game development progresses - although a bare bones version currently exists.
 
