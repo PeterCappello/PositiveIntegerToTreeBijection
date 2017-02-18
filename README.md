@@ -44,7 +44,8 @@ The invertible function &tau; : **N** &map; **T** is defined recursively as foll
 1. τ ( 1 ) is the rooted tree comprised of exactly one node, its root;
 
 1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, 
- where the p<sub>i</sub> are its prime factors, 
+ where the p<sub>i</sub> are its prime factors and
+ 
  _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) are the ranks of _n_'s prime factors, 
    τ ( _n_ ) is the rooted, unoriented tree with _k_ subtrees,
    τ ( _p_<sup>-1</sup>( p<sub>1</sub> ) ), τ ( _p_<sup>-1</sup>( p<sub>2</sub> ) ), ..., τ ( _p_<sup>-1</sup>( p<sub>k</sub> ) ).
