@@ -35,7 +35,7 @@ index   | prime
 6 | 13
 7 | 17
 
-Let **N**, **P**, and **T** denote the sets of the natural numbers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
+Let **N**, **P**, and **T** denote the sets of the positive integers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
 Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p_( 4 ) = 7 ).
 The inverse function of _p_, _p_<sup>-1</sup> : **P** &map; **N** maps a prime number to its index (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
 
@@ -121,9 +121,9 @@ The bijection is illustrated below for the integers 1 to 32.
 
 ![32](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/32.png "Tree corresponding to 32")
 
-The map τ is a bijection. Its inverse is defined recursively:
+The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &maps; **N* is defined recursively:
 
-1. &tau; ( &bull; ) = 1;
+1. &tau;<sup>-1</sup> ( &bull; ) = 1;
 
 2. For tree _t_ adjacent to subtrees _t_<sub>1</sub>, _t_<sub>2</sub>, · · · , _t_<sub>k</sub>, 
 
