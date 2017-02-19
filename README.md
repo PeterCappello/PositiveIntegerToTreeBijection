@@ -131,9 +131,9 @@ The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &map; **
 
 ### An associated total ordering of finite rooted trees
 
-A natural order of rooted finite trees suggests itself: If _s_ and _t_ are rooted, finite trees, then is _s_ &#8828; _t_ when &tau;<sup>-1</sup>( _s_ ) ≤ &tau;<sup>-1</sup>( _t_ ).
+A total order of rooted finite trees suggests itself: If _s_, _t_ &isin; **T**, then _s_ &#8828; _t_ if and only if &tau;<sup>-1</sup>( _s_ ) ≤ &tau;<sup>-1</sup>( _t_ ).
 
-However, there is a lattice based on containment of the multiset of prime factors.
+Therem also is a lattice based on containment of the multiset of prime factors.
 It might be interesting to look at it for [1, _n_], for some fixed values of _n_.
 
 ### An associated canonical tree presentation
