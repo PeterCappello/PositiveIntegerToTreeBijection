@@ -129,7 +129,15 @@ The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &map; **
 
  &tau;<sup>-1</sup> ( _t_ ) = &Pi;<sub>_t_ = 1 to _k_</sub> = _p_ ( &tau;<sup>-1</sup> ( _t_<sub>_k_</sub> ) ).
 
-There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
+A natural order of rooted finite trees suggests itself: If _s_ and _t_ are rooted, finite trees, then is _s_ &#8828; _t_ when &tau;<sup>-1</sup>( _s_ ) ≤ &tau;<sup>-1</sup>( _t_ ).
+
+A prime factorization of a number is in _canonical_ order when the primes are presented in nondecreasing order. An analogue for rooted trees is offered below. Let τ ( _n_ ) = _t_, where the canonical order of the prime factorization of _n_ is _p_<sub>1</sub>, _p_<sub>2</sub>, . . . , _p_<sub>k</sub>. Tree _t_ is presented _canonically_ when:
+
+1. The rooted trees _t_<sub>1</sub>, _t_<sub>2</sub>, . . . , _t_<sub>k</sub> corresponding to the factors _p_<sub>1</sub>, _p_<sub>2</sub>, . . . , _p_<sub>k</sub>, respectively, are presented from left to right.
+
+2. Each rooted tree  _t_<sub>i</sub> is presented canonically, for 1 &le; _i_ &le; _k_.
+
+The rooted trees in presented above that correspond to numbers 1, 2, ..., 32 are presented canonically.
 
 The bijection defines a total ordering on this set of trees.
 However, there is a lattice based on containment of the multiset of prime factors.
