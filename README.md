@@ -1,9 +1,14 @@
 # PositiveIntegerToTreeBijection
 
 Goal: Provide a visual representation of non-zero integers as rooted, unoriented, finite trees 
-based on a bijection described in:
+based on the bijection described in:
 
 [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
+
+#Contents
+* The bijection
+* The _explorer_ application
+* The _game_ application
 
 ## The bijection
 
@@ -18,9 +23,9 @@ and the set of finite, rooted, unoriented trees, where:
 * A tree is _unoriented_ when its edges are unoriented (aka undirected).
 
 The bijection makes use of the concept of a [prime number](https://en.wikipedia.org/wiki/Prime_number)
-and its index or rank, which is illustrated in the table below.
+and its rank or index, which is illustrated in the table below.
 
-rank   | prime           
+index   | prime           
  ---: | :---
 1 | 2  
 2 | 3
@@ -30,26 +35,31 @@ rank   | prime
 6 | 13
 7 | 17
 
-Let **N**, **P**, **T** denote the sets of the natural numbers, the prime numbers, and the finite, rooted, undirected trees, respectively. 
+Let **N**, **P**, and **T** denote the set of positive integers, prime numbers, and finite, rooted, undirected trees, respectively. 
 Let function _p_ : **N** &map; **P** denote the _n_<sup>th</sup> prime (e.g., _p_( 4 ) = 7 ).
-Then, the inverse function of _p_, _p_<sup>-1</sup> maps a prime number to its index or rank (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
+The inverse function of _p_, _p_<sup>-1</sup> : **P** &map; **N** maps a prime number to its index (e.g., _p_<sup>-1</sup> ( 7 ) = 4).
 
-The bijection &tau; ( 399 ) is illustrated below.  In that figure, the root is labelled with the number that corresponds to the tree;
-Each node other than the root is labeled with numbers on the left and right.  The number on the left of a node is a prime factor, p, of the number corresponding to its _parent tree_; the number on the right of the node is the _rank of p_ which represents the number of the subtree rooted at that node.
-
-![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/399.png "Tree corresponding to 399")
-
-The bijection &tau; : **N** &map; **T** is defined recursively as follows:
+The invertible function &tau; : **N** &map; **T** is defined recursively as follows:
 
 1. τ ( 1 ) is the rooted tree comprised of exactly one node, its root;
 
-1. for 1 <  _n_ = p<sub>1</sub>, p<sub>2</sub>, ... , p<sub>k</sub>, 
- where the p<sub>i</sub> are its prime factors, 
- _p_<sup>-1</sup>( p<sub>1</sub> ),  _p_<sup>-1</sup>( p<sub>2</sub> ), ... ,  _p_<sup>-1</sup>( p<sub>k</sub> ) are the ranks of _n_'s prime factors, 
-   τ ( _n_ ) is the rooted, unoriented tree with _k_ subtrees,
-   τ ( _p_<sup>-1</sup>( p<sub>1</sub> ) ), τ ( _p_<sup>-1</sup>( p<sub>2</sub> ) ), ..., τ ( _p_<sup>-1</sup>( p<sub>k</sub> ) ).
+1. for 1 <  _n_ = p<sub>1</sub> p<sub>2</sub> ...  p<sub>k</sub>, 
+ where each p<sub>i</sub> is 1 of _n_'s _k_ _prime factors_ 
+  
+ τ ( _n_ ) is the rooted, unoriented tree with _k_ _subtrees_ 
+ 
+ τ ( _r_<sub>1</sub> ), τ ( _r_<sub>2</sub> ), ..., τ ( _r_<sub>k</sub> ), where
+ 
+  _r_<sub>i</sub> = _p_<sup>-1</sup>( p<sub>i</sub> ) is the index of  p<sub>i</sub>, where 
+  
+  p<sub>i</sub> is the _i_<sup>th</sup> prime factor of _n_, for 1 &le; i &le; k.
 
-The bijection is illustrated below for the integers 1 to 32.
+The tree &tau; ( 399 ) is illustrated below.  In that figure, the root is labelled with the number that corresponds to the tree;
+Each node other than the root is labeled with numbers on its left and right.  The number on a node's left side is a prime factor of the number corresponding to its _parent tree_ (e.g., 399 = 3 * 7 * 19); the number on the node's right is the _index_ of the prime number on its left (e.g., 19 is the 8<sup>th</sup> prime number) and corresponds to the number of the tree rooted at that node.
+
+![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/399.png "Tree corresponding to 399")
+
+&tau; ( _n_ ) is illustrated below for 1 &le; _n_ &le; 32.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1.png "Tree corresponding to 1")
 ![2](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2.png "Tree corresponding to 2")
@@ -111,22 +121,59 @@ The bijection is illustrated below for the integers 1 to 32.
 
 ![32](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/32.png "Tree corresponding to 32")
 
+The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &map; **N**, is defined recursively:
 
-There is a "natural" presentation order of the subtrees, based on the natural order of the prime factors.
+1. &tau;<sup>-1</sup> ( &bull; ) = 1;
 
-The bijection defines a total ordering on this set of trees.
-However, there is a lattice based on containment of the multiset of prime factors.
+2. For tree _t_ adjacent to subtrees _t_<sub>1</sub>, _t_<sub>2</sub>, · · · , _t_<sub>k</sub>, 
+
+ &tau;<sup>-1</sup> ( _t_ ) = &Pi;<sub>_t_ = 1 to _k_</sub> = _p_ ( &tau;<sup>-1</sup> ( _t_<sub>_k_</sub> ) ).
+
+### An associated total ordering of finite rooted trees
+
+A total order of rooted finite trees suggests itself: If _s_, _t_ &isin; **T**, then _s_ &#8828; _t_ if and only if &tau;<sup>-1</sup>( _s_ ) ≤ &tau;<sup>-1</sup>( _t_ ).
+
+Therem also is a lattice based on containment of the multiset of prime factors.
 It might be interesting to look at it for [1, _n_], for some fixed values of _n_.
 
-## The project
+### An associated canonical tree presentation
+
+A prime factorization of a number is in _canonical_ order when the primes are presented in nondecreasing order. An analogue for rooted trees is offered below. Let τ ( _n_ ) = _t_, where the canonical order of the prime factorization of _n_ is _p_<sub>1</sub>, _p_<sub>2</sub>, . . . , _p_<sub>k</sub>. Tree _t_ is presented _canonically_ when:
+
+1. The rooted trees _t_<sub>1</sub>, _t_<sub>2</sub>, . . . , _t_<sub>k</sub> corresponding to the factors _p_<sub>1</sub>, _p_<sub>2</sub>, . . . , _p_<sub>k</sub>, respectively, are presented from left to right.
+
+2. Each rooted tree  _t_<sub>i</sub> is presented canonically, for 1 &le; _i_ &le; _k_.
+
+The rooted trees in presented above that correspond to numbers 1, 2, ..., 32 are presented canonically.
+
+## The _bijection explorer_ application
 The project currently enables the tree visualization of non-zero integers 
 whose largest prime factor is < 10,000,000.
 
-It produces a map of the first n primes.
-When n < 1,000,000, the process takes a few seconds. 
-It may take a couple of minutes to produce 10,000,000 primes.
-
-## Running the project
+### Running the project
 
 From the project's root directory, run the command 
 <pre><code>java -jar dist/PositiveIntegerToTreeBijection.jar</code></pre> 
+
+### User interface functionality
+...
+
+### Architecture
+
+It produces a map of the first n primes.
+When n < 1,000,000, the process takes a few seconds. 
+
+### Performance
+
+It may take a couple of minutes to produce 10,000,000 primes.
+
+### Feature roadmap
+* Alternate visualizations (e.g., "astronomical", "string and mass")
+
+### Presentation API
+...
+
+## The _bijection game_ application
+
+To be elaborated as the game development progresses - although a bare bones version currently exists.
+
