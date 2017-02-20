@@ -48,6 +48,11 @@ public final class Tree
     //
     // class attributes
     //___________________________
+    /**
+     * true if and only if orbit circles are displayed in planetary view.
+     */
+    static public final boolean SHOW_ORBIT = true;
+    
     static private final int PRIMES_INITIAL_CAPACITY = 1 << 10;
     static private final double ONE_THIRD = 1.0 / 3.0;
     static private final double FRAME_RATE = 16;
@@ -55,19 +60,44 @@ public final class Tree
     static private final double BASE_ANGLE = 1.0 / FRAME_RATE;
     static private final double SCALE = 8;
     static private final double OFFESET = IMAGE_VIEWPORT_SIZE / 2;
-    
-    static private final boolean SHOW_ORBIT = true;
-    /**
-     * List of first PRIMES_INITIAL_CAPACITY prime numbers
-     */
-    static public List<Integer> primes = new ArrayList<>( PRIMES_INITIAL_CAPACITY );
-    /**
-     * Map of first ranks of first PRIMES_INITIAL_CAPACITY prime numbers
-     */
-    static public Map<Integer, Integer> ranks = new HashMap<>( PRIMES_INITIAL_CAPACITY );
-    
+    static private List<Integer> primes = new ArrayList<>( PRIMES_INITIAL_CAPACITY );
+    static private Map<Integer, Integer> ranks = new HashMap<>( PRIMES_INITIAL_CAPACITY );
     // cache of PositiveIntegerTree objects
-    private static final Map<Integer, Tree> integerToPositiveIntegerTreeMap = new HashMap<>();
+    static private final Map<Integer, Tree> integerToPositiveIntegerTreeMap = new HashMap<>();
+    
+    /**
+     * The prime number whose index is rank.
+     * @param rank of the prime number returned.
+     * @return the prime number whose index is rank.
+     */
+    static public int prime( int rank )
+    {
+        if ( rank >= primes.size() - 1 )
+        {
+            increasePrimesTo( rank );
+        }
+        return primes.get( rank );
+    }
+    
+    /**
+     * The rank (aka index) of the argument.
+     * @param prime whose rank is to be returned.
+     * @return The rank (aka index) of the argument.
+     * @throws IllegalArgumentException
+     */
+    static public int rank( int prime ) throws IllegalArgumentException
+    {
+        if ( prime >= primes.get( primes.size() - 1 ) )
+        {
+            increaseRanksTo( prime );
+        }
+        Integer rank = ranks.get( prime );
+        if ( rank == null )
+        {
+            throw new IllegalArgumentException();
+        }
+        return rank;
+    }
     
     static void initialize() { setPrimesArray(); }
     
@@ -76,7 +106,7 @@ public final class Tree
      * PRIMES_INITIAL_CAPACITY prime numbers and their ranks.
      * The index of a prime is its rank: primes.get( 0 ) is UNUSED.
      */
-    static public void setPrimesArray()
+    static void setPrimesArray()
     {
         primes.add( 1 ); 
         primes.add( 2 ); ranks.put( 2, 1 );
@@ -96,7 +126,7 @@ public final class Tree
      * @param number an ODD integer
      * @return true if and only if number is prime
      */
-    static public boolean isPrime( final int number )
+    static private boolean isPrime( final int number )
     {
         final int maxFactor = (int) Math.sqrt( number );
         for ( int rank = 2, prime = 3; prime <= maxFactor; prime = primes.get( ++rank ) )
@@ -107,29 +137,6 @@ public final class Tree
             }
         }
         return true;
-    }
-    
-    static int prime( int rank )
-    {
-        if ( rank >= primes.size() - 1 )
-        {
-            increasePrimesTo( rank );
-        }
-        return primes.get( rank );
-    }
-    
-    static int rank( int prime ) throws IllegalArgumentException
-    {
-        if ( prime >= primes.get( primes.size() - 1 ) )
-        {
-            increaseRanksTo( prime );
-        }
-        Integer rank = ranks.get( prime );
-        if ( rank == null )
-        {
-            throw new IllegalArgumentException();
-        }
-        return rank;
     }
     
     static private void increasePrimesTo( int upperRank )
@@ -199,10 +206,10 @@ public final class Tree
     private double orbitAngle;     // orbit angular position in radians
     
     /**
-     * Constructor for root.
+     * Constructs tree that corresponds to integer argument.
      * @param integer 
      */
-    Tree( int integer ) { this( integer, null ); }
+    public Tree( int integer ) { this( integer, null ); }
         
     /**
      * Constructor for subtree.
@@ -279,8 +286,8 @@ public final class Tree
     }
     
     /**
-     * 
-     * @param tree deep copy of tree, apart from parent-related attributes.
+     * Constructs a deep copy of argument tree, apart from parent-related attributes.
+     * @param tree to be copied
      */
     Tree( Tree tree, Tree parent )
     {   
@@ -297,7 +304,7 @@ public final class Tree
      * parent-related attributes.
      * @param tree 
      */
-    private void copy( Tree tree )
+    void copy( Tree tree )
     {
         isPositive = tree.isPositive;
         positiveInteger = tree.positiveInteger;
@@ -316,7 +323,11 @@ public final class Tree
         }
     }
     
-    Integer n() { return ( isPositive ) ? positiveInteger : -positiveInteger; }
+    /**
+     * The integer that corresponds to the tree. It may be negative.
+     * @return the integer corresponding to the tree.
+     */
+    public Integer n() { return ( isPositive ) ? positiveInteger : -positiveInteger; }
 
     private void computeOrbitRadius()
     {
@@ -334,7 +345,12 @@ public final class Tree
         orbitRadius = isRoot ? 0.0 : parentRadius + maxSatelliteOrbitRadius + ( 2 * parent.diameter + 1.0 ) + 5.0;
     }
         
-    private List<Integer> primeFactors( int n )
+    /**
+     * List the prime factors of the argument.
+     * @param n the number whose primes factors are sought.
+     * @return
+     */
+    public List<Integer> primeFactors( int n )
     {
         /* add 1 to n before taking sqrt to avoid situation where sqrt( n^2 )
         * returns n - epsilon, (int) of which is n - 1 which could produce
@@ -364,13 +380,13 @@ public final class Tree
         return primeFactors( n, ++rank, limit, primeFactors );
     }
        
-    private int height() { return height; }
+    int height() { return height; }
     
     List<Tree> factorTrees() { return factorTrees; }
     
-    public int getPositiveInteger() { return positiveInteger; }
+    int getPositiveInteger() { return positiveInteger; }
     
-    public String getStringView() { return new String( viewString( "   ") ); }
+    String getStringView() { return new String( viewString( "   ") ); }
     
     @Override
     public String toString() { return toString( "  " ).toString(); }
@@ -423,7 +439,11 @@ public final class Tree
     private static final int DELTA    = 2 * ( PAD + RADIUS );
     private static final int DIAMETER = 2 * RADIUS;
     
-    BufferedImage getImageView()
+    /**
+     * A BufferedImage view of the tree.
+     * @return a BufferedImage view of the tree.
+     */
+    public BufferedImage getImageView()
     {
         BufferedImage bufferedImage = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
         viewGraphics( bufferedImage.getGraphics(), PAD, PAD );
@@ -478,18 +498,22 @@ public final class Tree
      *
      * @param graphics of image on which tree is rendered
      */
-    public void viewPlanets( Graphics graphics )
+    void viewPlanets( Graphics graphics )
     {                      
         move();
         draw( graphics );
     }
     
     /**
-     *
+     * The width in pixels of the tree view.
      * @return width in pixels of rectangle enclosing image of tree
      */
     public int imageViewWidth() { return ( width() + 1 ) * DELTA; }
     
+    /**
+     * The height in pixels of the tree view.
+     * @return
+     */
     public int imageViewHeight() { return ( height() + 1 ) * DELTA; }
     
     private void drawDisk( Graphics graphics, int x, int y )
@@ -538,7 +562,7 @@ public final class Tree
         factorTrees.forEach( satellite -> satellite.move() );
     }
     
-    public void draw( Graphics graphics )
+    void draw( Graphics graphics )
      {
          // draw this
          if ( SHOW_ORBIT ) 
@@ -563,13 +587,8 @@ public final class Tree
         factorTrees.forEach( satellite -> satellite.draw( graphics ) );
      }
     
-    //_____________ Methods For Unit Testing ______________________
-    public List<Tree> getFfactorTrees() { return factorTrees; } 
-        
     int width() { return width; }
-    
-    double diameter() { return diameter; }
-    
+ 
     double mass() { return positiveInteger; }
     
     double orbitRadius() { return orbitRadius; }
