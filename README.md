@@ -127,7 +127,7 @@ The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &map; **
 
 2. For tree _t_ whose root is adjacent to subtrees _t_<sub>1</sub>, _t_<sub>2</sub>, · · · , _t_<sub>k</sub>, 
 
- &tau;<sup>-1</sup> ( _t_ ) = &Pi;<sub>_i_ = 1 to _k_</sub> = _p_ ( &tau;<sup>-1</sup> ( _t_<sub>_i_</sub> ) ).
+ &tau;<sup>-1</sup> ( _t_ ) = &Pi;<sub>_i_ = 1 to _k_</sub> _p_ ( &tau;<sup>-1</sup> ( _t_<sub>_i_</sub> ) ).
 
 ### An associated total ordering of finite rooted trees
 
