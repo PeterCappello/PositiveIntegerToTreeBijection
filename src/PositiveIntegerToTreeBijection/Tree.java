@@ -463,7 +463,7 @@ public final class Tree
      * @param x col of upper left corner of rectangle containing tree
      * @param y row of upper left corner of rectangle containing tree
      */
-    public void viewGraphics( Graphics g, int x, int y )
+    void viewGraphics( Graphics g, int x, int y )
     {
         Graphics graphics = g.create();
         graphics.setColor( Color.BLACK );
@@ -557,7 +557,6 @@ public final class Tree
             y = parent.y + orbitRadius * sin( orbitAngle );
         }
         
-     
         // move my sateillites
         factorTrees.forEach( satellite -> satellite.move() );
     }
