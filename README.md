@@ -133,7 +133,7 @@ The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &map; **
 
 A total order of rooted finite trees suggests itself: If _s_, _t_ &isin; **T**, then _s_ &#8828; _t_ if and only if &tau;<sup>-1</sup>( _s_ ) ≤ &tau;<sup>-1</sup>( _t_ ).
 
-Therem also is a lattice based on containment of the multiset of prime factors.
+There also is a lattice based on containment of the multiset of prime factors.
 It might be interesting to look at it for [1, _n_], for some fixed values of _n_.
 
 ### An associated canonical tree presentation
