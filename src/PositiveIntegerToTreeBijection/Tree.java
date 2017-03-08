@@ -53,6 +53,7 @@ public final class Tree
      */
     static public final boolean SHOW_ORBIT = true;
     
+    static private final int ETA = 5; // node radius in circular tree view
     static private final int PRIMES_INITIAL_CAPACITY = 1 << 10;
     static private final double ONE_THIRD = 1.0 / 3.0;
     static private final double FRAME_RATE = 16;
@@ -180,7 +181,7 @@ public final class Tree
     
     //___________________________
     //
-    // tree attributes that are immutable AFTER construction complete.
+    // tree attributes that are immutable AFTER construction completes.
     //___________________________
     private boolean isRoot;
     private boolean isPositive;
@@ -189,10 +190,16 @@ public final class Tree
     private List<Tree> factorTrees;
     private int height;
     private int width;
+    
+    //___________________________
+    //
+    // circular tree attributes that are immutable AFTER construction completes.
+    //___________________________
+    private double hypotenuse;
         
     //___________________________
     //
-    // planet view attributes that are immutable AFTER construction complete.
+    // planet view attributes that are immutable AFTER construction completes.
     //___________________________
     private double diameter;    // diameter of this body
     private double orbitRadius; // radius of its orbit around its PARENT.
@@ -432,7 +439,7 @@ public final class Tree
         return stringBuilder;
     }
     
-    // viewGraphics parameters, in pixels
+    // viewTree parameters, in pixels
     private static final int ELEMENT  = 8; 
     private static final int RADIUS   = ELEMENT; 
             static final int PAD      = 3 * ELEMENT; 
@@ -443,10 +450,10 @@ public final class Tree
      * A BufferedImage view of the tree.
      * @return a BufferedImage view of the tree.
      */
-    public BufferedImage getImageView()
+    public BufferedImage getTreeView()
     {
         BufferedImage bufferedImage = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
-        viewGraphics( bufferedImage.getGraphics(), PAD, PAD );
+        viewTree( bufferedImage.getGraphics(), PAD, PAD );
         return bufferedImage;
     }
     
@@ -458,12 +465,12 @@ public final class Tree
     }
 
     /**
-     *
+     * Draw the conventional tree view of the tree.
      * @param g
      * @param x col of upper left corner of rectangle containing tree
      * @param y row of upper left corner of rectangle containing tree
      */
-    void viewGraphics( Graphics g, int x, int y )
+    void viewTree( Graphics g, int x, int y )
     {
         Graphics graphics = g.create();
         graphics.setColor( Color.BLACK );
@@ -484,7 +491,44 @@ public final class Tree
             graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
             
             // draw possibleFactor tree
-            factorTree.viewGraphics( graphics, factorTreeX, factorTreeY );
+            factorTree.viewTree( graphics, factorTreeX, factorTreeY );
+            
+            // set next possibleFactor tree's upperleft corner's x coordinate
+            factorTreeX += DELTA * factorTree.width; 
+        }
+        
+        // draw root
+        drawDisk( graphics, rootX, rootY );
+    }
+    
+    /**
+     * Draw the circular tree view of the tree.
+     * @param g
+     * @param x col of upper left corner of rectangle containing tree
+     * @param y row of upper left corner of rectangle containing tree
+     */
+    void viewCircularTree( Graphics g, int x, int y )
+    {
+        Graphics graphics = g.create();
+        graphics.setColor( Color.BLACK );
+                       
+        // coordinates of center of root
+        int rootX = x + rootX();
+        int rootY = y + rootY();
+        
+        graphics.setColor( Color.BLACK );
+           
+        // set 1st possibleFactor tree's upperleft corner coordinates 
+        int factorTreeX = x;
+        int factorTreeY = y + DELTA;
+        
+        for ( Tree factorTree : factorTrees )
+        {
+            // draw edge from this root to possibleFactor tree's root
+            graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
+            
+            // draw possibleFactor tree
+            factorTree.viewTree( graphics, factorTreeX, factorTreeY );
             
             // set next possibleFactor tree's upperleft corner's x coordinate
             factorTreeX += DELTA * factorTree.width; 
