@@ -165,8 +165,8 @@ public class Viewer extends JFrame
     {
         tree = new Tree( number );
         stringView.setText( tree.getStringView() );
-        imageView.image( tree.getImageView() ) ;
-//        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getImageView() ) ) );
+        imageView.image( tree.getTreeView() ) ;
+//        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getTreeView() ) ) );
         imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( imageView.image() ) ) );
 //        timerBasedAnimation.newAnimation( tree );
     }

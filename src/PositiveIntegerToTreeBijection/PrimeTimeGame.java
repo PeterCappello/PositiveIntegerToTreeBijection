@@ -200,11 +200,11 @@ public class PrimeTimeGame extends JFrame
     private void displayAsTree( int number )
     {
         tree = new Tree( number );
-        imageView.image( tree.getImageView() );
+        imageView.image( tree.getTreeView() );
         imageView.repaint();
 //        stringView.setText( tree.getStringView() );
         
-        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getImageView() ) ) );
+        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getTreeView() ) ) );
     }
     
     private void displayAsPlanets( int number )
@@ -214,7 +214,7 @@ public class PrimeTimeGame extends JFrame
         imageView.repaint();
 //        stringView.setText( tree.getStringView() );
         
-        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getImageView() ) ) );
+        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getTreeView() ) ) );
     }
 
     //  _________________________
