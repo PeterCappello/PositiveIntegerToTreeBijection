@@ -457,6 +457,17 @@ public final class Tree
         return bufferedImage;
     }
     
+    /**
+     * A BufferedImage view of the circular tree.
+     * @return a BufferedImage view of the tree.
+     */
+    public BufferedImage getCircularTreeView()
+    {
+        BufferedImage bufferedImage = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
+        viewCircularTree( bufferedImage.getGraphics(), PAD, PAD );
+        return bufferedImage;
+    }
+    
     BufferedImage getPlanetsView()
     {
         BufferedImage bufferedImage = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
@@ -476,11 +487,9 @@ public final class Tree
         graphics.setColor( Color.BLACK );
                        
         // coordinates of center of root
-        int rootX = x + rootX();
-        int rootY = y + rootY();
-        
-        graphics.setColor( Color.BLACK );
-           
+        int rootX = x + treeRootX();
+        int rootY = y + treeRootY();
+                   
         // set 1st possibleFactor tree's upperleft corner coordinates 
         int factorTreeX = x;
         int factorTreeY = y + DELTA;
@@ -488,7 +497,7 @@ public final class Tree
         for ( Tree factorTree : factorTrees )
         {
             // draw edge from this root to possibleFactor tree's root
-            graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
+            graphics.drawLine( rootX, rootY, factorTreeX + factorTree.treeRootX(), factorTreeY + factorTree.treeRootY() );
             
             // draw possibleFactor tree
             factorTree.viewTree( graphics, factorTreeX, factorTreeY );
@@ -507,32 +516,51 @@ public final class Tree
      * @param x col of upper left corner of rectangle containing tree
      * @param y row of upper left corner of rectangle containing tree
      */
-    void viewCircularTree( Graphics g, int x, int y )
+    void viewCircularTree( Graphics g, int rootX, int rootY )
     {
         Graphics graphics = g.create();
         graphics.setColor( Color.BLACK );
                        
-        // coordinates of center of root
-        int rootX = x + rootX();
-        int rootY = y + rootY();
+        double theta = ( factorTrees.isEmpty() ) ? 0.0 : 2.0 * Math.PI / factorTrees.size();
+        double startAngle = -theta / 2.0;
         
-        graphics.setColor( Color.BLACK );
-           
-        // set 1st possibleFactor tree's upperleft corner coordinates 
-        int factorTreeX = x;
-        int factorTreeY = y + DELTA;
+        drawCircularSubtrees( graphics, rootX, rootY, startAngle, theta );
         
+        // draw root
+        drawDisk( graphics, rootX, rootY );
+    }
+    
+    private void drawCircularSubtrees( Graphics graphics, int rootX, int rootY, double startAngle, double theta )
+    {
         for ( Tree factorTree : factorTrees )
         {
-            // draw edge from this root to possibleFactor tree's root
-            graphics.drawLine( rootX, rootY, factorTreeX + factorTree.rootX(), factorTreeY + factorTree.rootY() );
+            // set coordinates of root of subtree
+            int factorTreeRootX = rootX + rootEdgeLength * Math.cos( startAngle + theta / 2.0 );
+            int factorTreeRootY = rootY + rootEdgeLength * Math.sin( startAngle + theta / 2.0 );
             
-            // draw possibleFactor tree
-            factorTree.viewTree( graphics, factorTreeX, factorTreeY );
+            // draw edge from this root to factor tree's root
+            graphics.drawLine( 
+                    rootX, 
+                    rootY, 
+                    rootX + factorTreeRootX, 
+                    rootY + factorTreeRootY 
+            );
             
-            // set next possibleFactor tree's upperleft corner's x coordinate
-            factorTreeX += DELTA * factorTree.width; 
+            // draw factor tree
+            factorTree.viewCircularTree( graphics, factorTreeRootX, factorTreeRootY, startAngle - theta / 2.0 );
+            
+            // set startAngle for next factor tree
+            startAngle += theta; 
         }
+    }
+        
+    void viewCircularTree( Graphics g, int rootX, int rootY, double startAngle )
+    {
+        Graphics graphics = g.create();
+        graphics.setColor( Color.BLACK );                       
+        double theta = 2.0 * Math.PI / ( factorTrees.size() + 1 );
+        
+        drawCircularSubtrees( graphics, rootX, rootY, startAngle, theta );
         
         // draw root
         drawDisk( graphics, rootX, rootY );
@@ -575,9 +603,9 @@ public final class Tree
         }
     }
         
-    int rootX() { return width * DELTA / 2 - RADIUS; }
+    int treeRootX() { return width * DELTA / 2 - RADIUS; }
     
-    int rootY() { return PAD + RADIUS; }
+    int treeRootY() { return PAD + RADIUS; }
     
     //_______________________________
     //
