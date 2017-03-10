@@ -195,7 +195,7 @@ public final class Tree
     //
     // circular tree attributes that are immutable AFTER construction completes.
     //___________________________
-    private double hypotenuse;
+    private double circularTreeRadius;
         
     //___________________________
     //
@@ -239,6 +239,7 @@ public final class Tree
             height = width = 1;
             factorTrees = new LinkedList<>();
             diameter = 1.0;
+            circularTreeRadius = PAD;
             computeOrbitRadius();
             stepSize = BASE_ANGLE;
             return;
@@ -274,6 +275,16 @@ public final class Tree
                 .sum();
         //__________________________
         //
+        // circularTree attributes
+        //__________________________
+        double theta = 2.0 * Math.PI / ( factorTrees.size() + ( isRoot ? 0 : 1 ) );
+        circularTreeRadius = factorTrees
+                .stream()
+                .mapToDouble( factorTree -> rho( factorTree, theta ) )
+                .max()
+                .getAsDouble();
+        //__________________________
+        //
         // planet attributes
         //__________________________
         diameter = Math.pow( 3.0 * Math.PI * mass(), ONE_THIRD );
@@ -290,6 +301,11 @@ public final class Tree
 
         // cache this tree
         integerToPositiveIntegerTreeMap.put( positiveInteger, this );
+    }
+    
+    private double rho( Tree tree, double sectorAngle )
+    {
+        return ( tree.circularTreeRadius + PAD ) / ( factorTrees.isEmpty() ? 1.0 : Math.cos( ( Math.PI - sectorAngle ) / 2.0 ) );
     }
     
     /**
@@ -335,7 +351,7 @@ public final class Tree
      * @return the integer corresponding to the tree.
      */
     public Integer n() { return ( isPositive ) ? positiveInteger : -positiveInteger; }
-
+    
     private void computeOrbitRadius()
     {
         double maxSatelliteOrbitRadius = ( factorTrees.isEmpty() ) 
@@ -464,7 +480,7 @@ public final class Tree
     public BufferedImage getCircularTreeView()
     {
         BufferedImage bufferedImage = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
-        viewCircularTree( bufferedImage.getGraphics(), PAD, PAD );
+        viewCircularTree( bufferedImage.getGraphics(), IMAGE_VIEWPORT_SIZE / 2, IMAGE_VIEWPORT_SIZE / 2 );
         return bufferedImage;
     }
     
@@ -521,24 +537,24 @@ public final class Tree
         Graphics graphics = g.create();
         graphics.setColor( Color.BLACK );
                        
-        double theta = ( factorTrees.isEmpty() ) ? 0.0 : 2.0 * Math.PI / factorTrees.size();
+        double theta = 2.0 * Math.PI / ( factorTrees.isEmpty() ? 1.0 : factorTrees.size() );
         double startAngle = -theta / 2.0;
         
-        drawCircularSubtrees( graphics, rootX, rootY, startAngle, theta );
+        drawCircularFactorTrees( graphics, rootX, rootY, startAngle, theta );
         
         // draw root
         drawDisk( graphics, rootX, rootY );
     }
     
-    private void drawCircularSubtrees( Graphics graphics, int rootX, int rootY, double startAngle, double theta )
+    private void drawCircularFactorTrees( Graphics graphics, int rootX, int rootY, double startAngle, double theta )
     {
         for ( Tree factorTree : factorTrees )
         {
-            // set coordinates of root of subtree
-            int factorTreeRootX = rootX + rootEdgeLength * Math.cos( startAngle + theta / 2.0 );
-            int factorTreeRootY = rootY + rootEdgeLength * Math.sin( startAngle + theta / 2.0 );
+            // set factorTree root coordinates
+            int factorTreeRootX = rootX + (int) ( circularTreeRadius * Math.cos( startAngle + theta / 2.0 ) );
+            int factorTreeRootY = rootY + (int) ( circularTreeRadius * Math.sin( startAngle + theta / 2.0 ) );
             
-            // draw edge from this root to factor tree's root
+            // draw edge from this root to factorTree's root
             graphics.drawLine( 
                     rootX, 
                     rootY, 
@@ -547,9 +563,9 @@ public final class Tree
             );
             
             // draw factor tree
-            factorTree.viewCircularTree( graphics, factorTreeRootX, factorTreeRootY, startAngle - theta / 2.0 );
+            factorTree.drawCircularFactorTrees( graphics, factorTreeRootX, factorTreeRootY, startAngle - theta / 2.0, theta );
             
-            // set startAngle for next factor tree
+            // increment startAngle for next factorTree
             startAngle += theta; 
         }
     }
@@ -560,7 +576,7 @@ public final class Tree
         graphics.setColor( Color.BLACK );                       
         double theta = 2.0 * Math.PI / ( factorTrees.size() + 1 );
         
-        drawCircularSubtrees( graphics, rootX, rootY, startAngle, theta );
+        drawCircularFactorTrees( graphics, rootX, rootY, startAngle, theta );
         
         // draw root
         drawDisk( graphics, rootX, rootY );
