@@ -142,7 +142,7 @@ public class Viewer extends JFrame
         setPreferredSize( dimension );        
         stringView.setEditable( false );
 //        update( 111111111 ); 
-        update( 7 );
+        update( -7 );
         setVisible(true);
 
         //  _______________________________________
@@ -165,9 +165,8 @@ public class Viewer extends JFrame
     {
         tree = new Tree( number );
         stringView.setText( tree.getStringView() );
-//        imageView.image( tree.getCircularTreeView() );
-        imageView.image( tree.getTreeView() );
-//        imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( tree.getTreeView() ) ) );
+        imageView.image( tree.getCircularTreeView() );
+//        imageView.image( tree.getTreeView() );
         imageViewScrollPane.setViewportView( new JLabel( new ImageIcon( imageView.image() ) ) );
 //        timerBasedAnimation.newAnimation( tree );
     }

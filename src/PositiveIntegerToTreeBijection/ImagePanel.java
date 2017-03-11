@@ -42,7 +42,6 @@ public class ImagePanel extends JPanel
     {
         super.paintComponent( graphics );
         graphics.drawImage( bufferedImage, 0, 0, Viewer.IMAGE_VIEWPORT_SIZE, Viewer.IMAGE_VIEWPORT_SIZE, this );
-        System.out.println("ImagePanel: paintComponent exiting");
     }
     
     BufferedImage image() { return bufferedImage; }

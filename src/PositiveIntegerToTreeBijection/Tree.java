@@ -53,7 +53,6 @@ public final class Tree
      */
     static public final boolean SHOW_ORBIT = true;
     
-    static private final int ETA = 5; // node radius in circular tree view
     static private final int PRIMES_INITIAL_CAPACITY = 1 << 10;
     static private final double ONE_THIRD = 1.0 / 3.0;
     static private final double FRAME_RATE = 16;
@@ -274,17 +273,15 @@ public final class Tree
                 .mapToInt( Tree::width )
                 .sum();
         //__________________________
-        //
         // circularTree attributes
         //__________________________
-        double theta = 2.0 * Math.PI / ( factorTrees.size() + ( isRoot ? 0 : 1 ) );
+        double sectorAngle = 2.0 * Math.PI / ( factorTrees.size() + ( isRoot ? 0 : 1 ) );
         circularTreeRadius = factorTrees
                 .stream()
-                .mapToDouble( factorTree -> rho( factorTree, theta ) )
+                .mapToDouble( factorTree -> rho( factorTree, sectorAngle ) )
                 .max()
                 .getAsDouble();
         //__________________________
-        //
         // planet attributes
         //__________________________
         diameter = Math.pow( 3.0 * Math.PI * mass(), ONE_THIRD );
@@ -305,7 +302,7 @@ public final class Tree
     
     private double rho( Tree tree, double sectorAngle )
     {
-        return ( tree.circularTreeRadius + PAD ) / ( factorTrees.isEmpty() ? 1.0 : Math.cos( ( Math.PI - sectorAngle ) / 2.0 ) );
+        return ( tree.circularTreeRadius + PAD ) / ( factorTrees.size() == 1 ? 1.0 : Math.cos( ( Math.PI - sectorAngle ) / 2.0 ) );
     }
     
     /**
@@ -419,7 +416,7 @@ public final class Tree
          StringBuilder stringBuilder = new StringBuilder();
         stringBuilder
                 .append( pad ).append( '\n' ).append( pad )
-                .append( "isRoot: " + isRoot ). append( "  " )
+                .append( "isRoot: " ).append(isRoot ). append( "  " )
                 .append( isPositive ? "" : "-")
                 .append( positiveInteger ).append( "  " )
                 .append( positiveInteger < primes.size() ? prime( positiveInteger ) : "" )
@@ -479,8 +476,9 @@ public final class Tree
      */
     public BufferedImage getCircularTreeView()
     {
-        BufferedImage bufferedImage = new BufferedImage( imageViewWidth(), imageViewHeight(), BufferedImage.TYPE_INT_ARGB );
-        viewCircularTree( bufferedImage.getGraphics(), IMAGE_VIEWPORT_SIZE / 2, IMAGE_VIEWPORT_SIZE / 2 );
+        BufferedImage bufferedImage = new BufferedImage( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE, BufferedImage.TYPE_INT_ARGB );
+        viewCircularTree( bufferedImage.getGraphics(), 0, 0, 0.0 );
+//        viewCircularTree( bufferedImage.getGraphics(), IMAGE_VIEWPORT_SIZE / 2, IMAGE_VIEWPORT_SIZE / 2, Math.PI / 2.0 );
         return bufferedImage;
     }
     
@@ -527,61 +525,78 @@ public final class Tree
     }
     
     /**
-     * Draw the circular tree view of the tree.
+     * Draw the circular tree view.
      * @param g
      * @param x col of upper left corner of rectangle containing tree
      * @param y row of upper left corner of rectangle containing tree
      */
-    void viewCircularTree( Graphics g, int rootX, int rootY )
+    void viewCircularTree( Graphics graphics, int rootX, int rootY, double startAngle )
     {
-        Graphics graphics = g.create();
         graphics.setColor( Color.BLACK );
-                       
-        double theta = 2.0 * Math.PI / ( factorTrees.isEmpty() ? 1.0 : factorTrees.size() );
-        double startAngle = -theta / 2.0;
         
-        drawCircularFactorTrees( graphics, rootX, rootY, startAngle, theta );
+        // base case
+        if ( positiveInteger == 1 )
+        {
+            drawNode( graphics, rootX, rootY ); // draw this root
+            System.out.println("viewCircularTree: BASE: rootX: " + rootX + " rootY: " + rootY + " startAngle: " + startAngle );
+            return;
+        }
         
-        // draw root
-        drawDisk( graphics, rootX, rootY );
-    }
-    
-    private void drawCircularFactorTrees( Graphics graphics, int rootX, int rootY, double startAngle, double theta )
-    {
+        // recursive case
+        double nSectors = ( isRoot ? 0 : 1 ) + factorTrees.size();
+        double sectorAngle = 2.0 * Math.PI / nSectors;
+        startAngle += sectorAngle;
+        System.out.println("viewCircularTree RECURSIVE: n: " + n() + " rootX: " + rootX + " rootY: " + 
+                rootY + " startAngle: " + startAngle + " nSectors: " + nSectors + " sectorAngle: " + sectorAngle );
         for ( Tree factorTree : factorTrees )
         {
             // set factorTree root coordinates
-            int factorTreeRootX = rootX + (int) ( circularTreeRadius * Math.cos( startAngle + theta / 2.0 ) );
-            int factorTreeRootY = rootY + (int) ( circularTreeRadius * Math.sin( startAngle + theta / 2.0 ) );
+            int factorTreeRootX = rootX + (int) ( circularTreeRadius * Math.cos( startAngle ) );
+            int factorTreeRootY = rootY + (int) ( circularTreeRadius * Math.sin( startAngle ) );
             
-            // draw edge from this root to factorTree's root
-            graphics.drawLine( 
-                    rootX, 
-                    rootY, 
-                    rootX + factorTreeRootX, 
-                    rootY + factorTreeRootY 
-            );
+            // draw edge from this root to factorTree root
+            drawLine( graphics, rootX, rootY, factorTreeRootX, factorTreeRootY );
             
             // draw factor tree
-            factorTree.drawCircularFactorTrees( graphics, factorTreeRootX, factorTreeRootY, startAngle - theta / 2.0, theta );
+            factorTree.viewCircularTree( graphics, factorTreeRootX, factorTreeRootY, startAngle );
             
-            // increment startAngle for next factorTree
-            startAngle += theta; 
+            // draw factor tree root
+            factorTree.drawNode( graphics, factorTreeRootX, factorTreeRootY );
+            
+            // increment sectorStartAngle for next factorTree
+            startAngle += sectorAngle; 
+        }
+        drawNode( graphics, rootX, rootY ); // draw this root
+    }
+    
+    private void drawNode( Graphics graphics, int x, int y )
+    {        
+        // ?? Explain the difference in signs between xi and yi
+        int xi = transformX( x - RADIUS );
+        int yi = transformY( y + RADIUS );
+        if ( isPositive )
+        {
+            graphics.fillOval( xi, yi, DIAMETER, DIAMETER );
+        }
+        else
+        {
+            graphics.setColor( Color.WHITE );
+            graphics.fillOval( xi, yi, DIAMETER, DIAMETER );
+            graphics.setColor( Color.BLACK );
+            graphics.drawOval( xi, yi, DIAMETER, DIAMETER );
         }
     }
-        
-    void viewCircularTree( Graphics g, int rootX, int rootY, double startAngle )
-    {
-        Graphics graphics = g.create();
-        graphics.setColor( Color.BLACK );                       
-        double theta = 2.0 * Math.PI / ( factorTrees.size() + 1 );
-        
-        drawCircularFactorTrees( graphics, rootX, rootY, startAngle, theta );
-        
-        // draw root
-        drawDisk( graphics, rootX, rootY );
+    
+    private void drawLine( Graphics graphics, int x1, int y1, int x2, int y2 )
+    {        
+        graphics.drawLine( transformX( x1 ), transformY( y1 ), transformX( x2 ), transformY( y2 ) );
     }
-
+    
+    private int translate( int x ) { return x + IMAGE_VIEWPORT_SIZE / 2; }
+    private int reflect( int y ) { return - y; }
+    private int transformX( int x ) { return translate( x ); }
+    private int transformY( int y ) { return translate( reflect( y ) ); }
+            
     /**
      *
      * @param graphics of image on which tree is rendered
