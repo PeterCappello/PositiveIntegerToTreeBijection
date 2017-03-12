@@ -244,21 +244,23 @@ public final class Tree
             return;
         }
         
-        Tree cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
-        if ( cachedTree != null )
-        { 
-            copy( cachedTree );
-            // ?? Why can't this be done in copy method?  Check for 1,2,3,4,5.
-            stepSize = isRoot
-                ? 0.0
-                : G * mass() * parent.mass() / Math.pow( orbitRadius, 2.0 ); // radians/time step
-            return;
-        }
-           
         //__________________
         //
         // recursive case
-        //___________________        
+        //___________________ 
+        // Already have positive ersion of this tree?
+//        Tree cachedTree = integerToPositiveIntegerTreeMap.get( positiveInteger );
+//        if ( cachedTree != null )
+//        { 
+//            copy( cachedTree );
+//            isPositive = integer > 0;
+//            // ?? Why can't this be done in copy method?  Check for 1,2,3,4,5.
+//            stepSize = isRoot
+//                ? 0.0
+//                : G * mass() * parent.mass() / Math.pow( orbitRadius, 2.0 ); // radians/time step
+//            return;
+//        }
+                       
         factorTrees = primeFactors( positiveInteger )
                 .stream()
                 .map( primeFactor -> new Tree( rank( primeFactor ), this ) )
@@ -320,8 +322,9 @@ public final class Tree
     }
         
     /**
-     * Deep copy tree associated with positive integer, apart from 
-     * parent-related attributes.
+     * Deep copy tree associated with positive integer, apart from: 
+     * - parent-related attributes
+     * - isPositve attribute
      * @param tree 
      */
     void copy( Tree tree )
@@ -504,23 +507,23 @@ public final class Tree
         int rootX = x + treeRootX();
         int rootY = y + treeRootY();
                    
-        // set 1st possibleFactor tree's upperleft corner coordinates 
+        // set 1st factor tree's upperleft corner coordinates 
         int factorTreeX = x;
         int factorTreeY = y + DELTA;
         
         for ( Tree factorTree : factorTrees )
         {
-            // draw edge from this root to possibleFactor tree's root
+            // draw edge from this root to factorTree root
             graphics.drawLine( rootX, rootY, factorTreeX + factorTree.treeRootX(), factorTreeY + factorTree.treeRootY() );
             
-            // draw possibleFactor tree
+            // draw factorTree
             factorTree.viewTree( graphics, factorTreeX, factorTreeY );
             
-            // set next possibleFactor tree's upperleft corner's x coordinate
+            // set next factorTree's upperleft corner's x coordinate; y is unchanged
             factorTreeX += DELTA * factorTree.width; 
         }
         
-        // draw root
+        // draw this root
         drawDisk( graphics, rootX, rootY );
     }
     
@@ -530,35 +533,33 @@ public final class Tree
      * @param x col of upper left corner of rectangle containing tree
      * @param y row of upper left corner of rectangle containing tree
      */
-    void viewCircularTree( Graphics graphics, int rootX, int rootY, double startAngle )
+    void viewCircularTree( Graphics g, int rootX, int rootY, double startAngle )
     {
+        Graphics graphics = g.create();
         graphics.setColor( Color.BLACK );
         
         // base case
         if ( positiveInteger == 1 )
         {
             drawNode( graphics, rootX, rootY ); // draw this root
-            System.out.println("viewCircularTree: BASE: rootX: " + rootX + " rootY: " + rootY + " startAngle: " + startAngle );
             return;
         }
         
         // recursive case
         double nSectors = ( isRoot ? 0 : 1 ) + factorTrees.size();
         double sectorAngle = 2.0 * Math.PI / nSectors;
-        startAngle += sectorAngle;
-        System.out.println("viewCircularTree RECURSIVE: n: " + n() + " rootX: " + rootX + " rootY: " + 
-                rootY + " startAngle: " + startAngle + " nSectors: " + nSectors + " sectorAngle: " + sectorAngle );
+        startAngle += Math.PI;
         for ( Tree factorTree : factorTrees )
         {
             // set factorTree root coordinates
-            int factorTreeRootX = rootX + (int) ( circularTreeRadius * Math.cos( startAngle ) );
-            int factorTreeRootY = rootY + (int) ( circularTreeRadius * Math.sin( startAngle ) );
+            int factorTreeRootX = rootX + (int) ( circularTreeRadius * Math.cos( startAngle + sectorAngle ) );
+            int factorTreeRootY = rootY + (int) ( circularTreeRadius * Math.sin( startAngle + sectorAngle ) );
             
             // draw edge from this root to factorTree root
             drawLine( graphics, rootX, rootY, factorTreeRootX, factorTreeRootY );
             
             // draw factor tree
-            factorTree.viewCircularTree( graphics, factorTreeRootX, factorTreeRootY, startAngle );
+            factorTree.viewCircularTree( graphics, factorTreeRootX, factorTreeRootY, startAngle + sectorAngle );
             
             // draw factor tree root
             factorTree.drawNode( graphics, factorTreeRootX, factorTreeRootY );
@@ -571,7 +572,7 @@ public final class Tree
     
     private void drawNode( Graphics graphics, int x, int y )
     {        
-        // ?? Explain the difference in signs between xi and yi
+        // (xi, yi) is upper left corner of circumscribing square
         int xi = transformX( x - RADIUS );
         int yi = transformY( y + RADIUS );
         if ( isPositive )
@@ -585,6 +586,7 @@ public final class Tree
             graphics.setColor( Color.BLACK );
             graphics.drawOval( xi, yi, DIAMETER, DIAMETER );
         }
+        graphics.drawString("" + n(), xi - 5, yi - 5);
     }
     
     private void drawLine( Graphics graphics, int x1, int y1, int x2, int y2 )
@@ -595,7 +597,7 @@ public final class Tree
     private int translate( int x ) { return x + IMAGE_VIEWPORT_SIZE / 2; }
     private int reflect( int y ) { return - y; }
     private int transformX( int x ) { return translate( x ); }
-    private int transformY( int y ) { return translate( reflect( y ) ); }
+    private int transformY( int y ) { return translate( - y ); }
             
     /**
      *

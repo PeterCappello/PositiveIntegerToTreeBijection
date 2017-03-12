@@ -142,7 +142,7 @@ public class Viewer extends JFrame
         setPreferredSize( dimension );        
         stringView.setEditable( false );
 //        update( 111111111 ); 
-        update( -7 );
+        update( -5 );
         setVisible(true);
 
         //  _______________________________________
