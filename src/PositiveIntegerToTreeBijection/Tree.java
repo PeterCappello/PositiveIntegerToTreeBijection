@@ -533,7 +533,7 @@ public final class Tree
      * @param x col of upper left corner of rectangle containing tree
      * @param y row of upper left corner of rectangle containing tree
      */
-    void viewCircularTree( Graphics g, int rootX, int rootY, double startAngle )
+    void viewCircularTree( Graphics g, int rootX, int rootY, double parentStartAngle )
     {
         Graphics graphics = g.create();
         graphics.setColor( Color.BLACK );
@@ -546,20 +546,20 @@ public final class Tree
         }
         
         // recursive case
-        double nSectors = ( isRoot ? 0 : 1 ) + factorTrees.size();
-        double sectorAngle = 2.0 * Math.PI / nSectors;
-        startAngle += Math.PI;
+        final double nSectors = ( isRoot ? 0 : 1 ) + factorTrees.size();
+        final double sectorAngle = 2.0 * Math.PI / nSectors;
+        double startAngle = parentStartAngle + Math.PI + sectorAngle;
         for ( Tree factorTree : factorTrees )
         {
             // set factorTree root coordinates
-            int factorTreeRootX = rootX + (int) ( circularTreeRadius * Math.cos( startAngle + sectorAngle ) );
-            int factorTreeRootY = rootY + (int) ( circularTreeRadius * Math.sin( startAngle + sectorAngle ) );
+            int factorTreeRootX = rootX + (int) ( circularTreeRadius * Math.cos( startAngle ) );
+            int factorTreeRootY = rootY + (int) ( circularTreeRadius * Math.sin( startAngle ) );
             
             // draw edge from this root to factorTree root
             drawLine( graphics, rootX, rootY, factorTreeRootX, factorTreeRootY );
             
             // draw factor tree
-            factorTree.viewCircularTree( graphics, factorTreeRootX, factorTreeRootY, startAngle + sectorAngle );
+            factorTree.viewCircularTree(graphics, factorTreeRootX, factorTreeRootY, startAngle );
             
             // draw factor tree root
             factorTree.drawNode( graphics, factorTreeRootX, factorTreeRootY );
