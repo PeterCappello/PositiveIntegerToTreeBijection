@@ -137,7 +137,7 @@ public class Viewer extends JFrame
             primeAndRankPanel.add( rankOfPrimeTextField );
         extras.add( logViewScrollPane, BorderLayout.SOUTH );
 
-        Dimension dimension = new Dimension( 2 * IMAGE_VIEWPORT_SIZE + this.getHeight(), 2 * IMAGE_VIEWPORT_SIZE );
+        Dimension dimension = new Dimension( 3 * IMAGE_VIEWPORT_SIZE + this.getHeight(), 3 * IMAGE_VIEWPORT_SIZE );
         setSize( dimension );
         setPreferredSize( dimension );        
         stringView.setEditable( false );
