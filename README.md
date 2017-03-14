@@ -5,7 +5,7 @@ based on the bijection described in:
 
 [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
 
-#Contents
+# Contents
 
 1. The bijection
   1. Tree presentations
