@@ -8,7 +8,7 @@ based on the bijection described in:
 ## Contents
 
 1. The bijection
-  * Tree presentations
+   * Tree presentations
 1. The _explorer_ application
 1. The _game_ application
 
