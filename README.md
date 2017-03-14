@@ -6,10 +6,11 @@ based on the bijection described in:
 [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
 
 #Contents
-1 The bijection
-  1 Tree presentations
-1 The _explorer_ application
-1 The _game_ application
+
+1. The bijection
+  1. Tree presentations
+1. The _explorer_ application
+1. The _game_ application
 
 ## The bijection
 
