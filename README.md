@@ -7,6 +7,7 @@ based on the bijection described in:
 
 #Contents
 * The bijection
+** Tree presentations
 * The _explorer_ application
 * The _game_ application
 
@@ -54,12 +55,23 @@ The invertible function &tau; : **N** &map; **T** is defined recursively as foll
   
   p<sub>i</sub> is the _i_<sup>th</sup> prime factor of _n_, for 1 &le; i &le; k.
 
-The tree &tau; ( 399 ) is illustrated below.  In that figure, the root is labelled with the number that corresponds to the tree;
+The tree &tau; ( 399 ) is illustrated below.  In that figure, the root is labeled with the number that corresponds to the tree;
 Each node other than the root is labeled with numbers on its left and right.  The number on a node's left side is a prime factor of the number corresponding to its _parent tree_ (e.g., 399 = 3 * 7 * 19); the number on the node's right is the _index_ of the prime number on its left (e.g., 19 is the 8<sup>th</sup> prime number) and corresponds to the number of the tree rooted at that node.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/399.png "Tree corresponding to 399")
 
-&tau; ( _n_ ) is illustrated below for 1 &le; _n_ &le; 32.
+### Tree presentations
+
+#### A conventional tree presentation
+
+In a conventional tree presentation, the root is presented on top;
+subtrees are presented below.  
+For the bijection, each subtree represents the index of a prime factor of the number represented by the tree.
+The trees representing these indices are presented smallest to largest from left to right.
+
+(_Insert a schematic diagram of the conventional tree layout._)
+
+&tau; ( _n_ ) is illustrated for 1 &le; _n_ &le; 32 as conventionally presented trees.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1.png "Tree corresponding to 1")
 ![2](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2.png "Tree corresponding to 2")
@@ -120,6 +132,23 @@ Each node other than the root is labeled with numbers on its left and right.  Th
 <hr />
 
 ![32](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/32.png "Tree corresponding to 32")
+
+#### A circular tree presentation
+
+In a circular tree presentation, the root is presented at the center;
+subtrees are presented around the root.
+Each subtree occupies a sector of equal angle.
+For example, if _n_ has 4 prime factors, its tree has 4 subtrees, each occupying a sector of angle PI / 2 radians.
+The subtrees are ordered from smallest to largest around the root.
+
+(_Insert a schematic diagram of the circular tree layout._)
+
+&tau; ( _n_ ) is illustrated for 1 &le; _n_ &le; 32 as circularly presented trees.
+
+![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/m1.png "Tree circular corresponding to 1")
+![2](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/m2.png "Tree circular corresponding to 2")
+![3](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/m3.png "Tree circular corresponding to 3")
+![4](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/m4.png "Tree circular corresponding to 4")
 
 The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &map; **N**, is defined recursively:
 
