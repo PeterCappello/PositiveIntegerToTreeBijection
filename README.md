@@ -83,7 +83,7 @@ The trees representing these indices are presented smallest to largest from left
 
 (_Insert a schematic diagram of the conventional tree layout._)
 
-&tau; ( _n_ ) is illustrated for 1 &le; _n_ &le; 32, presented as conventionally trees.
+&tau; ( _n_ ) is illustrated for 1 &le; _n_ &le; 32, presented as conventional trees.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1.png "Tree corresponding to 1")
 ![2](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2.png "Tree corresponding to 2")
@@ -161,7 +161,7 @@ where the sector containing the tree corresponding to the smallest prime factor 
 
 (_Insert a schematic diagram of the circular tree layout._)
 
-&tau; ( _n_ ) is illustrated for 1 &le; _n_ &le; 32, presented as circularly trees.
+&tau; ( _n_ ) is illustrated for 1 &le; _n_ &le; 32, presented as circular trees.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/m1.png "Tree circular corresponding to 1")
 ![2](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/m2.png "Tree circular corresponding to 2")
