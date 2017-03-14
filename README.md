@@ -7,7 +7,7 @@ based on the bijection described in:
 
 #Contents
 * The bijection
-** Tree presentations
+..* Tree presentations
 * The _explorer_ application
 * The _game_ application
 
@@ -55,10 +55,21 @@ The invertible function &tau; : **N** &map; **T** is defined recursively as foll
   
   p<sub>i</sub> is the _i_<sup>th</sup> prime factor of _n_, for 1 &le; i &le; k.
 
-The tree &tau; ( 399 ) is illustrated below.  In that figure, the root is labeled with the number that corresponds to the tree;
-Each node other than the root is labeled with numbers on its left and right.  The number on a node's left side is a prime factor of the number corresponding to its _parent tree_ (e.g., 399 = 3 * 7 * 19); the number on the node's right is the _index_ of the prime number on its left (e.g., 19 is the 8<sup>th</sup> prime number) and corresponds to the number of the tree rooted at that node.
+The tree &tau; ( 399 ) is illustrated below with a conventional tree presentation.  
+In that figure, the root is labeled with the number that corresponds to the tree;
+Each node other than the root is labeled with numbers on its left and right.  
+The number on a node's left side is a prime factor of the number corresponding to its _parent tree_ (e.g., 399 = 3 * 7 * 19); the number on the node's right is the _index_ of the prime number on its left (e.g., 19 is the 8<sup>th</sup> prime number) and corresponds to the number of the tree rooted at that node.
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/399.png "Tree corresponding to 399")
+
+The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &map; **N**, is defined recursively:
+
+1. &tau;<sup>-1</sup> ( &bull; ) = 1;
+
+2. For tree _t_ whose root is adjacent to subtrees _t_<sub>1</sub>, _t_<sub>2</sub>, · · · , _t_<sub>k</sub>, 
+
+ &tau;<sup>-1</sup> ( _t_ ) = &Pi;<sub>_i_ = 1 to _k_</sub> _p_ ( &tau;<sup>-1</sup> ( _t_<sub>_i_</sub> ) ).
+
 
 ### Tree presentations
 
@@ -150,13 +161,6 @@ The subtrees are ordered from smallest to largest around the root.
 ![3](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/m3.png "Tree circular corresponding to 3")
 ![4](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/m4.png "Tree circular corresponding to 4")
 
-The map τ is a bijection. Its inverse map,  &tau;<sup>-1</sup> : **T** &map; **N**, is defined recursively:
-
-1. &tau;<sup>-1</sup> ( &bull; ) = 1;
-
-2. For tree _t_ whose root is adjacent to subtrees _t_<sub>1</sub>, _t_<sub>2</sub>, · · · , _t_<sub>k</sub>, 
-
- &tau;<sup>-1</sup> ( _t_ ) = &Pi;<sub>_i_ = 1 to _k_</sub> _p_ ( &tau;<sup>-1</sup> ( _t_<sub>_i_</sub> ) ).
 
 ### An associated total ordering of finite rooted trees
 
