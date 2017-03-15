@@ -164,10 +164,10 @@ relative to the edge that connects the root of the subtree to its parent.
 
 &tau; ( _n_ ) is illustrated for 1 &le; _n_ &le; 32, presented as circular trees.
 
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1c.png" alt="Tree circular corresponding to 1" width = "400rem">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2c.png" alt="Tree circular corresponding to 2" width = "400rem">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/3c.png" alt="Tree circular corresponding to 3" width = "400rem">
-<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/4c.png" alt="Tree circular corresponding to 4" width = "400rem">
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1c.png" alt="Tree circular corresponding to 1" >
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2c.png" alt="Tree circular corresponding to 2" >
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/3c.png" alt="Tree circular corresponding to 3" >
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/4c.png" alt="Tree circular corresponding to 4" >
 
 
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1c.png "Tree circular corresponding to 1")
