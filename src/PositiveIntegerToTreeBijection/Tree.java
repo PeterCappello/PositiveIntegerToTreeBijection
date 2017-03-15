@@ -53,6 +53,7 @@ public final class Tree
      */
     static public final boolean SHOW_ORBIT = true;
     static public final boolean LABEL_NODES = false;
+    static public       int CIRCULAR_TREE_WIDTH;
     
     static private final int PRIMES_INITIAL_CAPACITY = 1 << 10;
     static private final double ONE_THIRD = 1.0 / 3.0;
@@ -480,9 +481,10 @@ public final class Tree
      */
     public BufferedImage getCircularTreeView()
     {
-        BufferedImage bufferedImage = new BufferedImage( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE, BufferedImage.TYPE_INT_ARGB );
+//        BufferedImage bufferedImage = new BufferedImage( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE, BufferedImage.TYPE_INT_ARGB );
+        CIRCULAR_TREE_WIDTH = (int) circularTreeRadius * 8;
+        BufferedImage bufferedImage = new BufferedImage( CIRCULAR_TREE_WIDTH, CIRCULAR_TREE_WIDTH, BufferedImage.TYPE_INT_ARGB );
         viewCircularTree( bufferedImage.getGraphics(), 0, 0, 0.0 );
-//        viewCircularTree( bufferedImage.getGraphics(), IMAGE_VIEWPORT_SIZE / 2, IMAGE_VIEWPORT_SIZE / 2, Math.PI / 2.0 );
         return bufferedImage;
     }
     
@@ -597,9 +599,8 @@ public final class Tree
     {        
         graphics.drawLine( transformX( x1 ), transformY( y1 ), transformX( x2 ), transformY( y2 ) );
     }
-    
-    private int translate( int x ) { return x + IMAGE_VIEWPORT_SIZE / 2; }
-    private int reflect( int y ) { return - y; }
+//    private int translate( int x ) { return x + IMAGE_VIEWPORT_SIZE / 2; }
+    private int translate( int x ) { return x + CIRCULAR_TREE_WIDTH / 2; }
     private int transformX( int x ) { return translate( x ); }
     private int transformY( int y ) { return translate( - y ); }
             
