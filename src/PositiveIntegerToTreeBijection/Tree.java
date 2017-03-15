@@ -482,7 +482,7 @@ public final class Tree
     public BufferedImage getCircularTreeView()
     {
 //        BufferedImage bufferedImage = new BufferedImage( IMAGE_VIEWPORT_SIZE, IMAGE_VIEWPORT_SIZE, BufferedImage.TYPE_INT_ARGB );
-        CIRCULAR_TREE_WIDTH = (int) circularTreeRadius * 8;
+        CIRCULAR_TREE_WIDTH = (int) circularTreeRadius * 4;
         BufferedImage bufferedImage = new BufferedImage( CIRCULAR_TREE_WIDTH, CIRCULAR_TREE_WIDTH, BufferedImage.TYPE_INT_ARGB );
         viewCircularTree( bufferedImage.getGraphics(), 0, 0, 0.0 );
         return bufferedImage;
