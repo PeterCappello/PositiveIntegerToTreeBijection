@@ -52,6 +52,7 @@ public final class Tree
      * true if and only if orbit circles are displayed in planetary view.
      */
     static public final boolean SHOW_ORBIT = true;
+    static public final boolean LABEL_NODES = false;
     
     static private final int PRIMES_INITIAL_CAPACITY = 1 << 10;
     static private final double ONE_THIRD = 1.0 / 3.0;
@@ -548,7 +549,7 @@ public final class Tree
         // recursive case
         final double nSectors = ( isRoot ? 0 : 1 ) + factorTrees.size();
         final double sectorAngle = 2.0 * Math.PI / nSectors;
-        double startAngle = parentStartAngle + Math.PI + sectorAngle;
+        double startAngle = isRoot ? 0.0 : parentStartAngle + Math.PI + sectorAngle;
         for ( Tree factorTree : factorTrees )
         {
             // set factorTree root coordinates
@@ -575,7 +576,7 @@ public final class Tree
         // (xi, yi) is upper left corner of circumscribing square
         int xi = transformX( x - RADIUS );
         int yi = transformY( y + RADIUS );
-        if ( isPositive )
+        if ( ! isRoot )
         {
             graphics.fillOval( xi, yi, DIAMETER, DIAMETER );
         }
@@ -586,7 +587,10 @@ public final class Tree
             graphics.setColor( Color.BLACK );
             graphics.drawOval( xi, yi, DIAMETER, DIAMETER );
         }
-        graphics.drawString("" + n(), xi - 5, yi - 5);
+        if ( LABEL_NODES )
+        {
+            graphics.drawString("" + n(), xi - 5, yi - 5);
+        }
     }
     
     private void drawLine( Graphics graphics, int x1, int y1, int x2, int y2 )
@@ -623,7 +627,7 @@ public final class Tree
     
     private void drawDisk( Graphics graphics, int x, int y )
     {
-        if ( isPositive )
+        if ( ! isRoot )
         {
             graphics.fillOval( x - RADIUS, y - RADIUS, DIAMETER, DIAMETER );
         }

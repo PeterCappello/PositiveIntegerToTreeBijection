@@ -149,15 +149,16 @@ The trees representing these indices are presented smallest to largest from left
 
 In a circular tree presentation, the root is presented at the center;
 subtrees are presented around the root.
-A tree that has _n_ prime factors is presented by a circle whose center is the root and which is divided into _n_ sectors of equal angle.
-Each subtree is presented in a sector.
-A subtree that has _n_ prime factors is presented by a circle whose center is the root and which is divided into _n + 1_ sectors of equal angle.
+A tree that has _n_ subtrees is presented with its root at the center of a circle 
+that is divided into _n_ sectors of equal angle, where each subtree is presented in exactly 1 of these _n_ sectors.
+A _subtree_ that has _n_ prime factors is presented by a circle whose center is the root and which is divided into _n + 1_ sectors of equal angle.
 One of the sectors is used to present the edge from the root of the subtree to the root of its parent.
 
 For example, if _32_ has 5 prime factors of 2, whose index is 1.
 Its circular tree has 5 subtrees, each occupying a sector of angle _2&pi; / 5_ radians.
 In general, the subtrees are ordered from smallest to largest around the root, 
-where the sector containing the tree corresponding to the smallest prime factor begins at 0 radians.
+where the sector containing the tree corresponding to the smallest prime factor begins at 0 radians 
+relative to the edge that connects the root of the subtree to its parent.
 
 (_Insert a schematic diagram of the circular tree layout._)
 
