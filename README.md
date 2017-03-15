@@ -164,11 +164,12 @@ relative to the edge that connects the root of the subtree to its parent.
 
 &tau; ( _n_ ) is illustrated for 1 &le; _n_ &le; 32, presented as circular trees.
 
+<img src="https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1c.png" alt="Tree circular corresponding to 1" width = "200rem">
+
 ![1](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/1c.png "Tree circular corresponding to 1")
 ![2](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/2c.png "Tree circular corresponding to 2")
 ![3](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/3c.png "Tree circular corresponding to 3")
 ![4](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/4c.png "Tree circular corresponding to 4")
-![5](https://github.com/PeterCappello/PositiveIntegerToTreeBijection/blob/master/src/images/5c.png "Tree circular corresponding to 5")
 
 ### An associated total ordering of finite rooted trees
 
