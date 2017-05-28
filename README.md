@@ -1,9 +1,14 @@
 # PositiveIntegerToTreeBijection
 
 Goal: Provide a visual representation of non-zero integers as rooted, unoriented, finite trees 
-based on the bijection described in:
+based on the bijection described in (1).  
 
-[Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
+This publication was based on course project in my first year of the computer science Ph.D. program in Princeton University. That course completed in May of 1979. In May of 2017, after starting this Readme, I noticed that this bijection had been published in August of 1980 by F. Gobel (2).  The publication was received by the editors on June 26, 1978, approximately 1 year before my course project report. In 1994, Y. Abe published the same bijection (3). 
+
+### References
+1. [Peter Cappello. A New Bijection between Natural Numbers and Rooted Trees. 4th SIAM Conf. on Discrete Mathematics, San Francisco, June 1988.](https://www.cs.ucsb.edu/~cappello/papers/1988SiamDM.html)
+1. [F. Gobel, On a 1-1-correspondence between rooted trees and natural numbers, Journal of Combinatorial Theory, Series B, Volume 29, Issue 1, August 1980, Pages 141-143.](https://www.sciencedirect.com/science/article/pii/0095895680900490)
+1. [Y. Abe, Tree representation of positive integers, Applied Mathematics Letters, Volume 7, Issue 1, January 1994, Page 57.](https://www.sciencedirect.com/science/article/pii/0893965994900531?via%3Dihub)
 
 ## Contents
 
