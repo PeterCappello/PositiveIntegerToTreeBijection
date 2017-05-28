@@ -1,4 +1,4 @@
-# PositiveIntegerToTreeBijection
+# A bijection between positive integers and rooted trees
 
 Goal: Provide a visual representation of non-zero integers as rooted, unoriented, finite trees 
 based on the bijection described in (1).  
