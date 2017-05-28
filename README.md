@@ -1,7 +1,6 @@
 # A bijection between positive integers and rooted trees
 
-Goal: Provide a visual representation of non-zero integers as rooted, unoriented, finite trees 
-based on the bijection described in (1).  
+Goal: Provide a visual representation of positive integers as finite, unoriented, rooted trees based on the bijection described in (1).  
 
 This publication was based on course project in my first year of the computer science Ph.D. program in Princeton University. That course completed in May of 1979. In May of 2017, after starting this Readme, I noticed that this bijection had been published in August of 1980 by F. Gobel (2).  The publication was received by the editors on June 26, 1978, approximately 1 year before my course project report. In 1994, Y. Abe published the same bijection (3). 
 
