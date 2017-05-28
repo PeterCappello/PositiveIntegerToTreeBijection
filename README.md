@@ -21,16 +21,11 @@ This publication was based on course project in my first year of the computer sc
 
 The [bijection](https://en.wikipedia.org/wiki/Bijection) associated with this project is between the set of positive integers
 { 1, 2, 3, ... } 
-and the set of finite, rooted, unoriented trees, where:
+and the set of finite, unoriented [rooted trees](https://en.wikipedia.org/wiki/Tree_(graph_theory)), 
+where _unoriented_ means that its edges are unoriented (aka undirected).
 
-* A tree is a graph with no cycles. 
-
-* A tree is _rooted_ when exactly 1 of its vertices has been designated as the root.
-
-* A tree is _unoriented_ when its edges are unoriented (aka undirected).
-
-The bijection makes use of the concept of a [prime number](https://en.wikipedia.org/wiki/Prime_number)
-and its rank or index, which is illustrated in the table below.
+The bijection uses the concept of a [prime number](https://en.wikipedia.org/wiki/Prime_number) and its rank or index, 
+which is illustrated in the table below.
 
 index   | prime           
  ---: | :---
